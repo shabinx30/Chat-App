@@ -12,14 +12,13 @@ function App() {
   const [chat, setChat] = useState<Message[]>([]);
 
   useEffect(() => {
-    socket = io('http://localhost:5004'); // Connect only once
+    socket = io('http://localhost:5004');
 
-    // Listen for incoming messages
+    
     socket.on('chat message', (msg: Message) => {
       setChat((prev) => [...prev, msg]);
     });
 
-    // Cleanup
     return () => {
       socket.off('chat message');
       socket.disconnect();
