@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, type FormEvent } from 'react';
 import { io } from 'socket.io-client';
 
-const socket = io('http://localhost:5000'); // backend URL
+const socket = io('http://localhost:5004'); // backend URL
 
 function App() {
   const [message, setMessage] = useState('');
@@ -15,7 +15,7 @@ function App() {
     return () => socket.off('chat message');
   }, []);
 
-  const sendMessage = (e) => {
+  const sendMessage = (e: FormEvent) => {
     e.preventDefault();
     if (message.trim()) {
       socket.emit('chat message', message);

@@ -7,8 +7,23 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
     cors: {
-        origin: ["http://localhost:5173"]
+        origin: ["http://localhost:3003"],
+        methods: ['GET', 'POST']
     }
 })
 
-export {io, app, server}
+io.on("connection", (socket) => {
+
+    console.log('User connected:', socket.id);
+
+    socket.on('chat message', (msg) => {
+        console.log(`message came: ${msg}`)
+        io.emit('chat message', msg);
+    });
+
+    socket.on('disconnect', () => {
+        console.log('User disconnected:', socket.id);
+    });
+})
+
+export { io, app, server }

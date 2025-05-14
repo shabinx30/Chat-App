@@ -4,6 +4,12 @@ config();
 
 import { connectDB } from "./libs/db.config"
 import { server, app } from "./libs/socket";
+import cors from "cors"
+
+app.use(cors({
+  origin: 'http://localhost:3003', // ✅ React app origin
+  methods: ['GET', 'POST']
+}));
 
 //route
 import userRouter from "./routes/auth.route"
