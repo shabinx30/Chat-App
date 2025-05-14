@@ -8,8 +8,8 @@ type Message = string;
 let socket: Socket;
 
 function App() {
-  const [message, setMessage] = useState<string>('');        // ✅ explicitly type as string
-  const [chat, setChat] = useState<Message[]>([]);           // ✅ explicitly type as array of Message
+  const [message, setMessage] = useState<string>('');
+  const [chat, setChat] = useState<Message[]>([]);
 
   useEffect(() => {
     socket = io('http://localhost:5004'); // Connect only once
