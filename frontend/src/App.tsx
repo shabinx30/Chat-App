@@ -1,21 +1,32 @@
-import React, { useEffect, useState, type FormEvent } from 'react';
-import { io } from 'socket.io-client';
+import { useEffect, useState, type FormEvent } from 'react';
+import { io, Socket } from 'socket.io-client';
 
-const socket = io('http://localhost:5004'); // backend URL
+// Define type for messages
+type Message = string;
+
+// Define socket type
+let socket: Socket;
 
 function App() {
-  const [message, setMessage] = useState('');
-  const [chat, setChat] = useState([]);
+  const [message, setMessage] = useState<string>('');        // ✅ explicitly type as string
+  const [chat, setChat] = useState<Message[]>([]);           // ✅ explicitly type as array of Message
 
   useEffect(() => {
-    socket.on('chat message', (msg) => {
-      setChat(prev => [...prev, msg]);
+    socket = io('http://localhost:5004'); // Connect only once
+
+    // Listen for incoming messages
+    socket.on('chat message', (msg: Message) => {
+      setChat((prev) => [...prev, msg]);
     });
 
-    return () => socket.off('chat message');
+    // Cleanup
+    return () => {
+      socket.off('chat message');
+      socket.disconnect();
+    };
   }, []);
 
-  const sendMessage = (e: FormEvent) => {
+  const sendMessage = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (message.trim()) {
       socket.emit('chat message', message);
