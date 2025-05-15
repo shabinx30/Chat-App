@@ -4,13 +4,13 @@ import { IoMdMore } from "react-icons/io";
 
 import Message from "./Message";
 
-const arr = new Array(30).fill(0);
-
-const Random = () => {
-    return (Math.floor(Math.random() * 10)) % 2 == 0;
-};
-
 const Chat = () => {
+    const arr = new Array(30).fill(0);
+
+    const Random = () => {
+        return Math.floor(Math.random() * 10) % 2 == 0;
+    };
+
     return (
         <section className="hidden md:block flex-1/3 relative bg-white">
             <div className="flex items-center py-4 px-2 justify-between top-0 w-[100%] h-[8vh] border-b border-black">
@@ -19,7 +19,11 @@ const Chat = () => {
             </div>
             <div className="px-4 overflow-y-scroll scroll-smooth h-[84vh] scrollable">
                 {arr.map((_, index) =>
-                    Random() ? <Message key={index} data={1} /> : <Message key={index} data={-1} />
+                    Random() ? (
+                        <Message key={index} data={1} />
+                    ) : (
+                        <Message key={index} data={-1} />
+                    )
                 )}
             </div>
             <div className="absolute flex bg-white justify-evenly items-center bottom-0 w-[100%] border-t border-black">
