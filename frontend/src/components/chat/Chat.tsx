@@ -3,13 +3,22 @@ import { ImAttachment } from "react-icons/im";
 import { IoMdMore } from "react-icons/io";
 
 import Message from "./Message";
+import { useEffect, useRef } from "react";
 
 const Chat = () => {
+    const scrollRef = useRef<HTMLDivElement | null>(null);
     const arr = new Array(30).fill(0);
 
     const Random = () => {
         return Math.floor(Math.random() * 10) % 2 == 0;
     };
+
+    // Scroll to the bottom (latest message) when the component mounts
+    useEffect(() => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+        }
+    }, []);
 
     return (
         <section className="hidden md:block flex-1/3 relative bg-[#dee1ff]">
@@ -18,29 +27,38 @@ const Chat = () => {
                     <img className="w-[3em]" src="/user.png" alt="poda" />
                     <div>
                         <h1 className="font-semibold">Ramu kuttan</h1>
-                        <p className="text-[0.76em] font-medium text-[#6b6b6b]">Online</p>
+                        <p className="text-[0.76em] font-medium text-[#6b6b6b]">
+                            Online
+                        </p>
                     </div>
                 </div>
-                <IoMdMore size={24} />
+                <IoMdMore size={24} className="cursor-pointer"/>
             </div>
-            <div className="px-4 overflow-y-scroll bg-[#dee1ff] scroll-smooth h-[90vh] pt-4 pb-[3.5em] scrollable">
+            {/* for removing scroll animation add "flex flex-col-reverse"  */}
+            <div ref={scrollRef} className="px-4 overflow-y-auto bg-[#dee1ff] scroll-smooth h-[90vh] pt-4 pb-[3.5em] flex flex-col-reverse scrollable">
                 {arr.map((_, index) =>
                     Random() ? (
-                        <Message key={index} data={1} />
+                        <Message
+                            key={index}
+                            data={1}
+                        />
                     ) : (
-                        <Message key={index} data={-1} />
+                        <Message
+                            key={index}
+                            data={-1}
+                        />
                     )
                 )}
             </div>
             <div className="flex justify-center ">
                 <div className="absolute flex bg-[#fff] shadow-[0_2px_10px] shadow-black/50 rounded-2xl text-black justify-between pr-2 pl-5 gap-1 items-center bottom-2 w-[80%]">
-                    <ImAttachment size={18} />
+                    <ImAttachment size={18} className="cursor-pointer"/>
                     <input
                         className="w-full outline-none h-[3em] placeholder:text-gray-600 px-2"
                         type="text"
                         placeholder="Type a message"
                     />
-                    <div className="bg-[#bec3ff] py-2 pl-2.5 pr-1.5 rounded-[12px]">
+                    <div className="bg-[#bec3ff] cursor-pointer py-2 pl-2.5 pr-1.5 rounded-[12px]">
                         <LuSendHorizontal size={22} />
                     </div>
                 </div>

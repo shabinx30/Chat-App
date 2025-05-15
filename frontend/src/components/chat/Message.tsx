@@ -1,6 +1,10 @@
-const Message = ({ data }: { data: number }) => {
+interface Msg {
+    data: number;
+}
+
+const Message = ({ data }: Msg) => {
     return (
-        <div className="px-2 my-1.5">
+        <div className="px-2 my-0.5">
             <div
                 className={`flex ${data > 0 ? "justify-end" : "justify-start"}`}
             >

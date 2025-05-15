@@ -10,7 +10,7 @@ const Contacts = () => {
             <div className="block h-[21vh]">
                 <div className="mx-4 h-[4em] flex justify-between items-center">
                     <h1 className="font-bold text-3xl text-[#626fff]">Chat</h1>
-                    <div className="bg-[#bec3ff] p-2 rounded-[12px]">
+                    <div className="bg-[#bec3ff] cursor-pointer p-2 rounded-[12px]">
                         <IoMdSettings size={24} />
                     </div>
                 </div>
