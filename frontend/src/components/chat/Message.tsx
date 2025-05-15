@@ -8,9 +8,9 @@ const Message = ({ data }: Msg) => {
             <div
                 className={`flex ${data > 0 ? "justify-end" : "justify-start"}`}
             >
-                <div className="relative bg-[#fff] dark:bg-[#b1b7ff] text-black rounded-lg pl-2 pt-1 pb-2.5 pr-[3em]">
-                    <p className="text-base">Hello</p>
-                    <div className=" absolute text-[#666666] dark:text-[#353535] right-1 bottom-0.5 text-[0.65em]">
+                <div className={`relative ${data > 0 ? "bg-[#b1b7ff]" : "bg-[#fff] dark:bg-[#202020]"} text-black rounded-lg pl-2 pt-1 pb-2.5 pr-[3em]`}>
+                    <p className={`text-base ${data > 0 ? "" : "dark:text-white"}`}>Hello</p>
+                    <div className={`absolute ${data > 0 ? "text-[#666666] dark:text-[#353535]" : "text-[#666666] dark:text-[#777777]"} text-[#666666] dark:text-[#353535] right-1 bottom-0.5 text-[0.65em]`}>
                         <p>10:38 pm</p>
                     </div>
                 </div>
