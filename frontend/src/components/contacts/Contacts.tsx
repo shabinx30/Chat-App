@@ -3,7 +3,7 @@ import { IoMdSettings } from "react-icons/io";
 
 const Contacts = () => {
 
-    const arr = new Array(30).fill(0);
+    const arr = new Array(20).fill(0);
 
     return (
         <section className="flex-1 bg-[#ffffff] dark:bg-[#131313] text-black ">
