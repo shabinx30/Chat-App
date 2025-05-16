@@ -60,7 +60,7 @@ const Welcome = () => {
         document.addEventListener("click", handleOutsideClick);
         return () => document.removeEventListener("click", handleOutsideClick);
     }, []);
-
+    
     return (
         <div
             ref={containerRef}

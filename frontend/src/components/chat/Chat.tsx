@@ -22,7 +22,7 @@ const Chat = () => {
 
     return (
         <section className="hidden md:block flex-1/3 relative bg-[#dee1ff] dark:bg-[#131313]">
-            <div className="flex bg-[#fff] dark:bg-[#131313] dark:text-[#fff] text-[#000000] items-center py-4 px-2 justify-between top-0 w-[100%] h-[8.5vh]">
+            <div className="flex bg-[#fff] dark:bg-[#222222] dark:text-[#fff] text-[#000000] items-center py-4 px-2 justify-between top-0 w-[100%] h-[8.5vh]">
                 <div className="flex items-center gap-2 px-4">
                     <img className="w-[3em] dark:invert dark:contrast-25" src="/user.png" alt="poda" />
                     <div>
@@ -54,7 +54,7 @@ const Chat = () => {
                 <div className="absolute flex bg-[#fff] dark:bg-[#131313] shadow-[0_2px_10px] shadow-black/50 rounded-2xl text-black justify-between pr-2 pl-5 gap-1 items-center bottom-4 w-[80%]">
                     <ImAttachment size={18} className="cursor-pointer dark:text-[#626fff]"/>
                     <input
-                        className="w-full outline-none h-[3em] placeholder:text-gray-600 dark:placeholder:text-gray-400 px-2"
+                        className="w-full dark:text-white outline-none h-[3em] placeholder:text-gray-600 dark:placeholder:text-gray-400 px-2"
                         type="text"
                         placeholder="Type a message"
                     />

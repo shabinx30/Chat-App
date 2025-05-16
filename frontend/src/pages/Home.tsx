@@ -6,8 +6,8 @@ const Home = () => {
     return (
         <div className="flex w-[100vw] h-[100vh]">
             <Contacts />
-            <Welcome />
-            {/* <Chat /> */}
+            {/* <Welcome /> */}
+            <Chat />
         </div>
     )
 };
