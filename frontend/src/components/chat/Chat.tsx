@@ -4,6 +4,7 @@ import { IoMdMore } from "react-icons/io";
 import Message from "./Message";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { IoCloseCircleOutline } from "react-icons/io5";
 
 interface PosType {
     visible: boolean;
@@ -79,7 +80,7 @@ const Chat = () => {
         return () => document.removeEventListener("click", handleOutsideClick);
     }, []);
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     return (
         <section
@@ -137,13 +138,19 @@ const Chat = () => {
                 <ul
                     onClick={(e) => e.stopPropagation()}
                     ref={menuRef}
-                    className="absolute w-[10em] bg-white dark:bg-[#202020] rounded-2xl shadow-md"
+                    className="absolute bg-white dark:bg-[#202020] rounded-2xl shadow-md"
                     style={{
                         top: `${pos.y}px`,
                         left: `${pos.x}px`,
                     }}
                 >
-                    <li onClick={() => navigate('/')} className="text-white py-2 px-4 cursor-pointer">Close chat</li>
+                    <li
+                        onClick={() => navigate("/")}
+                        className="text-white py-2 px-4 cursor-pointer flex gap-1.5 justify-center items-center"
+                    >
+                        <IoCloseCircleOutline size={18} className="text-red-400"/>
+                        <p>Close chat</p>
+                    </li>
                 </ul>
             )}
         </section>
