@@ -63,6 +63,9 @@ const Chat = () => {
     };
 
     const handleClick = () => {
+        if (pos.visible == false) {
+            return 
+        }
         setPos((prev) => ({ ...prev, visible: false }));
     };
 
@@ -105,7 +108,7 @@ const Chat = () => {
                 </div>
                 <IoMdMore size={24} className="cursor-pointer" />
             </div>
-            {/* for removing scroll animation add "flex flex-col-reverse"  */}
+            {/* By adding "flex flex-col-reverse" we lost scroll animation */}
             <div
                 ref={scrollRef}
                 className="px-4 overflow-y-auto bg-[#dee1ff] dark:bg-[#2d2d2d] scroll-smooth h-[91vh] pt-4 pb-[4.5em] flex flex-col-reverse scrollable"
@@ -138,7 +141,7 @@ const Chat = () => {
                 <ul
                     onClick={(e) => e.stopPropagation()}
                     ref={menuRef}
-                    className="absolute bg-white dark:bg-[#202020] rounded-2xl shadow-md"
+                    className="absolute bg-white dark:bg-[#202020] rounded-2xl shadow-[0_2px_10px] shadow-black/50"
                     style={{
                         top: `${pos.y}px`,
                         left: `${pos.x}px`,
@@ -146,9 +149,12 @@ const Chat = () => {
                 >
                     <li
                         onClick={() => navigate("/")}
-                        className="text-white py-2 px-4 cursor-pointer flex gap-1.5 justify-center items-center"
+                        className="dark:text-white py-2 px-4 cursor-pointer flex gap-1.5 justify-center items-center"
                     >
-                        <IoCloseCircleOutline size={18} className="text-red-400"/>
+                        <IoCloseCircleOutline
+                            size={18}
+                            className="text-red-400"
+                        />
                         <p>Close chat</p>
                     </li>
                 </ul>
