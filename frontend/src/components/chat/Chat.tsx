@@ -92,7 +92,7 @@ const Chat = () => {
             onContextMenu={context}
             className="hidden md:block flex-1/3 relative bg-[#dee1ff] dark:bg-[#131313]"
         >
-            <div className="flex bg-[#fff] dark:bg-[#222222] dark:text-[#fff] text-[#000000] items-center py-4 px-2 justify-between top-0 w-[100%] h-[8.5vh]">
+            <div className="flex bg-[#fff] dark:bg-gray-800 dark:text-[#fff] text-[#000000] items-center py-4 px-2 justify-between top-0 w-[100%] h-[8.5vh]">
                 <div className="flex items-center gap-2 px-4">
                     <img
                         className="w-[3em] dark:invert dark:contrast-25"
@@ -111,7 +111,7 @@ const Chat = () => {
             {/* By adding "flex flex-col-reverse" we lost scroll animation */}
             <div
                 ref={scrollRef}
-                className="px-4 overflow-y-auto bg-[#dee1ff] dark:bg-[#2d2d2d] scroll-smooth h-[91vh] pt-4 pb-[4.5em] flex flex-col-reverse scrollable"
+                className="px-4 overflow-y-auto bg-[#dee1ff] dark:bg-gray-900 scroll-smooth h-[91vh] pt-4 pb-[4.5em] flex flex-col-reverse scrollable"
             >
                 {arr.map((_, index) =>
                     Random() ? (
@@ -122,7 +122,7 @@ const Chat = () => {
                 )}
             </div>
             <div className="flex justify-center ">
-                <div className="absolute flex bg-[#fff] dark:bg-[#131313] shadow-[0_2px_10px] shadow-black/50 rounded-2xl text-black justify-between pr-2 pl-5 gap-1 items-center bottom-4 w-[80%]">
+                <div className="absolute flex bg-[#fff] dark:bg-gray-800 shadow-[0_2px_10px] shadow-black/50 rounded-2xl text-black justify-between pr-2 pl-5 gap-1 items-center bottom-4 w-[80%]">
                     <ImAttachment
                         size={18}
                         className="cursor-pointer dark:text-[#626fff]"
@@ -132,7 +132,7 @@ const Chat = () => {
                         type="text"
                         placeholder="Type a message"
                     />
-                    <div className="bg-[#bec3ff] dark:bg-[#2d2d2d] dark:text-[#626fff] cursor-pointer py-2 pl-2.5 pr-1.5 rounded-[12px]">
+                    <div className="bg-[#bec3ff] dark:bg-[#b1b7ff] dark:text-black cursor-pointer py-2 pl-2.5 pr-1.5 rounded-[12px]">
                         <LuSendHorizontal size={22} />
                     </div>
                 </div>
@@ -141,7 +141,7 @@ const Chat = () => {
                 <ul
                     onClick={(e) => e.stopPropagation()}
                     ref={menuRef}
-                    className="absolute bg-white dark:bg-[#202020] rounded-2xl shadow-[0_2px_10px] shadow-black/50"
+                    className="absolute bg-white dark:bg-gray-800 rounded-2xl shadow-[0_2px_10px] shadow-black/50"
                     style={{
                         top: `${pos.y}px`,
                         left: `${pos.x}px`,

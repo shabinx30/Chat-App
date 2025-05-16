@@ -5,6 +5,7 @@ import { Route, Routes } from "react-router-dom";
 import Welcome from "./components/Welcome";
 // import Contacts from "./components/contacts/Contacts";
 import Chat from "./components/chat/Chat";
+import Login from "./pages/Login";
 
 // Define type for messages
 // type Message = string;
@@ -58,6 +59,7 @@ function App() {
         <Routes>
             <Route path="/" element={<Home aside={<Welcome />} />} />
             <Route path="/chat" element={<Home aside={<Chat />} />} />
+            <Route path="/login" element={<Login />} />
         </Routes>
     );
 }
