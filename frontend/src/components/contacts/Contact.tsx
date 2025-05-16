@@ -14,7 +14,7 @@ const Contact = ({data}: {data: number}) => {
             </div>
             <div className={`font-normal h-[90%] flex justify-between items-center w-full`}>
                 <p>Ramu kuttan</p>
-                <p className="text-[0.8em] text-gray-400">10:38 pm</p>
+                <p className="text-[0.8em] text-gray-400 select-none">10:38 pm</p>
             </div>
         </div>
     )
