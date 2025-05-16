@@ -1,15 +1,13 @@
 import Contacts from "../components/contacts/Contacts";
-import Chat from "../components/chat/Chat";
-import Welcome from "../components/Welcome";
+import type React from "react";
 
-const Home = () => {
+const Home = ({ aside }: { aside: React.ReactNode }) => {
     return (
         <div className="flex w-[100vw] h-[100vh]">
             <Contacts />
-            {/* <Welcome /> */}
-            <Chat />
+            {aside}
         </div>
-    )
+    );
 };
 
 export default Home;

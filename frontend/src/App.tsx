@@ -55,15 +55,10 @@ function App() {
         //     <button type="submit">Send</button>
         //   </form>
         // </div>
-        <>
-            <div className="flex w-[100vw] h-[100vh]">
-                <Contacts />
-                <Routes>
-                    <Route path="/" element={<Welcome />} />
-                    <Route path="/chat" element={<Chat />} />
-                </Routes>
-            </div>
-        </>
+        <Routes>
+            <Route path="/" element={<Home aside={<Welcome />} />} />
+            <Route path="/chat" element={<Home aside={<Chat />} />} />
+        </Routes>
     );
 }
 
