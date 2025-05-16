@@ -1,20 +1,20 @@
-import { useEffect, useState, type FormEvent } from "react";
-import { io, Socket } from "socket.io-client";
+// import { useEffect, useState, type FormEvent } from "react";
+// import { io, Socket } from "socket.io-client";
 import Home from "./pages/Home";
 import { Route, Routes } from "react-router-dom";
 import Welcome from "./components/Welcome";
-import Contacts from "./components/contacts/Contacts";
+// import Contacts from "./components/contacts/Contacts";
 import Chat from "./components/chat/Chat";
 
 // Define type for messages
-type Message = string;
+// type Message = string;
 
 // Define socket type
-let socket: Socket;
+// let socket: Socket;
 
 function App() {
-    const [message, setMessage] = useState<string>("");
-    const [chat, setChat] = useState<Message[]>([]);
+    // const [message, setMessage] = useState<string>("");
+    // const [chat, setChat] = useState<Message[]>([]);
 
     // useEffect(() => {
     //   socket = io('http://localhost:5004');
