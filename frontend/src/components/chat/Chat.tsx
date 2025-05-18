@@ -2,9 +2,10 @@ import { LuSendHorizontal } from "react-icons/lu";
 import { ImAttachment } from "react-icons/im";
 import { IoMdMore } from "react-icons/io";
 import Message from "./Message";
-import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { IoCloseCircleOutline } from "react-icons/io5";
+import { io, Socket } from "socket.io-client";
 
 interface PosType {
     visible: boolean;
@@ -12,9 +13,16 @@ interface PosType {
     y: number;
 }
 
+// Define type for messages
+type Message = string;
+
+// Define socket type
+let socket: Socket;
+
 const Chat = () => {
     const scrollRef = useRef<HTMLDivElement | null>(null);
-    const arr = new Array(30).fill(0);
+    // const arr = new Array(30).fill(0);
+    const [chat, setChat] = useState<Message[]>([]);
 
     const Random = () => {
         return Math.floor(Math.random() * 10) % 2 == 0;
@@ -64,7 +72,7 @@ const Chat = () => {
 
     const handleClick = () => {
         if (pos.visible == false) {
-            return 
+            return;
         }
         setPos((prev) => ({ ...prev, visible: false }));
     };
@@ -85,6 +93,37 @@ const Chat = () => {
 
     const navigate = useNavigate();
 
+
+    const msgRef = useRef<HTMLInputElement>(null)
+
+    useEffect(() => {
+          socket = io('http://localhost:5004');
+
+        socket.on("chat message", (msg: Message) => {
+            setChat((prev) => [...prev, msg]);
+        });
+
+        return () => {
+            socket.off("chat message");
+            socket.disconnect();
+        };
+    }, []);
+
+    const sendMessage = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (msgRef.current?.value.trim()) {
+            socket.emit("chat message", msgRef.current?.value);
+            msgRef.current.value = ''
+        }
+    };
+
+    // const [user, setUser] = useState({})
+
+    // useEffect(() => {
+        // const [sepr, setSepr] = useSearchParams()
+        console.log(useParams().email)
+    // })
+
     return (
         <section
             ref={containerRef}
@@ -95,8 +134,8 @@ const Chat = () => {
             <div className="flex bg-[#fff] dark:bg-gray-800 dark:text-[#fff] text-[#000000] items-center py-4 px-2 justify-between top-0 w-[100%] h-[8.5vh]">
                 <div className="flex items-center gap-2 px-4">
                     <img
-                        className="w-[3em] dark:invert dark:contrast-25"
-                        src="/user.png"
+                        className="w-[3em] rounded-full"
+                        src="/tate.jpeg"
                         alt="poda"
                     />
                     <div>
@@ -113,7 +152,7 @@ const Chat = () => {
                 ref={scrollRef}
                 className="px-4 overflow-y-auto bg-[#dee1ff] dark:bg-gray-900 scroll-smooth h-[91vh] pt-4 pb-[4.5em] flex flex-col-reverse scrollable"
             >
-                {arr.map((_, index) =>
+                {chat.map((_, index) =>
                     Random() ? (
                         <Message key={index} data={1} />
                     ) : (
@@ -127,11 +166,14 @@ const Chat = () => {
                         size={18}
                         className="cursor-pointer dark:text-[#626fff]"
                     />
-                    <input
-                        className="w-full dark:text-white outline-none h-[3em] placeholder:text-gray-600 dark:placeholder:text-gray-400 px-2"
-                        type="text"
-                        placeholder="Type a message"
-                    />
+                    <form className="w-full" onSubmit={sendMessage}>
+                        <input
+                            ref={msgRef}
+                            className="dark:text-white w-full outline-none h-[3em] placeholder:text-gray-600 dark:placeholder:text-gray-400 px-2"
+                            type="text"
+                            placeholder="Type a message"
+                        />
+                    </form>
                     <div className="bg-[#bec3ff] dark:bg-[#b1b7ff] dark:text-black cursor-pointer py-2 pl-2.5 pr-1.5 rounded-[12px]">
                         <LuSendHorizontal size={22} />
                     </div>

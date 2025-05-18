@@ -45,66 +45,69 @@ const Login: React.FC = () => {
     const formSubmission = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        if (formData.email === "") {
-            setValid({
-                ...valid,
-                email: { status: false, message: "Enter your email address!" },
-            });
-            return;
-        }
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-            setValid({
-                ...valid,
-                email: {
-                    status: false,
-                    message: "Enter a valid email address!",
-                },
-            });
-            return;
-        }
-        setValid({ ...valid, email: { status: true, message: "" } });
+        localStorage.setItem("userData", JSON.stringify(formData))
+        navigate('/')
 
-        if (formData.password === "") {
-            setValid({
-                ...valid,
-                password: { status: false, message: "Enter your password!" },
-            });
-            return;
-        } else if (formData.password.length < 8) {
-            setValid({
-                ...valid,
-                password: {
-                    status: false,
-                    message: "Password should include 8 characters!",
-                },
-            });
-            return;
-        }
-        setValid({ ...valid, password: { status: true, message: "" } });
+        // if (formData.email === "") {
+        //     setValid({
+        //         ...valid,
+        //         email: { status: false, message: "Enter your email address!" },
+        //     });
+        //     return;
+        // }
+        // if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+        //     setValid({
+        //         ...valid,
+        //         email: {
+        //             status: false,
+        //             message: "Enter a valid email address!",
+        //         },
+        //     });
+        //     return;
+        // }
+        // setValid({ ...valid, email: { status: true, message: "" } });
 
-        axios
-            .post("https://ums-react-node.onrender.com/login", formData)
-            .then((res) => {
-                // console.log("login res", res.data);
-                if (res.data.message == "success") {
-                    window.localStorage.setItem("jwt", res.data.token);
-                    // dispatch(
-                    //     login({ token: res.data.token, user: res.data.user })
-                    // );
+        // if (formData.password === "") {
+        //     setValid({
+        //         ...valid,
+        //         password: { status: false, message: "Enter your password!" },
+        //     });
+        //     return;
+        // } else if (formData.password.length < 8) {
+        //     setValid({
+        //         ...valid,
+        //         password: {
+        //             status: false,
+        //             message: "Password should include 8 characters!",
+        //         },
+        //     });
+        //     return;
+        // }
+        // setValid({ ...valid, password: { status: true, message: "" } });
 
-                    navigate("/profile");
-                } else if (res.data.message == "User is not existing!!!") {
-                    showError(res.data.message);
-                    setTimeout(() => {
-                        navigate("/signup");
-                    }, 3500);
-                } else {
-                    showError(res.data.message);
-                }
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+        // axios
+        //     .post("https://ums-react-node.onrender.com/login", formData)
+        //     .then((res) => {
+        //         // console.log("login res", res.data);
+        //         if (res.data.message == "success") {
+        //             window.localStorage.setItem("jwt", res.data.token);
+        //             // dispatch(
+        //             //     login({ token: res.data.token, user: res.data.user })
+        //             // );
+
+        //             navigate("/profile");
+        //         } else if (res.data.message == "User is not existing!!!") {
+        //             showError(res.data.message);
+        //             setTimeout(() => {
+        //                 navigate("/signup");
+        //             }, 3500);
+        //         } else {
+        //             showError(res.data.message);
+        //         }
+        //     })
+        //     .catch((err) => {
+        //         console.log(err);
+        //     });
     };
 
     //show the error

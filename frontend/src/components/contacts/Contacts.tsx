@@ -1,12 +1,83 @@
 import Contact from "./Contact";
 import { IoMdSettings } from "react-icons/io";
+import { GoPlus } from "react-icons/go";
 
 const Contacts = () => {
-
-    const arr = new Array(20).fill(0);
+    const ctc = [
+        {
+            name: 'Robert',
+            email: "jr@gmail.com",
+            img: "/jr.jpeg"
+        },
+        {
+            name:'Andrew tate',
+            email: "tate@gmail.com",
+            img: '/tate.jpeg'
+        },
+        {
+            name: 'Robert',
+            email: "jr@gmail.com",
+            img: "/jr.jpeg"
+        },
+        {
+            name:'Andrew tate',
+            email: "tate@gmail.com",
+            img: '/tate.jpeg'
+        },
+        {
+            name:'Andrew tate',
+            email: "tate@gmail.com",
+            img: '/tate.jpeg'
+        },
+        {
+            name:'Andrew tate',
+            email: "tate@gmail.com",
+            img: '/tate.jpeg'
+        },
+        {
+            name:'Andrew tate',
+            email: "tate@gmail.com",
+            img: '/tate.jpeg'
+        },
+        {
+            name:'Andrew tate',
+            email: "tate@gmail.com",
+            img: '/tate.jpeg'
+        },
+        {
+            name: 'Robert',
+            email: "jr@gmail.com",
+            img: "/jr.jpeg"
+        },
+        {
+            name:'Andrew tate',
+            email: "tate@gmail.com",
+            img: '/tate.jpeg'
+        },
+        {
+            name:'Andrew tate',
+            email: "tate@gmail.com",
+            img: '/tate.jpeg'
+        },
+        {
+            name:'Andrew tate',
+            email: "tate@gmail.com",
+            img: '/tate.jpeg'
+        },
+        {
+            name:'Andrew tate',
+            email: "tate@gmail.com",
+            img: '/tate.jpeg'
+        },
+        {
+            name: 'Elon',
+            email: "elon@gmail.com",
+            img: '/elon.jpeg'
+        }
+    ];
 
     return (
-        <section className="flex-1 bg-[#ffffff] dark:bg-gray-800 text-black ">
+        <section className="flex-1 bg-[#ffffff] relative dark:bg-gray-800 text-black ">
             <div className="block h-[21vh]">
                 <div className="mx-4 h-[4em] flex justify-between items-center">
                     <h1 className="font-bold text-3xl text-[#626fff]">Chat</h1>
@@ -23,9 +94,12 @@ const Contacts = () => {
                 </div>
             </div>
             <div className="overflow-y-scroll bg-[#fff] dark:bg-gray-800 px-4 text-white scroll-smooth h-[79vh] scrollable">
-                {arr.map((_, index) => (
-                    <Contact key={index} data={index}/>
+                {ctc.map((item, index) => (
+                    <Contact key={index} data={item} />
                 ))}
+                <div className="absolute cursor-pointer text-black rounded-[12px] p-1 bg-[#b1b7ff] bottom-8 right-8">
+                    <GoPlus size={40}/>
+                </div>
             </div>
         </section>
     );

@@ -3,7 +3,6 @@
 import Home from "./pages/Home";
 import { Route, Routes } from "react-router-dom";
 import Welcome from "./components/Welcome";
-// import Contacts from "./components/contacts/Contacts";
 import Chat from "./components/chat/Chat";
 import Login from "./pages/Login";
 
@@ -58,7 +57,7 @@ function App() {
         // </div>
         <Routes>
             <Route path="/" element={<Home aside={<Welcome />} />} />
-            <Route path="/chat" element={<Home aside={<Chat />} />} />
+            <Route path="/chat/:email" element={<Home aside={<Chat />} />} />
             <Route path="/login" element={<Login />} />
         </Routes>
     );
