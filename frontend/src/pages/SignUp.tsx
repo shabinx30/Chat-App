@@ -8,6 +8,8 @@ import { IoIosCloseCircle } from "react-icons/io";
 const SignUp: React.FC = () => {
     const navigate = useNavigate();
 
+    const apiUrl = import.meta.env.BASE_URL
+
     type FormDataType = {
         profile: File | null;
         name: string;
@@ -267,7 +269,7 @@ const SignUp: React.FC = () => {
         // console.log(data)
 
         axios
-            .post("https://ums-react-node.onrender.com/signUp", data)
+            .post(`${apiUrl}/signUp`, data)
             .then((res) => {
                 if (res.data.message === "success") {
                     window.localStorage.setItem("jwt", res.data.token);

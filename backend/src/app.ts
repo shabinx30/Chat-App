@@ -7,7 +7,7 @@ import { server, app } from "./libs/socket";
 import cors from "cors"
 
 app.use(cors({
-  origin: 'http://localhost:3003', // ✅ React app origin
+  origin: 'http://localhost:3003',
   methods: ['GET', 'POST']
 }));
 
