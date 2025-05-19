@@ -96,8 +96,10 @@ const Chat = () => {
 
     const msgRef = useRef<HTMLInputElement>(null)
 
+    let apiUrl = import.meta.env.BASE_URL
+
     useEffect(() => {
-          socket = io('http://localhost:5004');
+          socket = io(apiUrl);
 
         socket.on("chat message", (msg: Message) => {
             setChat((prev) => [...prev, msg]);
