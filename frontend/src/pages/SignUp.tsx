@@ -272,7 +272,9 @@ const SignUp: React.FC = () => {
             .post(`${apiUrl}/api/auth/signup`, data)
             .then((res) => {
                 if (res.data.message === "success") {
-                    window.localStorage.setItem("jwt", res.data.user);
+                    console.log(res.data.user)
+                    window.localStorage.setItem("jwt", JSON.stringify(res.data.user));
+                    console.log(localStorage.getItem('jwt')+'from user')
                     // dispatch(
                     //     login({ token: res.data.token, user: res.data.user })
                     // );

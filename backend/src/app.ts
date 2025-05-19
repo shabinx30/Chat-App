@@ -13,6 +13,7 @@ app.use(cors({
 
 //route
 import userRouter from "./routes/auth.route"
+app.use("/src/uploads", express.static("uploads"));
 app.use('/api/auth', userRouter)
 
 app.use(express.json())

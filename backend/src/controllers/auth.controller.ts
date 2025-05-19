@@ -16,15 +16,14 @@ export const SignUp = async (req: Request, res: Response): Promise<void> => {
     try {
         const { name, email }: userDetails = req.body;
 
-        //validating the user 
-        const exist = await userModel.findOne({email: email})
-        if(exist) {
-            res.json({message: 'User is already is existing.'})
-            return
+        //validating the user
+        const exist = await userModel.findOne({ email: email });
+        if (exist) {
+            res.json({ message: "User is already is existing." });
+            return;
         }
 
-        const profile = req.file?.path
-
+        const profile = req.file?.path;
         const password = await hashPassword(req.body.password);
 
         const result = new userModel({
