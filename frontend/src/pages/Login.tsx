@@ -47,7 +47,7 @@ const Login: React.FC = () => {
         e.preventDefault();
 
         localStorage.setItem("userData", JSON.stringify(formData))
-        navigate('/')
+        // navigate('/')
 
         if (formData.email === "") {
             setValid({
