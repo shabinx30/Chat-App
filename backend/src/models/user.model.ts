@@ -1,4 +1,4 @@
-import mongoose, { Document } from "mongoose";
+import { Schema, model, Document } from "mongoose";
 
 interface userDetails extends Document {
     name: string;
@@ -7,7 +7,7 @@ interface userDetails extends Document {
     password: string;
 }
 
-const userSchema = new mongoose.Schema<userDetails>(
+const userSchema = new Schema<userDetails>(
     {
         name: {
             type: String,
@@ -30,4 +30,4 @@ const userSchema = new mongoose.Schema<userDetails>(
     { timestamps: true }
 )
 
-export default mongoose.model("User", userSchema)
+export default model("User", userSchema)
