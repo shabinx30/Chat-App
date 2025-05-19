@@ -8,7 +8,7 @@ import { IoIosCloseCircle } from "react-icons/io";
 const SignUp: React.FC = () => {
     const navigate = useNavigate();
 
-    const apiUrl = import.meta.env.BASE_URL
+    const apiUrl = import.meta.env.VITE_BASE_URL
 
     type FormDataType = {
         profile: File | null;
@@ -269,15 +269,15 @@ const SignUp: React.FC = () => {
         // console.log(data)
 
         axios
-            .post(`${apiUrl}/signUp`, data)
+            .post(`${apiUrl}/api/auth/signup`, data)
             .then((res) => {
                 if (res.data.message === "success") {
-                    window.localStorage.setItem("jwt", res.data.token);
+                    window.localStorage.setItem("jwt", res.data.user);
                     // dispatch(
                     //     login({ token: res.data.token, user: res.data.user })
                     // );
                     setTimeout(() => {
-                        navigate("/profile");
+                        navigate("/");
                     }, 500);
                 } else {
                     console.log(res.data.message);

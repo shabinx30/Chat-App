@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import userModel from "../models/user.model";
 import bcrypt from "bcryptjs";
-import upload from "../libs/multer";
 
 interface userDetails {
     name: string;
@@ -16,7 +15,13 @@ const hashPassword = async (password: string): Promise<string> => {
 export const SignUp = async (req: Request, res: Response): Promise<void> => {
     try {
         const { name, profile, email }: userDetails = req.body;
-        
+
+        //validating the user 
+        const exist = await userModel.findOne({email: email})
+        if(exist) {
+            res.json({message: 'User is already is existing.'})
+            return
+        }
 
         const password = await hashPassword(req.body.password);
 
