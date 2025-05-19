@@ -1,6 +1,7 @@
-import { Request, Response } from "express"
+import { Request, Response } from "express";
 import userModel from "../models/user.model";
-import bcrypt from "bcryptjs"
+import bcrypt from "bcryptjs";
+import upload from "../libs/multer";
 
 interface userDetails {
     name: string;
@@ -8,38 +9,41 @@ interface userDetails {
     email: string;
 }
 
-
 const hashPassword = async (password: string): Promise<string> => {
-    return await bcrypt.hash(password, 10)
-}
-
+    return await bcrypt.hash(password, 10);
+};
 
 export const SignUp = async (req: Request, res: Response): Promise<void> => {
     try {
-        const { name, profile, email }: userDetails = req.body
+        const { name, profile, email }: userDetails = req.body;
+        
 
-        const password = await hashPassword(req.body.password)
+        const password = await hashPassword(req.body.password);
 
         const result = new userModel({
             name,
             profile,
             email,
-            password
-        })
-        await result.save()
-        res.status(201).json({ user: { name, profile, email, password } })
+            password,
+        });
+        await result.save();
+        res.status(201).json({
+            message: "success",
+            user: { name, profile, email },
+        });
     } catch (error) {
-        console.log('while Login', error)
-        res.status(500).json({ message: 'Error while creating an user.' })
+        console.log("while Login", error);
+        res.status(500).json({ message: "Error while creating an user." });
     }
-}
-
+};
 
 export const Login = async (req: Request, res: Response): Promise<void> => {
     try {
-        const { email, password } = req.body
+        const { email, password } = req.body;
 
+        res.status(201).json({ message: "success", user: { email } });
     } catch (error) {
-        console.log('while Login', error)
+        console.log("while Login", error);
+        res.status(500).json({ message: "Error while login." });
     }
-}
+};
