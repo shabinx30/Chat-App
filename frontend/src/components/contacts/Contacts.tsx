@@ -49,25 +49,20 @@ const Contacts = ({ isPop, setPop }: AddContactType) => {
                     userData
                 )
                 .then((res) => {
-                    console.log(res.data);
                     for (let con of res.data.chat) {
                         if(!set.has(con.userId)) {
                             setCtc((p) => [...p, con]);
                             set.add(con.userId)
                         }
                     }
-                    // console.log(ctc)
                 })
                 .catch((error) => {
                     console.log(error);
                 });
         };
         getContacts()
-    }, [isPop]);
+    },[]);
 
-    useEffect(() => {
-        console.log("from use effect", ctc);
-    }, [ctc]);
 
     return (
         <section className="flex-1 bg-[#ffffff] relative dark:bg-gray-800 text-black ">

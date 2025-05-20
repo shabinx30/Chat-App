@@ -20,7 +20,6 @@ interface ctcType {
 const Contact = ({data}: {data: ctcType}) => {
 
     const navigate = useNavigate()
-    console.log(`from cnt:  ${import.meta.env.VITE_BASE_URL}/${data.members[0].userId.profile}`)
 
     return (
         <div onClick={() => navigate(`/chat/${data._id}`)} className={`w-full h-[4.5em] hover:bg-[#eff0ff] hover:dark:bg-gray-700/50 rounded-2xl text-black dark:text-[#eff0ff] flex justify-center gap-4 items-center px-4`}>

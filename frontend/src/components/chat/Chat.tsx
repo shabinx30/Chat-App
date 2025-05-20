@@ -6,6 +6,8 @@ import { useEffect, useRef, useState, type FormEvent } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { io, Socket } from "socket.io-client";
+import { menuContext } from "./menuContext";
+import axios from "axios";
 
 interface PosType {
     visible: boolean;
@@ -39,37 +41,6 @@ const Chat = () => {
     const menuRef = useRef<HTMLUListElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
 
-    const context = (e: React.MouseEvent) => {
-        e.preventDefault();
-        const container = containerRef.current;
-        if (!container) return;
-
-        // Get container's bounding box
-        const containerRect = container.getBoundingClientRect();
-
-        // Get menu dimensions
-        const menuWidth = menuRef.current?.offsetWidth || 80; // Default width if not rendered
-        const menuHeight = menuRef.current?.offsetHeight || 80; // Default height if not rendered
-
-        // Mouse position relative to the container
-        let x = e.clientX - containerRect.left;
-        let y = e.clientY - containerRect.top;
-
-        // Adjust position to keep menu within container boundaries
-        if (x + menuWidth > containerRect.width) {
-            x = containerRect.width - menuWidth - 2; // 2px buffer
-        }
-        if (y + menuHeight > containerRect.height) {
-            y = containerRect.height - menuHeight - 2; // 2px buffer
-        }
-
-        // Ensure menu stays within viewport (optional, if container is smaller than viewport)
-        if (x < 0) x = 2;
-        if (y < 0) y = 2;
-
-        setPos({ visible: true, x, y });
-    };
-
     const handleClick = () => {
         if (pos.visible == false) {
             return;
@@ -93,13 +64,12 @@ const Chat = () => {
 
     const navigate = useNavigate();
 
+    const msgRef = useRef<HTMLInputElement>(null);
 
-    const msgRef = useRef<HTMLInputElement>(null)
-
-    let apiUrl = import.meta.env.BASE_URL
+    let apiUrl = import.meta.env.VITE_BASE_URL;
 
     useEffect(() => {
-          socket = io(apiUrl);
+        socket = io(apiUrl);
 
         socket.on("chat message", (msg: Message) => {
             setChat((prev) => [...prev, msg]);
@@ -115,22 +85,30 @@ const Chat = () => {
         e.preventDefault();
         if (msgRef.current?.value.trim()) {
             socket.emit("chat message", msgRef.current?.value);
-            msgRef.current.value = ''
+            msgRef.current.value = "";
         }
     };
 
     // const [user, setUser] = useState({})
 
-    // useEffect(() => {
-        // const [sepr, setSepr] = useSearchParams()
-        console.log(useParams().email)
-    // })
+    const { chatId } = useParams();
+    useEffect(() => {
+        axios.post(`${apiUrl}/api/message/getmessages`, chatId)
+        .then(res => {
+            console.log(res.data)
+        })
+        .catch(error => {
+            console.log(error)
+        })
+    },[])
 
     return (
         <section
             ref={containerRef}
             onClick={handleClick}
-            onContextMenu={context}
+            onContextMenu={(e) =>
+                menuContext({ e, containerRef, setPos, menuRef })
+            }
             className="hidden md:block flex-1/3 relative bg-[#dee1ff] dark:bg-[#131313]"
         >
             <div className="flex bg-[#fff] dark:bg-gray-800 dark:text-[#fff] text-[#000000] items-center py-4 px-2 justify-between top-0 w-[100%] h-[8.5vh]">

@@ -46,7 +46,6 @@ const Login: React.FC = () => {
     const formSubmission = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        localStorage.setItem("userData", JSON.stringify(formData))
         // navigate('/')
 
         if (formData.email === "") {

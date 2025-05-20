@@ -38,7 +38,7 @@ import chatRouter from "./routes/chat.route";
 import messageRouter from "./routes/message.route";
 app.use("/api/auth", userRouter);
 app.use("/api/chat", chatRouter);
-app.use("/api/chat", messageRouter);
+app.use("/api/message", messageRouter);
 
 const PORT = process.env.PORT || 5000;
 

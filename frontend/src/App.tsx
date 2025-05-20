@@ -18,7 +18,7 @@ function App() {
     return (
         <Routes>
             <Route path="/" element={<Home aside={<Welcome />} />} />
-            <Route path="/chat/:email" element={<Home aside={<Chat />} />} />
+            <Route path="/chat/:chatId" element={<Home aside={<Chat />} />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
         </Routes>
