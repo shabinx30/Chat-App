@@ -4,7 +4,7 @@ import Contacts from "../components/contacts/Contacts";
 import type React from "react";
 
 const Home = ({ aside }: { aside: React.ReactNode }) => {
-    const [isPop, setPop] = useState<boolean>(true);
+    const [isPop, setPop] = useState<boolean>(false);
 
     return (
         <div className="relative flex w-[100vw] h-[100vh]">

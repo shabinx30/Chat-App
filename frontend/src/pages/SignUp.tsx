@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { type FormEvent, useEffect, useRef, useState } from "react";
-// import { useDispatch } from "react-redux";
-// import { login } from "../../redux/store";
+import { useDispatch } from "react-redux";
+import { login } from "../redux/store"; 
 import { Link, useNavigate } from "react-router-dom";
 import { IoIosCloseCircle } from "react-icons/io";
 
@@ -18,7 +18,7 @@ const SignUp: React.FC = () => {
         confirmPassword: string;
     };
 
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
     const [formData, setFormData] = useState<FormDataType>({
         profile: null,
@@ -275,9 +275,9 @@ const SignUp: React.FC = () => {
                     console.log(res.data.user)
                     window.localStorage.setItem("jwt", JSON.stringify(res.data.user));
                     console.log(localStorage.getItem('jwt')+'from user')
-                    // dispatch(
-                    //     login({ token: res.data.token, user: res.data.user })
-                    // );
+                    dispatch(
+                        login({ token: res.data.token, user: res.data.user })
+                    );
                     setTimeout(() => {
                         navigate("/");
                     }, 500);

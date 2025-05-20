@@ -2,6 +2,7 @@ import express from "express";
 import { config } from "dotenv";
 config();
 
+//config
 import { connectDB } from "./libs/db.config";
 import { server, app } from "./libs/socket";
 import cors from "cors";

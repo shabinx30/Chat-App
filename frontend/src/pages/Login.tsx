@@ -1,14 +1,14 @@
 import React, { type FormEvent, useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-// import { useDispatch } from "react-redux";
-// import { login } from "../../redux/store";
+import { useDispatch } from "react-redux";
+import { login } from "../redux/store";
 import { IoIosCloseCircle } from "react-icons/io";
 
 const Login: React.FC = () => {
     const navigate = useNavigate();
     let apiUrl = import.meta.env.VITE_BASE_URL
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
     const [formData, setFormData] = useState({
         email: "",
@@ -93,9 +93,9 @@ const Login: React.FC = () => {
                 console.log("login res", res);
                 if (res.data.message == "success") {
                     window.localStorage.setItem("jwt", JSON.stringify(res.data.user));
-                    // dispatch(
-                    //     login({ token: res.data.token, user: res.data.user })
-                    // );
+                    dispatch(
+                        login({ token: res.data.token, user: res.data.user })
+                    );
 
                     navigate("/");
                 } else if (res.data.message == "User is not existing!!!") {
