@@ -97,17 +97,18 @@ const Login: React.FC = () => {
                     //     login({ token: res.data.token, user: res.data.user })
                     // );
 
-                    // navigate("/");
+                    navigate("/");
                 } else if (res.data.message == "User is not existing!!!") {
                     showError(res.data.message);
-                    // setTimeout(() => {
-                    //     navigate("/signup");
-                    // }, 3500);
+                    setTimeout(() => {
+                        navigate("/signup");
+                    }, 3500);
                 } else {
                     showError(res.data.message);
                 }
             })
             .catch((err) => {
+                showError(err.response.data.message)
                 console.log(err);
             });
     };

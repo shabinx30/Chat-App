@@ -19,7 +19,7 @@ export const SignUp = async (req: Request, res: Response): Promise<void> => {
         //validating the user
         const exist = await userModel.findOne({ email: email });
         if (exist) {
-            res.json({ message: "User is already is existing." });
+            res.status(409).json({ message: "User is already is existing." });
             return;
         }
 
@@ -45,7 +45,6 @@ export const SignUp = async (req: Request, res: Response): Promise<void> => {
 
 export const Login = async (req: Request, res: Response): Promise<void> => {
     try {
-        console.log('involking', req.body)
         const { email, password } = req.body;
 
         const user = await userModel.findOne({ email })
@@ -54,6 +53,7 @@ export const Login = async (req: Request, res: Response): Promise<void> => {
             return 
         }
 
+        //validating the password
         if(!await bcrypt.compare(password, user.password)) {
             res.status(401).json({message: "Invalid credentials"})
             return 
