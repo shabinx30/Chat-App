@@ -11,14 +11,14 @@ export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 const AddContact = ({ setPop }: AddContactType) => {
     const emailRef = useRef<HTMLInputElement>(null);
+    const state = useTypedSelector((state) => state);
 
     //form subimission
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
         try {
-            const state = useTypedSelector((state) => state);
             const formData = {
-                userId: state.auth.user.email,
+                userId: state.auth.user.userId,
                 member: emailRef.current?.value,
                 isGroup: false,
             };
@@ -31,6 +31,8 @@ const AddContact = ({ setPop }: AddContactType) => {
                 .then((res) => {
                     if (res.data.message == "User is not existing!!!") {
                         console.log(res.data.message);
+                    }else if(res.data.message == "success"){
+                        setPop(false)
                     }
                 })
                 .catch((error) => {

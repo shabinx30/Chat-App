@@ -274,9 +274,8 @@ const SignUp: React.FC = () => {
                 if (res.data.message === "success") {
                     console.log(res.data.user)
                     window.localStorage.setItem("jwt", JSON.stringify(res.data.user));
-                    console.log(localStorage.getItem('jwt')+'from user')
                     dispatch(
-                        login({ token: res.data.token, user: res.data.user })
+                        login({ token: null, user: res.data.user })
                     );
                     setTimeout(() => {
                         navigate("/");

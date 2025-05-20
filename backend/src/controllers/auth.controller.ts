@@ -35,7 +35,7 @@ export const SignUp = async (req: Request, res: Response): Promise<void> => {
         await result.save();
         res.status(201).json({
             message: "success",
-            user: { name, profile, email },
+            user: { userId: result._id, name, profile, email },
         });
     } catch (error) {
         console.log("while Login", error);
@@ -47,19 +47,22 @@ export const Login = async (req: Request, res: Response): Promise<void> => {
     try {
         const { email, password } = req.body;
 
-        const user = await userModel.findOne({ email })
-        if(!user) {
-            res.status(401).json({message: 'User is not existing!!!'})
-            return 
+        const user = await userModel.findOne({ email });
+        if (!user) {
+            res.status(401).json({ message: "User is not existing!!!" });
+            return;
         }
 
         //validating the password
-        if(!await bcrypt.compare(password, user.password)) {
-            res.status(401).json({message: "Invalid credentials"})
-            return 
+        if (!(await bcrypt.compare(password, user.password))) {
+            res.status(401).json({ message: "Invalid credentials" });
+            return;
         }
 
-        res.status(201).json({ message: "success", user: { email } });
+        res.status(201).json({
+            message: "success",
+            user: { userId: user._id, email },
+        });
     } catch (error) {
         console.log("while Login", error);
         res.status(500).json({ message: "Error while login." });

@@ -4,7 +4,7 @@ import path from "path";
 const storage: StorageEngine = multer.diskStorage({
     destination: (req, file, cb) => {
         // console.log('reached inside destination');
-        cb(null, "src/uploads/");
+        cb(null, "uploads/");
     },
     filename: (req, file, cb) => {
         cb(null, `${Date.now()}${path.extname(file.originalname)}`);

@@ -94,7 +94,7 @@ const Login: React.FC = () => {
                 if (res.data.message == "success") {
                     window.localStorage.setItem("jwt", JSON.stringify(res.data.user));
                     dispatch(
-                        login({ token: res.data.token, user: res.data.user })
+                        login({ token: null, user: res.data.user })
                     );
 
                     navigate("/");
