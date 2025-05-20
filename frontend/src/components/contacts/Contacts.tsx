@@ -2,78 +2,82 @@ import Contact from "./Contact";
 import { IoMdSettings } from "react-icons/io";
 import { GoPlus } from "react-icons/go";
 
-const Contacts = () => {
+interface AddContactType {
+    setPop: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Contacts = ({ setPop }: AddContactType) => {
     const ctc = [
         {
-            name: 'Robert',
+            name: "Robert",
             email: "jr@gmail.com",
-            img: "/jr.jpeg"
+            img: "/jr.jpeg",
         },
         {
-            name:'Andrew tate',
+            name: "Andrew tate",
             email: "tate@gmail.com",
-            img: '/tate.jpeg'
+            img: "/tate.jpeg",
         },
         {
-            name: 'Robert',
+            name: "Robert",
             email: "jr@gmail.com",
-            img: "/jr.jpeg"
+            img: "/jr.jpeg",
         },
         {
-            name:'Andrew tate',
+            name: "Andrew tate",
             email: "tate@gmail.com",
-            img: '/tate.jpeg'
+            img: "/tate.jpeg",
         },
         {
-            name:'Andrew tate',
+            name: "Andrew tate",
             email: "tate@gmail.com",
-            img: '/tate.jpeg'
+            img: "/tate.jpeg",
         },
         {
-            name:'Andrew tate',
+            name: "Andrew tate",
             email: "tate@gmail.com",
-            img: '/tate.jpeg'
+            img: "/tate.jpeg",
         },
         {
-            name:'Andrew tate',
+            name: "Andrew tate",
             email: "tate@gmail.com",
-            img: '/tate.jpeg'
+            img: "/tate.jpeg",
         },
         {
-            name:'Andrew tate',
+            name: "Andrew tate",
             email: "tate@gmail.com",
-            img: '/tate.jpeg'
+            img: "/tate.jpeg",
         },
         {
-            name: 'Robert',
+            name: "Robert",
             email: "jr@gmail.com",
-            img: "/jr.jpeg"
+            img: "/jr.jpeg",
         },
         {
-            name:'Andrew tate',
+            name: "Andrew tate",
             email: "tate@gmail.com",
-            img: '/tate.jpeg'
+            img: "/tate.jpeg",
         },
         {
-            name:'Andrew tate',
+            name: "Andrew tate",
             email: "tate@gmail.com",
-            img: '/tate.jpeg'
+            img: "/tate.jpeg",
         },
         {
-            name:'Andrew tate',
+            name: "Andrew tate",
             email: "tate@gmail.com",
-            img: '/tate.jpeg'
+            img: "/tate.jpeg",
         },
         {
-            name:'Andrew tate',
+            name: "Andrew tate",
             email: "tate@gmail.com",
-            img: '/tate.jpeg'
+            img: "/tate.jpeg",
         },
         {
-            name: 'Elon',
+            name: "Elon",
             email: "elon@gmail.com",
-            img: '/elon.jpeg'
-        }
+            img: "/elon.jpeg",
+        },
     ];
 
     return (
@@ -97,8 +101,11 @@ const Contacts = () => {
                 {ctc.map((item, index) => (
                     <Contact key={index} data={item} />
                 ))}
-                <div className="absolute cursor-pointer text-black rounded-[12px] p-1 bg-[#b1b7ff] bottom-8 right-8">
-                    <GoPlus size={40}/>
+                <div
+                    onClick={() => setPop(true)}
+                    className="absolute cursor-pointer text-black rounded-[12px] p-1 bg-[#b1b7ff] bottom-8 right-8"
+                >
+                    <GoPlus size={40} />
                 </div>
             </div>
         </section>
