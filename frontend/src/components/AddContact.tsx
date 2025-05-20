@@ -1,19 +1,26 @@
 import axios from "axios";
 import { useRef, type FormEvent } from "react";
+import { useSelector, type TypedUseSelectorHook } from "react-redux";
+import type { RootState } from "../redux/store";
 
+//types
 interface AddContactType {
     setPop: React.Dispatch<React.SetStateAction<boolean>>;
 }
+export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 const AddContact = ({ setPop }: AddContactType) => {
     const emailRef = useRef<HTMLInputElement>(null);
 
+    //form subimission
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
         try {
+            const state = useTypedSelector((state) => state);
             const formData = {
-                // userId:
+                userId: state.auth.user.email,
                 member: emailRef.current?.value,
+                isGroup: false,
             };
 
             axios
