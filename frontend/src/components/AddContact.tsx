@@ -18,7 +18,7 @@ const AddContact = ({ setPop }: AddContactType) => {
 
             axios
                 .post(
-                    `${import.meta.env.VITE_BASE_URL}/api/addcontact`,
+                    `${import.meta.env.VITE_BASE_URL}/api/chat/addcontact`,
                     formData
                 )
                 .then((res) => {

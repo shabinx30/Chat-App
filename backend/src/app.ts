@@ -17,8 +17,10 @@ app.use(express.json());
 
 //route
 import userRouter from "./routes/auth.route";
+import chatRouter from "./routes/chat.route";
 app.use("/src/uploads", express.static("uploads"));
 app.use("/api/auth", userRouter);
+app.use("/api/chat", chatRouter);
 
 const PORT = process.env.PORT || 5000;
 
