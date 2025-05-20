@@ -7,7 +7,7 @@ import { IoIosCloseCircle } from "react-icons/io";
 
 const Login: React.FC = () => {
     const navigate = useNavigate();
-    let apiUrl = import.meta.env.BASE_URL
+    let apiUrl = import.meta.env.VITE_BASE_URL
     // const dispatch = useDispatch();
 
     const [formData, setFormData] = useState({
@@ -86,22 +86,23 @@ const Login: React.FC = () => {
         }
         setValid({ ...valid, password: { status: true, message: "" } });
 
+        console.log(formData)
         axios
-            .post(`${apiUrl}/login`, formData)
+            .post(`${apiUrl}/api/auth/login`, formData)
             .then((res) => {
-                // console.log("login res", res.data);
+                console.log("login res", res);
                 if (res.data.message == "success") {
-                    window.localStorage.setItem("jwt", res.data.token);
+                    window.localStorage.setItem("jwt", JSON.stringify(res.data.user));
                     // dispatch(
                     //     login({ token: res.data.token, user: res.data.user })
                     // );
 
-                    navigate("/profile");
+                    // navigate("/");
                 } else if (res.data.message == "User is not existing!!!") {
                     showError(res.data.message);
-                    setTimeout(() => {
-                        navigate("/signup");
-                    }, 3500);
+                    // setTimeout(() => {
+                    //     navigate("/signup");
+                    // }, 3500);
                 } else {
                     showError(res.data.message);
                 }

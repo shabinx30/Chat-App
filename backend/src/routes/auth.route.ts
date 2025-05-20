@@ -5,6 +5,6 @@ import { SignUp, Login } from "../controllers/auth.controller";
 import upload from "../libs/multer";
 
 router.post("/signup", upload.single('profile'), SignUp);
-router.get("/login", Login);
+router.post("/login", Login);
 
 export default router;

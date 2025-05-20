@@ -45,7 +45,19 @@ export const SignUp = async (req: Request, res: Response): Promise<void> => {
 
 export const Login = async (req: Request, res: Response): Promise<void> => {
     try {
+        console.log('involking', req.body)
         const { email, password } = req.body;
+
+        const user = await userModel.findOne({ email })
+        if(!user) {
+            res.status(401).json({message: 'User is not existing!!!'})
+            return 
+        }
+
+        if(!await bcrypt.compare(password, user.password)) {
+            res.status(401).json({message: "Invalid credentials"})
+            return 
+        }
 
         res.status(201).json({ message: "success", user: { email } });
     } catch (error) {
