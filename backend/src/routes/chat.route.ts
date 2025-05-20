@@ -1,7 +1,9 @@
 import { Router } from "express"
 const router = Router()
 
-router.post('/addContact', )
+import { addContact } from "../controllers/chat.controller"
+
+router.post('/addContact', addContact)
 
 
 export default router
