@@ -9,7 +9,7 @@ const Home = ({ aside }: { aside: React.ReactNode }) => {
     return (
         <div className="relative flex w-[100vw] h-[100vh]">
             {isPop && <AddContact setPop={setPop} />}
-            <Contacts isPop={isPop} setPop={setPop} />
+            <Contacts setPop={setPop} />
             {aside}
         </div>
     );

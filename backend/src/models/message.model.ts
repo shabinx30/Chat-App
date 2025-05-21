@@ -3,7 +3,7 @@ import { Document, Schema, model } from "mongoose";
 interface messageType extends Document {
     chatId: Schema.Types.ObjectId;
     body: String;
-    sentBy: String;
+    sendBy: String;
     to: String;
 }
 
@@ -17,7 +17,7 @@ const messageModel = new Schema<messageType>(
             type: String,
             required: true,
         },
-        sentBy: {
+        sendBy: {
             type: String,
             required: true,
         },

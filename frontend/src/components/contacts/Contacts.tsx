@@ -8,7 +8,6 @@ import type { RootState } from "../../redux/store";
 
 //function type
 interface AddContactType {
-    isPop: boolean;
     setPop: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -31,7 +30,7 @@ interface ctcType {
 
 export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 
-const Contacts = ({ isPop, setPop }: AddContactType) => {
+const Contacts = ({ setPop }: AddContactType) => {
     const [ctc, setCtc] = useState<ctcType[]>([]);
     const state = useTypedSelector((state) => state);
 

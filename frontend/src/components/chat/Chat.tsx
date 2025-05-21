@@ -8,6 +8,10 @@ import { IoCloseCircleOutline } from "react-icons/io5";
 import { io, Socket } from "socket.io-client";
 import { menuContext } from "./menuContext";
 import axios from "axios";
+import { useSelector, type TypedUseSelectorHook } from "react-redux";
+import type { RootState } from "../../redux/store";
+
+export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 interface PosType {
     visible: boolean;
@@ -15,16 +19,25 @@ interface PosType {
     y: number;
 }
 
-// Define type for messages
-type Message = string;
+interface chatType {
+    _id: string;
+    name: string;
+    profile: string;
+}
 
 // Define socket type
 let socket: Socket;
 
+interface Msg {
+    body: string;
+    createdAt: number;
+    from: string;
+}
+
 const Chat = () => {
     const scrollRef = useRef<HTMLDivElement | null>(null);
-    // const arr = new Array(30).fill(0);
-    const [chat, setChat] = useState<Message[]>([]);
+    const state = useTypedSelector((state) => state);
+    const [messages, setMessages] = useState<Msg[]>([]);
 
     const Random = () => {
         return Math.floor(Math.random() * 10) % 2 == 0;
@@ -69,10 +82,15 @@ const Chat = () => {
     let apiUrl = import.meta.env.VITE_BASE_URL;
 
     useEffect(() => {
-        socket = io(apiUrl);
+        socket = io(apiUrl, {
+            query: {
+                userId: state.auth.user.userId,
+            },
+        });
 
-        socket.on("chat message", (msg: Message) => {
-            setChat((prev) => [...prev, msg]);
+        socket.on("chat message", (msg: any) => {
+            console.log(msg)
+            setMessages((prev) => [msg, ...prev]);
         });
 
         return () => {
@@ -80,27 +98,40 @@ const Chat = () => {
             socket.disconnect();
         };
     }, []);
+    const { chatId } = useParams();
+
+    const [chat, setChat] = useState<chatType>();
+
+    useEffect(() => {
+        axios
+            .post(`${apiUrl}/api/message/getmessages`, { chatId })
+            .then((res) => {
+                console.log(res.data);
+                setChat(res.data.chat.members[0].userId);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }, []);
 
     const sendMessage = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (msgRef.current?.value.trim()) {
-            socket.emit("chat message", msgRef.current?.value);
+            socket.emit("chat message", {
+                msg: msgRef.current?.value,
+                chatId: chatId,
+                sendBy: state.auth.user.userId,
+                to: chat?._id,
+            });
+            const myMsg: Msg = {
+                body: msgRef.current?.value,
+                createdAt: Date.now(),
+                from: state.auth.user.userId
+            }
+            setMessages(p => [myMsg, ...p])
             msgRef.current.value = "";
         }
     };
-
-    // const [user, setUser] = useState({})
-
-    const { chatId } = useParams();
-    useEffect(() => {
-        axios.post(`${apiUrl}/api/message/getmessages`, chatId)
-        .then(res => {
-            console.log(res.data)
-        })
-        .catch(error => {
-            console.log(error)
-        })
-    },[])
 
     return (
         <section
@@ -114,12 +145,12 @@ const Chat = () => {
             <div className="flex bg-[#fff] dark:bg-gray-800 dark:text-[#fff] text-[#000000] items-center py-4 px-2 justify-between top-0 w-[100%] h-[8.5vh]">
                 <div className="flex items-center gap-2 px-4">
                     <img
-                        className="w-[3em] rounded-full"
-                        src="/tate.jpeg"
+                        className="object-cover min-w-[3em] max-h-[3em] rounded-full"
+                        src={`${apiUrl}/${chat?.profile}`}
                         alt="poda"
                     />
                     <div>
-                        <h1 className="font-normal">Ramu kuttan</h1>
+                        <h1 className="font-normal">{chat?.name}</h1>
                         <p className="text-[0.76em] font-medium text-[#6b6b6b]">
                             Online
                         </p>
@@ -132,11 +163,11 @@ const Chat = () => {
                 ref={scrollRef}
                 className="px-4 overflow-y-auto bg-[#dee1ff] dark:bg-gray-900 scroll-smooth h-[91vh] pt-4 pb-[4.5em] flex flex-col-reverse scrollable"
             >
-                {chat.map((_, index) =>
+                {messages.map((msg, index) =>
                     Random() ? (
-                        <Message key={index} data={1} />
+                        <Message msg={msg} user={state.auth.user.userId} key={index} />
                     ) : (
-                        <Message key={index} data={-1} />
+                        <Message msg={msg} user={state.auth.user.userId} key={index} />
                     )
                 )}
             </div>

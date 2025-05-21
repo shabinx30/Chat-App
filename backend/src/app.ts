@@ -7,7 +7,7 @@ import { connectDB } from "./libs/db.config";
 import { server, app } from "./libs/socket";
 import cors, { CorsOptions } from "cors";
 
-const allowedOrigins = ["http://localhost:3003"];
+const allowedOrigins = ["http://localhost:3003", "http://172.16.3.155:3003/"];
 
 const corsOptions: CorsOptions = {
     origin: (
