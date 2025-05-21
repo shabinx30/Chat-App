@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import { useDispatch } from "react-redux";
 import { login } from "./redux/store";
+import Protector from "./components/Protector";
 
 function App() {
     const dispatch = useDispatch();
@@ -17,10 +18,10 @@ function App() {
 
     return (
         <Routes>
-            <Route path="/" element={<Home aside={<Welcome />} />} />
-            <Route path="/chat/:chatId" element={<Home aside={<Chat />} />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<SignUp />} />
+            <Route path="/" element={<Protector type='in'><Home aside={<Welcome />} /></Protector>} />
+            <Route path="/chat/:chatId" element={<Protector type="in"><Home aside={<Chat />} /></Protector>} />
+            <Route path="/login" element={<Protector type="out"><Login /></Protector>} />
+            <Route path="/signup" element={<Protector type="out"><SignUp /></Protector>} />
         </Routes>
     );
 }

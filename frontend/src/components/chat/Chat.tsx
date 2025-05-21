@@ -178,7 +178,7 @@ const Chat = () => {
                     )
                 )}
             </div>
-            <div className="flex justify-center ">
+            <div onClick={(e) => e.stopPropagation()} className="flex justify-center ">
                 <div className="absolute flex bg-[#fff] dark:bg-gray-800 shadow-[0_2px_10px] shadow-black/50 rounded-2xl text-black justify-between pr-2 pl-5 gap-1 items-center bottom-4 w-[80%]">
                     <ImAttachment
                         size={18}
