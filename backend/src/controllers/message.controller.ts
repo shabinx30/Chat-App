@@ -7,9 +7,9 @@ interface sndMsgType {
     data: {
         msg: string;
         chatId: string;
-        sendBy: string;
+        from: string;
         to: string;
-    }
+    };
     io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>;
     map: Map<string, any>;
 }
@@ -17,7 +17,9 @@ interface sndMsgType {
 export const getMessages = async (req: Request, res: Response) => {
     try {
         const { chatId } = req.body;
-        const chat = await chatModel.findOne({ _id: chatId }).populate('members.userId');
+        const chat = await chatModel
+            .findOne({ _id: chatId })
+            .populate("members.userId");
         const messages = await messageModel.find({ chatId });
 
         // console.log(chat)
@@ -28,22 +30,30 @@ export const getMessages = async (req: Request, res: Response) => {
     }
 };
 
-
-export const sendMessage = async ({data, io, map}: sndMsgType) => {
+export const sendMessage = async ({ data, io, map }: sndMsgType) => {
     try {
-        const {chatId, msg, to, sendBy} = data
-        // const user = await chatModel.findById({_id: chatId}).populate('members.userId')
-        // console.log(user)
+        const { chatId, msg, to, from } = data;
+        const tosChat = await chatModel.findOne({ userId: to });
+
+        if (tosChat) {
+            new messageModel({
+                chatId: tosChat._id,
+                body: msg,
+                from,
+                to,
+            }).save();
+        }
+
         const message = new messageModel({
             chatId,
             body: msg,
-            sendBy,
-            to
-        })
+            from,
+            to,
+        });
         // console.log(message)
-        await message.save()
-        io.to(map.get(to)).emit('chat message', message)
+        await message.save();
+        io.to(map.get(to)).emit("chat message", message);
     } catch (error) {
-        console.log('Error while sending message', error)
+        console.log("Error while sending message", error);
     }
-}
+};

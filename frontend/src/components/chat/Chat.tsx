@@ -101,6 +101,7 @@ const Chat = () => {
     const { chatId } = useParams();
 
     const [chat, setChat] = useState<chatType>();
+    const set = new Set()
 
     useEffect(() => {
         axios
@@ -108,6 +109,12 @@ const Chat = () => {
             .then((res) => {
                 console.log(res.data);
                 setChat(res.data.chat.members[0].userId);
+                for(let data of res.data.messages) {
+                    if(!set.has(data._id)) {
+                        setMessages(p => [data, ...p])
+                        set.add(data._id)
+                    }
+                }
             })
             .catch((error) => {
                 console.log(error);
@@ -120,7 +127,7 @@ const Chat = () => {
             socket.emit("chat message", {
                 msg: msgRef.current?.value,
                 chatId: chatId,
-                sendBy: state.auth.user.userId,
+                from: state.auth.user.userId,
                 to: chat?._id,
             });
             const myMsg: Msg = {
