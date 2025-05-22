@@ -49,9 +49,9 @@ const Contacts = ({ setPop }: AddContactType) => {
                 )
                 .then((res) => {
                     for (let con of res.data.chat) {
-                        if(!set.has(con.userId)) {
+                        if(!set.has(con._id)) {
                             setCtc((p) => [...p, con]);
-                            set.add(con.userId)
+                            set.add(con._id)
                         }
                     }
                 })

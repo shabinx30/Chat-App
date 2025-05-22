@@ -37,7 +37,7 @@ export const getContacts = async (req: Request, res: Response) => {
         const userId = req.body.userId;
 
         const chat = await chatModel.find({userId}).populate("members.userId")
-        // console.log(chat)
+        console.log(chat)
         res.status(201).json({chat})
     } catch (error) {
         console.log(error);

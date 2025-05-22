@@ -80,6 +80,7 @@ const Chat = () => {
     const msgRef = useRef<HTMLInputElement>(null);
 
     let apiUrl = import.meta.env.VITE_BASE_URL;
+    const { chatId } = useParams();
 
     useEffect(() => {
         socket = io(apiUrl, {
@@ -90,7 +91,10 @@ const Chat = () => {
 
         socket.on("chat message", (msg: any) => {
             console.log(msg)
-            setMessages((prev) => [msg, ...prev]);
+            console.log(msg.tosChat)
+            if(msg.tosChat == chatId) {
+                setMessages((prev) => [msg, ...prev]);
+            }
         });
 
         return () => {
@@ -98,7 +102,6 @@ const Chat = () => {
             socket.disconnect();
         };
     }, []);
-    const { chatId } = useParams();
 
     const [chat, setChat] = useState<chatType>();
     const set = new Set()
