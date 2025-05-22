@@ -9,12 +9,7 @@ import { login } from "./redux/store";
 import Protector from "./components/Protector";
 
 function App() {
-    const dispatch = useDispatch();
-
-    if (localStorage.getItem("jwt")) {
-        let userData = JSON.parse(localStorage.getItem("jwt") || '')
-        dispatch(login({ token: null, user: userData }));
-    }
+    
 
     return (
         <Routes>

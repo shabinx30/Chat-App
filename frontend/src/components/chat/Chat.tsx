@@ -5,11 +5,11 @@ import Message from "./Message";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { IoCloseCircleOutline } from "react-icons/io5";
-import { io, Socket } from "socket.io-client";
 import { menuContext } from "./menuContext";
 import axios from "axios";
 import { useSelector, type TypedUseSelectorHook } from "react-redux";
 import type { RootState } from "../../redux/store";
+import { useAppContext } from "../../context/AppContext";
 
 export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 
@@ -25,9 +25,6 @@ interface chatType {
     profile: string;
 }
 
-// Define socket type
-let socket: Socket;
-
 interface Msg {
     body: string;
     createdAt: number;
@@ -38,6 +35,7 @@ const Chat = () => {
     const scrollRef = useRef<HTMLDivElement | null>(null);
     const state = useTypedSelector((state) => state);
     const [messages, setMessages] = useState<Msg[]>([]);
+    const { socket } = useAppContext();
 
     const Random = () => {
         return Math.floor(Math.random() * 10) % 2 == 0;
@@ -83,16 +81,10 @@ const Chat = () => {
     const { chatId } = useParams();
 
     useEffect(() => {
-        socket = io(apiUrl, {
-            query: {
-                userId: state.auth.user.userId,
-            },
-        });
-
         socket.on("chat message", (msg: any) => {
-            console.log(msg)
-            console.log(msg.tosChat)
-            if(msg.tosChat == chatId) {
+            console.log(msg);
+            console.log(msg.tosChat);
+            if (msg.tosChat == chatId) {
                 setMessages((prev) => [msg, ...prev]);
             }
         });
@@ -104,19 +96,19 @@ const Chat = () => {
     }, []);
 
     const [chat, setChat] = useState<chatType>();
-    const set = new Set()
+    const set = new Set();
 
     useEffect(() => {
-        setMessages([])
+        setMessages([]);
         axios
             .post(`${apiUrl}/api/message/getmessages`, { chatId })
             .then((res) => {
                 console.log(res.data);
                 setChat(res.data.chat.members[0].userId);
-                for(let data of res.data.messages) {
-                    if(!set.has(data._id)) {
-                        setMessages(p => [data, ...p])
-                        set.add(data._id)
+                for (let data of res.data.messages) {
+                    if (!set.has(data._id)) {
+                        setMessages((p) => [data, ...p]);
+                        set.add(data._id);
                     }
                 }
             })
@@ -137,9 +129,9 @@ const Chat = () => {
             const myMsg: Msg = {
                 body: msgRef.current?.value,
                 createdAt: Date.now(),
-                from: state.auth.user.userId
-            }
-            setMessages(p => [myMsg, ...p])
+                from: state.auth.user.userId,
+            };
+            setMessages((p) => [myMsg, ...p]);
             msgRef.current.value = "";
         }
     };
@@ -176,13 +168,24 @@ const Chat = () => {
             >
                 {messages.map((msg, index) =>
                     Random() ? (
-                        <Message msg={msg} user={state.auth.user.userId} key={index} />
+                        <Message
+                            msg={msg}
+                            user={state.auth.user.userId}
+                            key={index}
+                        />
                     ) : (
-                        <Message msg={msg} user={state.auth.user.userId} key={index} />
+                        <Message
+                            msg={msg}
+                            user={state.auth.user.userId}
+                            key={index}
+                        />
                     )
                 )}
             </div>
-            <div onClick={(e) => e.stopPropagation()} className="flex justify-center ">
+            <div
+                onClick={(e) => e.stopPropagation()}
+                className="flex justify-center "
+            >
                 <div className="absolute flex bg-[#fff] dark:bg-gray-800 shadow-[0_2px_10px] shadow-black/50 rounded-2xl text-black justify-between pr-2 pl-5 gap-1 items-center bottom-4 w-[80%]">
                     <ImAttachment
                         size={18}

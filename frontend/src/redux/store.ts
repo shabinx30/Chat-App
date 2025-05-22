@@ -20,9 +20,10 @@ const user = createSlice({
     },
 });
 
+
 const store = configureStore({
     reducer: {
-        auth: user.reducer,
+        auth: user.reducer
     },
 });
 
