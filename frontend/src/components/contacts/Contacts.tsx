@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector, type TypedUseSelectorHook } from "react-redux";
 import type { RootState } from "../../redux/store";
+import { useParams } from "react-router-dom";
 
 //function type
 interface AddContactType {
@@ -62,6 +63,8 @@ const Contacts = ({ setPop }: AddContactType) => {
         getContacts()
     },[]);
 
+    const { chatId } = useParams();
+
 
     return (
         <section className="flex-1 bg-[#ffffff] relative dark:bg-gray-800 text-black ">
@@ -85,7 +88,7 @@ const Contacts = ({ setPop }: AddContactType) => {
                     <div></div>
                 ) : (
                     ctc?.map((item, index) => (
-                        <Contact key={index} data={item} />
+                        <Contact key={index} chatId={chatId} data={item} />
                     ))
                 )}
                 <div

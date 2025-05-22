@@ -17,13 +17,13 @@ interface ctcType {
     lastMessageAt: Date;
 }
 
-const Contact = ({ data }: { data: ctcType }) => {
+const Contact = ({ data, chatId }: { data: ctcType, chatId: string | undefined }) => {
     const navigate = useNavigate();
 
     return (
         <div
             onClick={() => navigate(`/chat/${data._id}`)}
-            className={`w-full h-[4.5em] hover:bg-[#eff0ff] hover:dark:bg-gray-700/50 rounded-2xl text-black dark:text-[#eff0ff] flex justify-center gap-4 items-center px-4`}
+            className={`w-full h-[4.5em] ${chatId == data._id ? 'bg-[#eff0ff] dark:bg-gray-700/50' : ''} hover:bg-[#eff0ff] hover:dark:bg-gray-700/50 rounded-2xl text-black dark:text-[#eff0ff] flex justify-center gap-4 items-center px-4`}
         >
             <div className="relative flex items-center justify-center">
                 <img

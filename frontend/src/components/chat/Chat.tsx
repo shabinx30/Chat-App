@@ -107,6 +107,7 @@ const Chat = () => {
     const set = new Set()
 
     useEffect(() => {
+        setMessages([])
         axios
             .post(`${apiUrl}/api/message/getmessages`, { chatId })
             .then((res) => {
@@ -122,7 +123,7 @@ const Chat = () => {
             .catch((error) => {
                 console.log(error);
             });
-    }, []);
+    }, [chatId]);
 
     const sendMessage = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
