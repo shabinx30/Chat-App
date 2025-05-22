@@ -4,8 +4,6 @@ import Welcome from "./components/Welcome";
 import Chat from "./components/chat/Chat";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
-import { useDispatch } from "react-redux";
-import { login } from "./redux/store";
 import Protector from "./components/Protector";
 
 function App() {
