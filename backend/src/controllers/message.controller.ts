@@ -33,7 +33,23 @@ export const getMessages = async (req: Request, res: Response) => {
 export const sendMessage = async ({ data, io, map }: sndMsgType) => {
     try {
         const { chatId, msg, to, from } = data;
-        const tosChat = await chatModel.findOne({ $and: [{userId: to}, {"members.userId": from}] });
+        const tosChat = await chatModel.findOne({
+            $and: [{ userId: to }, { "members.userId": from }],
+        });
+
+        if (!tosChat) {
+            const result = new chatModel({
+                userId: to,
+                members: [
+                    {
+                        userId: from,
+                    },
+                ],
+                isGroup: false,
+                lastMessageAt: Date.now(),
+            });
+            await result.save();
+        }
 
         if (tosChat) {
             new messageModel({
@@ -53,7 +69,7 @@ export const sendMessage = async ({ data, io, map }: sndMsgType) => {
         // console.log(message)
         await result.save();
 
-        let message = {...result.toObject(), tosChat: tosChat?._id}
+        let message = { ...result.toObject(), tosChat: tosChat?._id };
 
         io.to(map.get(to)).emit("chat message", message);
     } catch (error) {
