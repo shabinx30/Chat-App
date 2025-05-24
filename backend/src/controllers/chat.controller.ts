@@ -3,11 +3,6 @@ import userModel from "../models/user.model";
 import chatModel from "../models/chat.model";
 import { DefaultEventsMap, Server } from "socket.io";
 
-interface OnlineType {
-    userId: string | string[] | undefined;
-    io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>;
-    map: Map<string | unknown, any>;
-}
 
 // wanna combine into a one single doc
 
@@ -64,24 +59,5 @@ export const getContacts = async (req: Request, res: Response) => {
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: "Internal server Error" });
-    }
-};
-
-export const getOnlineUser = async ({ userId, io, map }: OnlineType) => {
-    try {
-        let res = [];
-        const chats = await chatModel.find(
-            { userId },
-            { "members.userId": 1, _id: 0 }
-        );
-
-        res = chats.map(chat => {
-            const id = String(chat.members[0].userId)
-            return {[id]: map.has(id)}
-        })
-        
-        io.to(map.get(userId)).emit("online", res);
-    } catch (error) {
-        console.log(error);
     }
 };

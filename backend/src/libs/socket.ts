@@ -2,7 +2,6 @@ import { Server } from "socket.io";
 import http from "http";
 import express from "express";
 import { sendMessage } from "../controllers/message.controller";
-import { getOnlineUser } from "../controllers/chat.controller";
 
 const app = express();
 const server = http.createServer(app);
