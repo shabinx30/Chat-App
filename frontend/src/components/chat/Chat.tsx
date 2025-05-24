@@ -154,9 +154,9 @@ const Chat = () => {
                     />
                     <div>
                         <h1 className="font-normal">{chat?.name}</h1>
-                        <p className="text-[0.76em] font-medium text-[#6b6b6b]">
+                        {/* <p className="text-[0.76em] font-medium text-[#6b6b6b]">
                             Online
-                        </p>
+                        </p> */}
                     </div>
                 </div>
                 <IoMdMore size={24} className="cursor-pointer" />

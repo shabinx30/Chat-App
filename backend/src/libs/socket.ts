@@ -1,31 +1,40 @@
-import { Server } from "socket.io"
-import http from "http"
-import express from "express"
-import { sendMessage } from "../controllers/message.controller"
+import { Server } from "socket.io";
+import http from "http";
+import express from "express";
+import { sendMessage } from "../controllers/message.controller";
+import { getOnlineUser } from "../controllers/chat.controller";
 
-const app = express()
+const app = express();
 const server = http.createServer(app);
 
 const io = new Server(server, {
     cors: {
         origin: ["http://localhost:3003"],
-        methods: ['GET', 'POST']
-    }
-})
+        methods: ["GET", "POST"],
+    },
+});
 
-const map = new Map()
+const map = new Map();
+const ids = new Map();
 
 io.on("connection", (socket) => {
+    console.log("User connected:", socket.id);
+    let userId = socket.handshake.query.userId;
+    if (userId) {
+        map.set(userId, socket.id);
+        ids.set(socket.id, userId);
+        io.emit('online', [...map.keys()])
+    }
 
-    console.log('User connected:', socket.id);
-    // console.dir( socket.handshake.query, {depth: null});
-    map.set(socket.handshake.query.userId, socket.id)
 
-    socket.on('chat message', (data) => sendMessage({data, io, map}));
+    socket.on("chat message", (data) => sendMessage({ data, io, map }));
 
-    socket.on('disconnect', () => {
-        console.log('User disconnected:', socket.id);
+    socket.on("disconnect", () => {
+        map.delete(ids.get(socket.id));
+        ids.delete(socket.id);
+        io.emit("online", [...map.keys()])
+        console.log("User disconnected:", socket.id);
     });
-})
+});
 
-export { io, app, server }
+export { io, app, server };

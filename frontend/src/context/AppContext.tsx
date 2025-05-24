@@ -18,7 +18,7 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
     }
     const socket = io(import.meta.env.VITE_BASE_URL, {
         query: {
-            userId: userData.userId,
+            userId: userData?.userId,
         },
     });
 

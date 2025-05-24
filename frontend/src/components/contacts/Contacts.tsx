@@ -6,6 +6,7 @@ import axios from "axios";
 import { useSelector, type TypedUseSelectorHook } from "react-redux";
 import type { RootState } from "../../redux/store";
 import { useParams } from "react-router-dom";
+import { useAppContext } from "../../context/AppContext";
 
 //function type
 interface AddContactType {
@@ -15,6 +16,7 @@ interface AddContactType {
 //type for member
 interface membersType extends Document {
     userId: {
+        _id: string;
         name: string;
         profile: string;
     };
@@ -33,8 +35,13 @@ export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 const Contacts = ({ setPop }: AddContactType) => {
     const [ctc, setCtc] = useState<ctcType[]>([]);
+    const [onUsers, setOnUsers] = useState<Set<string>>(new Set())
     const state = useTypedSelector((state) => state);
 
+    const { socket } = useAppContext()
+    const { chatId } = useParams();
+
+    //for dev
     const set = new Set()
 
     const userData = {
@@ -61,10 +68,10 @@ const Contacts = ({ setPop }: AddContactType) => {
                 });
         };
         getContacts()
+        socket.on("online", res => {
+            setOnUsers(new Set(res))
+        })
     },[]);
-
-    const { chatId } = useParams();
-
 
     return (
         <section className="flex-1 bg-[#ffffff] relative dark:bg-gray-800 text-black ">
@@ -88,7 +95,7 @@ const Contacts = ({ setPop }: AddContactType) => {
                     <div></div>
                 ) : (
                     ctc?.map((item, index) => (
-                        <Contact key={index} chatId={chatId} data={item} />
+                        <Contact key={index} onUsers={onUsers} chatId={chatId} data={item} />
                     ))
                 )}
                 <div

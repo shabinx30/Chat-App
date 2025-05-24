@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 //type for member
 interface membersType extends Document {
     userId: {
+        _id: string;
         name: string;
         profile: string;
     };
@@ -17,13 +18,21 @@ interface ctcType {
     lastMessageAt: Date;
 }
 
-const Contact = ({ data, chatId }: { data: ctcType, chatId: string | undefined }) => {
+interface conType {
+    data: ctcType;
+    chatId: string | undefined;
+    onUsers: Set<string>;
+}
+
+const Contact = ({ data, chatId, onUsers }: conType) => {
     const navigate = useNavigate();
 
     return (
         <div
             onClick={() => navigate(`/chat/${data._id}`)}
-            className={`w-full h-[4.5em] ${chatId == data._id ? 'bg-[#eff0ff] dark:bg-gray-700/50' : ''} hover:bg-[#eff0ff] hover:dark:bg-gray-700/50 rounded-2xl text-black dark:text-[#eff0ff] flex justify-center gap-4 items-center px-4`}
+            className={`w-full h-[4.5em] ${
+                chatId == data._id ? "bg-[#eff0ff] dark:bg-gray-700/50" : ""
+            } hover:bg-[#eff0ff] hover:dark:bg-gray-700/50 rounded-2xl text-black dark:text-[#eff0ff] flex justify-center gap-4 items-center px-4`}
         >
             <div className="relative flex items-center justify-center">
                 <img
@@ -33,7 +42,7 @@ const Contact = ({ data, chatId }: { data: ctcType, chatId: string | undefined }
                     }`}
                     alt="poda"
                 />
-                <span className="absolute border-[3px] border-white dark:border-black bg-green-400 w-3.5 h-3.5 right-0 bottom-0 rounded-full"></span>
+                {onUsers.has(data.members[0].userId._id) && <span className="absolute border-[3px] border-white dark:border-black bg-green-400 w-3.5 h-3.5 right-0 bottom-0 rounded-full"></span>}
             </div>
             <div
                 className={`font-normal h-[90%] flex justify-between items-center w-full`}
