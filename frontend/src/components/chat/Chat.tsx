@@ -37,9 +37,6 @@ const Chat = () => {
     const [messages, setMessages] = useState<Msg[]>([]);
     const { socket } = useAppContext();
 
-    const Random = () => {
-        return Math.floor(Math.random() * 10) % 2 == 0;
-    };
 
     // Scroll to the bottom (latest message) when the component mounts
     useEffect(() => {
@@ -93,7 +90,7 @@ const Chat = () => {
             socket.off("chat message");
             socket.disconnect();
         };
-    }, []);
+    }, [chatId]);
 
     const [chat, setChat] = useState<chatType>();
     const set = new Set();
@@ -172,21 +169,13 @@ const Chat = () => {
                 ref={scrollRef}
                 className="px-4 overflow-y-auto bg-[#dee1ff] dark:bg-gray-900 scroll-smooth h-[91vh] pt-4 pb-[4.5em] flex flex-col-reverse scrollable"
             >
-                {messages.map((msg, index) =>
-                    Random() ? (
-                        <Message
-                            msg={msg}
-                            user={state.auth.user.userId}
-                            key={index}
-                        />
-                    ) : (
-                        <Message
-                            msg={msg}
-                            user={state.auth.user.userId}
-                            key={index}
-                        />
-                    )
-                )}
+                {messages.map((msg, index) => (
+                    <Message
+                        msg={msg}
+                        user={state.auth.user.userId}
+                        key={index}
+                    />
+                ))}
             </div>
             <div
                 onClick={(e) => e.stopPropagation()}

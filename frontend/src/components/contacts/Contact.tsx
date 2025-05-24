@@ -22,21 +22,30 @@ interface conType {
     data: ctcType;
     chatId: string | undefined;
     onUsers: Set<string>;
+    chatMsg: string;
 }
 
-const Contact = ({ data, chatId, onUsers }: conType) => {
+const Contact = ({ data, chatId, onUsers, chatMsg }: conType) => {
     const navigate = useNavigate();
+
+    const getTime = (date: number | Date = data.lastMessageAt) => {
+        return new Date(date).toLocaleTimeString("en-US", {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: true,
+        });
+    };
 
     return (
         <div
             onClick={() => navigate(`/chat/${data._id}`)}
             className={`w-full h-[4.5em] ${
-                chatId == data._id ? "bg-[#eff0ff] dark:bg-gray-700/50" : ""
-            } hover:bg-[#eff0ff] hover:dark:bg-gray-700/50 rounded-2xl text-black dark:text-[#eff0ff] flex justify-center gap-4 items-center px-4`}
+                chatId == data._id ? "bg-[#eff0ff] dark:bg-[#9ca5ff] text-black hover:bg-[#eff0ff] hover:dark:bg-[#8b94ff]" : "dark:text-[#eff0ff] hover:dark:bg-gray-700/50"
+            } hover:bg-[#eff0ff] rounded-2xl text-black flex justify-center gap-4 items-center px-4`}
         >
             <div className="relative flex items-center justify-center">
                 <img
-                    className="object-cover min-w-[3.5em] max-h-[3.5em] rounded-full"
+                    className="object-cover border-2 min-w-[3.5em] max-h-[3.5em] rounded-full"
                     src={`${
                         data.members[0].userId.profile !== ""
                             ? import.meta.env.VITE_BASE_URL +
@@ -53,8 +62,8 @@ const Contact = ({ data, chatId, onUsers }: conType) => {
             <div
                 className={`font-normal h-[90%] flex justify-between items-center w-full`}
             >
-                <p>{data.members[0].userId.name}</p>
-                {/* <p className="text-[0.8em] text-gray-400 select-none">{data.lastMessageAt}</p> */}
+                <p className={`${chatId == data._id ? 'font-semibold' : ''}`}>{data.members[0].userId.name}</p>
+                { chatMsg == data._id ? <p className={`${chatId == data._id ? "text-black": "text-gray-400"} text-[0.8em] select-none`}>{getTime(Date.now())}</p> : <p className={`${chatId == data._id ? "text-black": "text-gray-400"} text-[0.8em] select-none`}>{getTime()}</p>}
             </div>
         </div>
     );

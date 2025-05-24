@@ -36,6 +36,7 @@ export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 const Contacts = ({ setPop }: AddContactType) => {
     const [ctc, setCtc] = useState<ctcType[]>([]);
     const [onUsers, setOnUsers] = useState<Set<string>>(new Set())
+    const [chatMsg, setChatMsg] = useState<string>('')
     const state = useTypedSelector((state) => state);
 
     const { socket } = useAppContext()
@@ -71,6 +72,10 @@ const Contacts = ({ setPop }: AddContactType) => {
         socket.on("online", res => {
             setOnUsers(new Set(res))
         })
+        socket.on("chat message", message => {
+            console.log(message)
+            setChatMsg(message.tosChat)
+        })
     },[]);
 
     return (
@@ -95,7 +100,7 @@ const Contacts = ({ setPop }: AddContactType) => {
                     <div></div>
                 ) : (
                     ctc?.map((item, index) => (
-                        <Contact key={index} onUsers={onUsers} chatId={chatId} data={item} />
+                        <Contact key={index} onUsers={onUsers} chatMsg={chatMsg} chatId={chatId} data={item} />
                     ))
                 )}
                 <div

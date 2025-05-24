@@ -76,6 +76,18 @@ export const sendMessage = async ({ data, io, map }: sndMsgType) => {
         // console.log(message)
         await result.save();
 
+        await chatModel.updateMany(
+            {
+                $or: [
+                    { userId: from, "members.userId": to },
+                    { userId: to, "members.userId": from },
+                ],
+            },
+            {
+                $set: { lastMessageAt: new Date() },
+            }
+        );
+
         let message = { ...result.toObject(), tosChat: tosChat?._id };
 
         io.to(map.get(to)).emit("chat message", message);
