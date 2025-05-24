@@ -27,7 +27,7 @@ const Message = ({ msg, user }: Msg) => {
                 <div
                     className={`relative ${
                         user == msg.from
-                            ? "bg-[#b1b7ff]"
+                            ? "bg-[#9ca5ff]"
                             : "bg-[#fff] dark:bg-gray-800"
                     } text-black rounded-lg pl-2 pt-1 pb-2.5 pr-[3em]`}
                 >

@@ -10,6 +10,7 @@ import axios from "axios";
 import { useSelector, type TypedUseSelectorHook } from "react-redux";
 import type { RootState } from "../../redux/store";
 import { useAppContext } from "../../context/AppContext";
+import { motion } from "framer-motion";
 
 export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 
@@ -36,7 +37,6 @@ const Chat = () => {
     const state = useTypedSelector((state) => state);
     const [messages, setMessages] = useState<Msg[]>([]);
     const { socket } = useAppContext();
-
 
     // Scroll to the bottom (latest message) when the component mounts
     useEffect(() => {
@@ -142,7 +142,7 @@ const Chat = () => {
             }
             className="hidden md:block flex-1/3 relative bg-[#dee1ff] dark:bg-[#131313]"
         >
-            <div className="flex bg-[#fff] dark:bg-gray-800 dark:text-[#fff] text-[#000000] items-center py-4 px-2 justify-between top-0 w-[100%] h-[8.5vh]">
+            <div className="flex bg-[#fff] dark:bg-gray-900 dark:text-[#fff] text-[#000000] items-center py-4 px-2 justify-between top-0 w-[100%] h-[8.5vh]">
                 <div className="flex items-center gap-2 px-4">
                     <img
                         className="object-cover min-w-[3em] max-h-[3em] rounded-full"
@@ -167,7 +167,7 @@ const Chat = () => {
             {/* By adding "flex flex-col-reverse" we lost scroll animation */}
             <div
                 ref={scrollRef}
-                className="px-4 overflow-y-auto bg-[#dee1ff] dark:bg-gray-900 scroll-smooth h-[91vh] pt-4 pb-[4.5em] flex flex-col-reverse scrollable"
+                className="px-4 overflow-y-auto bg-[#dee1ff] dark:bg-gray-950 scroll-smooth h-[91vh] pt-4 pb-[4.5em] flex flex-col-reverse scrollable"
             >
                 {messages.map((msg, index) => (
                     <Message
@@ -177,9 +177,10 @@ const Chat = () => {
                     />
                 ))}
             </div>
-            <div
-                onClick={(e) => e.stopPropagation()}
-                className="flex justify-center "
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="flex justify-center"
             >
                 <div className="absolute flex bg-[#fff] dark:bg-gray-800 shadow-[0_2px_10px] shadow-black/50 rounded-2xl text-black justify-between pr-2 pl-5 gap-1 items-center bottom-4 w-[80%]">
                     <ImAttachment
@@ -189,7 +190,7 @@ const Chat = () => {
                     <form className="w-full" onSubmit={sendMessage}>
                         <input
                             ref={msgRef}
-                            className="dark:text-white w-full outline-none h-[3em] placeholder:text-gray-600 dark:placeholder:text-gray-400 px-2"
+                            className="dark:text-white w-full outline-none h-[3.4em] placeholder:text-gray-600 dark:placeholder:text-gray-400 px-2"
                             type="text"
                             placeholder="Type a message"
                         />
@@ -198,7 +199,7 @@ const Chat = () => {
                         <LuSendHorizontal size={22} />
                     </div>
                 </div>
-            </div>
+            </motion.div>
             {pos.visible && (
                 <ul
                     onClick={(e) => e.stopPropagation()}

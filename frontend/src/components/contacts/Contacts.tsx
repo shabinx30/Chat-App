@@ -79,7 +79,7 @@ const Contacts = ({ setPop }: AddContactType) => {
     },[]);
 
     return (
-        <section className="flex-1 bg-[#ffffff] relative dark:bg-gray-800 text-black ">
+        <section className="flex-1 bg-[#ffffff] relative dark:bg-gray-900 text-black ">
             <div className="block h-[21vh]">
                 <div className="mx-4 h-[4em] flex justify-between items-center">
                     <h1 className="font-bold text-3xl text-[#626fff]">Chat</h1>
@@ -89,13 +89,13 @@ const Contacts = ({ setPop }: AddContactType) => {
                 </div>
                 <div className="flex justify-center mt-[2em] mb-[1em]">
                     <input
-                        className="border border-[#8892ff] bg-[#eff0ff] dark:border-[#414678] dark:bg-gray-700 dark:text-white rounded-2xl w-[94%] outline-none px-4 py-2 placeholder:text-[#818bff]"
+                        className="border border-[#8892ff] bg-[#eff0ff] dark:border-[#414678] dark:bg-gray-800 dark:text-white rounded-2xl w-[94%] outline-none px-4 py-2 placeholder:text-[#818bff]"
                         type="text"
                         placeholder="Search"
                     />
                 </div>
             </div>
-            <div className="overflow-y-scroll bg-[#fff] dark:bg-gray-800 px-4 text-white scroll-smooth h-[79vh] scrollable">
+            <div className="overflow-y-scroll bg-[#fff] dark:bg-gray-900 px-4 text-white scroll-smooth h-[79vh] scrollable">
                 {ctc && !ctc.length ? (
                     <div></div>
                 ) : (
@@ -105,7 +105,7 @@ const Contacts = ({ setPop }: AddContactType) => {
                 )}
                 <div
                     onClick={() => setPop(true)}
-                    className="absolute cursor-pointer text-black rounded-[12px] p-1 bg-[#b1b7ff] bottom-8 right-8"
+                    className="absolute cursor-pointer text-black rounded-2xl p-1.5 bg-[#9ca5ff] bottom-8 right-8"
                 >
                     <GoPlus size={40} />
                 </div>

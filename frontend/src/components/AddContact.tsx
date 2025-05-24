@@ -2,6 +2,7 @@ import axios from "axios";
 import { useRef, type FormEvent } from "react";
 import { useSelector, type TypedUseSelectorHook } from "react-redux";
 import type { RootState } from "../redux/store";
+import { motion } from "framer-motion";
 
 //types
 interface AddContactType {
@@ -31,8 +32,8 @@ const AddContact = ({ setPop }: AddContactType) => {
                 .then((res) => {
                     if (res.data.message == "User is not existing!!!") {
                         console.log(res.data.message);
-                    }else if(res.data.message == "success"){
-                        setPop(false)
+                    } else if (res.data.message == "success") {
+                        setPop(false);
                     }
                 })
                 .catch((error) => {
@@ -44,13 +45,16 @@ const AddContact = ({ setPop }: AddContactType) => {
     };
 
     return (
-        <div
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             onClick={() => setPop(false)}
-            className="absolute z-30 bg-[#000]/25 backdrop-blur-[10px] w-screen h-screen flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
+            className="absolute z-30 bg-[#000]/25 backdrop-blur-[8px] w-screen h-screen flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
         >
             <div
                 onClick={(e) => e.stopPropagation()}
-                className="w-full bg-white rounded-3xl shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700"
+                className="w-full bg-white rounded-3xl shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-900/50 dark:border-gray-700"
             >
                 <div className="p-6 space-y-4 md:space-y-6 sm:p-8 text-white">
                     <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
@@ -67,7 +71,7 @@ const AddContact = ({ setPop }: AddContactType) => {
                                 id="email"
                                 type="email"
                                 placeholder="Alice@gmail.com"
-                                className="bg-gray-50 border mt-2 border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                className="bg-gray-50 border mt-2 border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             />
                         </div>
                         <div className="flex gap-4">
@@ -87,7 +91,7 @@ const AddContact = ({ setPop }: AddContactType) => {
                     </form>
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 };
 

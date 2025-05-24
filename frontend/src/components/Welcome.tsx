@@ -6,7 +6,7 @@ const Welcome = () => {
     return (
         <div
             onContextMenu={(e) => e.preventDefault()}
-            className="relative select-none hidden md:flex flex-1/3 bg-[#dee1ff] dark:bg-gray-900 text-black dark:text-white flex-col justify-center items-center text-center"
+            className="relative select-none hidden md:flex flex-1/3 bg-[#dee1ff] dark:bg-gray-950 text-black dark:text-white flex-col justify-center items-center text-center"
         >
             <BiMessageSquareDetail size={50} className="mb-4 text-[#626fff]" />
             <h1 className="font-semibold text-2xl mb-2">Welcome to Chat!</h1>
