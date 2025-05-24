@@ -49,6 +49,13 @@ export const sendMessage = async ({ data, io, map }: sndMsgType) => {
                 lastMessageAt: Date.now(),
             });
             await result.save();
+
+            new messageModel({
+                chatId: result._id,
+                body: msg,
+                from,
+                to,
+            }).save();
         }
 
         if (tosChat) {

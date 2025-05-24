@@ -210,13 +210,7 @@ const SignUp: React.FC = () => {
         // console.log('data inside the form', formData)
         e.preventDefault();
 
-        if (!formData.profile) {
-            setValid({
-                ...valid,
-                profile: { status: false, message: "Add your profile photo!" },
-            });
-            return;
-        } else if (!status) {
+        if (!status) {
             if (!formData.name) {
                 setValid({
                     ...valid,

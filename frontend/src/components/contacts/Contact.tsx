@@ -37,12 +37,18 @@ const Contact = ({ data, chatId, onUsers }: conType) => {
             <div className="relative flex items-center justify-center">
                 <img
                     className="object-cover min-w-[3.5em] max-h-[3.5em] rounded-full"
-                    src={`${import.meta.env.VITE_BASE_URL}/${
-                        data.members[0].userId.profile
+                    src={`${
+                        data.members[0].userId.profile !== ""
+                            ? import.meta.env.VITE_BASE_URL +
+                              "/" +
+                              data.members[0].userId.profile
+                            : "/user.png"
                     }`}
-                    alt="poda"
+                    alt={data.members[0].userId.name}
                 />
-                {onUsers.has(data.members[0].userId._id) && <span className="absolute border-[3px] border-white dark:border-black bg-green-400 w-3.5 h-3.5 right-0 bottom-0 rounded-full"></span>}
+                {onUsers.has(data.members[0].userId._id) && (
+                    <span className="absolute border-[3px] border-white dark:border-black bg-green-400 w-3.5 h-3.5 right-0 bottom-0 rounded-full"></span>
+                )}
             </div>
             <div
                 className={`font-normal h-[90%] flex justify-between items-center w-full`}

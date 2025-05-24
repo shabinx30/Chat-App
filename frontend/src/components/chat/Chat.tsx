@@ -149,8 +149,14 @@ const Chat = () => {
                 <div className="flex items-center gap-2 px-4">
                     <img
                         className="object-cover min-w-[3em] max-h-[3em] rounded-full"
-                        src={`${apiUrl}/${chat?.profile}`}
-                        alt="poda"
+                        src={`${
+                            chat?.profile !== ""
+                                ? import.meta.env.VITE_BASE_URL +
+                                  "/" +
+                                  chat?.profile
+                                : "/user.png"
+                        }`}
+                        alt={chat?.name}
                     />
                     <div>
                         <h1 className="font-normal">{chat?.name}</h1>
