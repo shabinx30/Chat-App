@@ -139,7 +139,7 @@ const Chat = () => {
             onContextMenu={(e) =>
                 menuContext({ e, containerRef, setPos, menuRef })
             }
-            className="hidden md:block flex-[calc(1/2.6*100%)] relative bg-[#dee1ff] dark:bg-[#131313]"
+            className={`hidden md:block ${ chatId ? 'flex-[calc(1/2.6*100%)]' : 'hidden'} relative bg-[#dee1ff] dark:bg-[#131313]`}
         >
             <div className="flex bg-[#fff] dark:bg-gray-900 border-b border-gray-800 dark:text-[#fff] text-[#000000] items-center py-4 px-2 justify-between top-0 w-[100%] h-[8.5vh]">
                 <div className="flex items-center gap-2 px-4">
