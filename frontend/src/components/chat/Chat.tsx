@@ -88,7 +88,6 @@ const Chat = () => {
 
         return () => {
             socket.off("chat message");
-            socket.disconnect();
         };
     }, [chatId]);
 
@@ -140,9 +139,9 @@ const Chat = () => {
             onContextMenu={(e) =>
                 menuContext({ e, containerRef, setPos, menuRef })
             }
-            className="hidden md:block flex-1/3 relative bg-[#dee1ff] dark:bg-[#131313]"
+            className="hidden md:block flex-[calc(1/2.6*100%)] relative bg-[#dee1ff] dark:bg-[#131313]"
         >
-            <div className="flex bg-[#fff] dark:bg-gray-900 dark:text-[#fff] text-[#000000] items-center py-4 px-2 justify-between top-0 w-[100%] h-[8.5vh]">
+            <div className="flex bg-[#fff] dark:bg-gray-900 border-b border-gray-800 dark:text-[#fff] text-[#000000] items-center py-4 px-2 justify-between top-0 w-[100%] h-[8.5vh]">
                 <div className="flex items-center gap-2 px-4">
                     <img
                         className="object-cover min-w-[3em] max-h-[3em] rounded-full"
@@ -156,7 +155,7 @@ const Chat = () => {
                         alt={chat?.name}
                     />
                     <div>
-                        <h1 className="font-normal">{chat?.name}</h1>
+                        <h1 className="font-semibold">{chat?.name}</h1>
                         {/* <p className="text-[0.76em] font-medium text-[#6b6b6b]">
                             Online
                         </p> */}
@@ -167,7 +166,7 @@ const Chat = () => {
             {/* By adding "flex flex-col-reverse" we lost scroll animation */}
             <div
                 ref={scrollRef}
-                className="px-4 overflow-y-auto bg-[#dee1ff] dark:bg-gray-950 scroll-smooth h-[91vh] pt-4 pb-[4.5em] flex flex-col-reverse scrollable"
+                className="px-4 overflow-y-auto bg-[#dee1ff] dark:bg-black scroll-smooth h-[91vh] pt-4 pb-[4.5em] flex flex-col-reverse scrollable"
             >
                 {messages.map((msg, index) => (
                     <Message

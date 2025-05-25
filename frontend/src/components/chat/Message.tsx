@@ -41,7 +41,7 @@ const Message = ({ msg, user }: Msg) => {
                     <div
                         className={`absolute ${
                             user == msg.from
-                                ? "text-[#666666] dark:text-[#5f5f5f]"
+                                ? "text-[#434343] dark:text-[#5f5f5f]"
                                 : "text-[#666666] dark:text-[#777777]"
                         } text-[#666666] dark:text-[#353535] right-1 bottom-0.5 text-[0.65em]`}
                     >

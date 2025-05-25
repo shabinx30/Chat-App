@@ -40,8 +40,8 @@ const Contact = ({ data, chatId, onUsers, chatMsg }: conType) => {
         <div
             onClick={() => navigate(`/chat/${data._id}`)}
             className={`w-full h-[4.5em] ${
-                chatId == data._id ? "bg-[#eff0ff] dark:bg-[#9ca5ff] text-black hover:bg-[#eff0ff] hover:dark:bg-[#8b94ff]" : "dark:text-[#eff0ff] hover:dark:bg-gray-700/50"
-            } hover:bg-[#eff0ff] rounded-2xl text-black flex justify-center gap-4 items-center px-4`}
+                chatId == data._id ? "bg-[#e2e4ff] dark:bg-[#9ca5ff] text-black hover:bg-[#d5d8ff] hover:dark:bg-[#8b94ff]" : "dark:text-[#eff0ff] hover:bg-[#eff0ff] hover:dark:bg-gray-700/50"
+            } duration-200 rounded-2xl text-black flex justify-center gap-4 items-center px-4`}
         >
             <div className="relative flex items-center justify-center">
                 <img
