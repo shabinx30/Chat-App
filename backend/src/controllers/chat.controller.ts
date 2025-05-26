@@ -3,8 +3,6 @@ import userModel from "../models/user.model";
 import chatModel from "../models/chat.model";
 import mongoose from "mongoose";
 
-// wanna combine into a one single doc
-
 export const addContact = async (req: Request, res: Response) => {
     try {
         const { userId, member, isGroup } = req.body;
@@ -58,10 +56,9 @@ export const getContacts = async (req: Request, res: Response) => {
     try {
         const userId = new mongoose.Types.ObjectId(req.body.userId); // ensure it's ObjectId
 
-        
-
-        let chat = await chatModel.find({"members.userId": userId}).populate("members.userId")
-        
+        let chat = await chatModel
+            .find({ "members.userId": userId })
+            .populate("members.userId");
 
         // console.log(result)
         res.status(200).json({ chat });

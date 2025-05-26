@@ -29,7 +29,7 @@ const Message = ({ msg, user }: Msg) => {
                         user == msg.from
                             ? "bg-[#9ca5ff]"
                             : "bg-[#fff] dark:bg-gray-800"
-                    } text-black rounded-lg pl-2 pt-1 pb-2.5 pr-[3em]`}
+                    } text-black rounded-lg pl-2 pt-1 pb-2.5 pr-[3em] `}
                 >
                     <p
                         className={`text-base ${

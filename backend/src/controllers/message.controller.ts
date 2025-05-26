@@ -44,7 +44,7 @@ export const sendMessage = async ({ data, io, map }: sndMsgType) => {
 
         await chatModel.updateOne(
             { chatId },
-            { $set: { lastMessageAt: new Date() } }
+            { $set: { lastMessageAt: Date.now() } }
         );
 
         let message = { ...result.toObject(), tosChat: chatId };
