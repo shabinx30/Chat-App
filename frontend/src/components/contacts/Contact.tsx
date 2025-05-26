@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSelector, type TypedUseSelectorHook } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import type { RootState } from "../../redux/store";
 
 //type for member
 interface membersType extends Document {
@@ -22,23 +20,22 @@ interface ctcType {
 }
 
 interface conType {
+    userId: string;
     data: ctcType;
     chatId: string | undefined;
     onUsers: Set<string>;
     chatMsg: string;
 }
 
-export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 
-const Contact = ({ data, chatId, onUsers, chatMsg }: conType) => {
+const Contact = ({ userId, data, chatId, onUsers, chatMsg }: conType) => {
     const navigate = useNavigate();
-    const state = useTypedSelector((state) => state);
 
     const [person, setPerson] = useState<membersType>();
 
     useEffect(() => {
         const res = data.members.filter(
-            (user) => user.userId._id != state.auth.user.userId
+            (user) => user.userId._id != userId
         )[0];
         setPerson(res);
     }, []);

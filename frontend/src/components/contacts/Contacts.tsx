@@ -100,7 +100,7 @@ const Contacts = ({ setPop }: AddContactType) => {
                     <div></div>
                 ) : (
                     ctc?.map((item, index) => (
-                        <Contact key={index} onUsers={onUsers} chatMsg={chatMsg} chatId={chatId} data={item} />
+                        <Contact key={index} userId={state.auth.user.userId} onUsers={onUsers} chatMsg={chatMsg} chatId={chatId} data={item} />
                     ))
                 )}
                 <div
