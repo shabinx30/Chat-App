@@ -33,62 +33,21 @@ export const getMessages = async (req: Request, res: Response) => {
 export const sendMessage = async ({ data, io, map }: sndMsgType) => {
     try {
         const { chatId, msg, to, from } = data;
-        const tosChat = await chatModel.findOne({
-            $and: [{ userId: to }, { "members.userId": from }],
-        });
-
-        if (!tosChat) {
-            const result = new chatModel({
-                userId: to,
-                members: [
-                    {
-                        userId: from,
-                    },
-                ],
-                isGroup: false,
-                lastMessageAt: Date.now(),
-            });
-            await result.save();
-
-            new messageModel({
-                chatId: result._id,
-                body: msg,
-                from,
-                to,
-            }).save();
-        }
-
-        if (tosChat) {
-            new messageModel({
-                chatId: tosChat._id,
-                body: msg,
-                from,
-                to,
-            }).save();
-        }
 
         let result = new messageModel({
             chatId,
             body: msg,
-            from,
             to,
+            from,
         });
-        // console.log(message)
         await result.save();
 
-        await chatModel.updateMany(
-            {
-                $or: [
-                    { userId: from, "members.userId": to },
-                    { userId: to, "members.userId": from },
-                ],
-            },
-            {
-                $set: { lastMessageAt: new Date() },
-            }
+        await chatModel.updateOne(
+            { chatId },
+            { $set: { lastMessageAt: new Date() } }
         );
 
-        let message = { ...result.toObject(), tosChat: tosChat?._id };
+        let message = { ...result.toObject(), tosChat: chatId };
 
         io.to(map.get(to)).emit("chat message", message);
     } catch (error) {

@@ -102,7 +102,7 @@ const Chat = () => {
                 let result = res.data.chat.members.filter(
                     (user: any) => user.userId._id != state.auth.user.userId
                 )[0];
-                // console.log(result);
+                // console.log(res.data.messages);
                 setChat(result.userId);
                 for (let data of res.data.messages) {
                     if (!set.has(data._id)) {
