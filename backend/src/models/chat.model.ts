@@ -5,19 +5,13 @@ interface membersType extends Document {
 }
 
 interface ChatType extends Document {
-    userId: Schema.Types.ObjectId;
+    members: membersType[];
     isGroup: Boolean;
     lastMessageAt: Date;
-    members: membersType[];
 }
 
 const chatSchema = new Schema<ChatType>(
     {
-        userId: {
-            type: Schema.Types.ObjectId,
-            ref: "User",
-            required: true,
-        },
         members: [
             {
                 userId: {

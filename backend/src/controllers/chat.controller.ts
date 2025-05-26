@@ -1,8 +1,7 @@
 import { Request, Response } from "express";
 import userModel from "../models/user.model";
 import chatModel from "../models/chat.model";
-import { DefaultEventsMap, Server } from "socket.io";
-
+import mongoose from "mongoose";
 
 // wanna combine into a one single doc
 
@@ -19,28 +18,36 @@ export const addContact = async (req: Request, res: Response) => {
 
         //checking the chat is already existing or not
         const chat = await chatModel.findOne({
-            $and: [{ userId }, { "members.userId": user._id }],
+            isGroup: false,
+            members: {
+                $all: [
+                    { $elemMatch: { userId: userId } },
+                    { $elemMatch: { userId: user._id } },
+                ],
+            },
         });
+
         if (chat) {
-            res.status(401).json({
-                message: "User is already existing in your chat",
-            });
+            res.status(401).json({ message: "Contact is already existing" });
             return;
         }
 
-        const result = new chatModel({
-            userId,
-            members: [
-                {
-                    userId: user._id,
-                },
-            ],
-            isGroup,
-            lastMessageAt: Date.now(),
-        });
-        await result.save();
-
-        res.status(201).json({ message: "success" });
+        if (!isGroup) {
+            const result = new chatModel({
+                members: [
+                    {
+                        userId: userId,
+                    },
+                    {
+                        userId: user._id,
+                    },
+                ],
+                isGroup,
+                lastMessageAt: Date.now(),
+            });
+            await result.save();
+            res.status(201).json({ message: "success" });
+        }
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: "Internal server Error" });
@@ -49,13 +56,15 @@ export const addContact = async (req: Request, res: Response) => {
 
 export const getContacts = async (req: Request, res: Response) => {
     try {
-        const userId = req.body.userId;
+        const userId = new mongoose.Types.ObjectId(req.body.userId); // ensure it's ObjectId
 
-        const chat = await chatModel
-            .find({ userId })
-            .populate("members.userId");
-        // console.log(chat);
-        res.status(201).json({ chat });
+        
+
+        let chat = await chatModel.find({"members.userId": userId}).populate("members.userId")
+        
+
+        // console.log(result)
+        res.status(200).json({ chat });
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: "Internal server Error" });
