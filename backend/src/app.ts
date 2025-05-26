@@ -7,7 +7,7 @@ import { connectDB } from "./libs/db.config";
 import { server, app } from "./libs/socket";
 import cors, { CorsOptions } from "cors";
 
-const allowedOrigins = ["http://localhost:3003"];
+const allowedOrigins = ["http://localhost:3003", "chat.tungstenz.online"];
 
 const corsOptions: CorsOptions = {
     origin: (
@@ -41,7 +41,6 @@ app.use("/api/chat", chatRouter);
 app.use("/api/message", messageRouter);
 
 const PORT = process.env.PORT || 5000;
-
 
 server.listen(PORT, () => {
     console.log(`server is running on http://localhost:${PORT}`);

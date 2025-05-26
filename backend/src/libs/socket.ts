@@ -8,7 +8,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
     cors: {
-        origin: ["http://localhost:3003"],
+        origin: ["http://localhost:3003", "chat.tungstenz.online"],
         methods: ["GET", "POST"],
     },
 });
@@ -22,16 +22,15 @@ io.on("connection", (socket) => {
     if (userId) {
         map.set(userId, socket.id);
         ids.set(socket.id, userId);
-        io.emit('online', [...map.keys()])
+        io.emit("online", [...map.keys()]);
     }
-
 
     socket.on("chat message", (data) => sendMessage({ data, io, map }));
 
     socket.on("disconnect", () => {
         map.delete(ids.get(socket.id));
         ids.delete(socket.id);
-        io.emit("online", [...map.keys()])
+        io.emit("online", [...map.keys()]);
         console.log("User disconnected:", socket.id);
     });
 });
