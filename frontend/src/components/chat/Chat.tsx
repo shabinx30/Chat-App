@@ -2,7 +2,13 @@ import { LuSendHorizontal } from "react-icons/lu";
 import { ImAttachment } from "react-icons/im";
 import { IoMdMore } from "react-icons/io";
 import Message from "./Message";
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import {
+    useCallback,
+    useEffect,
+    useRef,
+    useState,
+    type FormEvent,
+} from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { menuContext } from "./menuContext";
@@ -10,7 +16,7 @@ import axios from "axios";
 import { useSelector, type TypedUseSelectorHook } from "react-redux";
 import type { RootState } from "../../redux/store";
 import { useAppContext } from "../../context/AppContext";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { MdKeyboardDoubleArrowDown } from "react-icons/md";
 
 export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
@@ -31,6 +37,14 @@ interface Msg {
     body: string;
     createdAt: number;
     from: string;
+}
+
+function debounce(func: (...args: any[]) => void, delay: number) {
+    let time: ReturnType<typeof setTimeout>;
+    return (...args: any[]) => {
+        clearTimeout(time);
+        time = setTimeout(() => func(...args, delay));
+    };
 }
 
 const Chat = () => {
@@ -144,6 +158,16 @@ const Chat = () => {
         }
     };
 
+    const search = () => {
+        //
+    };
+
+    const debouncedSearch = useCallback(debounce(search, 300), []);
+
+    const handleTyping = () => {
+        debouncedSearch();
+    };
+
     return (
         <section
             ref={containerRef}
@@ -151,7 +175,7 @@ const Chat = () => {
             onContextMenu={(e) =>
                 menuContext({ e, containerRef, setPos, menuRef })
             }
-            className={`hidden md:block ${
+            className={` ${
                 chatId ? "flex-[calc(1/2.6*100%)]" : "hidden"
             } relative bg-[#dee1ff] dark:bg-[#131313]`}
         >
@@ -182,16 +206,18 @@ const Chat = () => {
                 ref={scrollRef}
                 className="px-4 overflow-y-auto bg-[#dee1ff] dark:bg-black scroll-smooth h-[91vh] pt-4 pb-[4.5em] flex flex-col-reverse scrollable"
             >
-                {messages.map((msg, index) => (
-                    <Message
-                        msg={msg}
-                        user={state.auth.user.userId}
-                        key={index}
-                        index={index}
-                        isLast={index === 0}
-                        onInViewChange={setIsLastMessageInView}
-                    />
-                ))}
+                <AnimatePresence>
+                    {messages.map((msg, index) => (
+                        <Message
+                            msg={msg}
+                            user={state.auth.user.userId}
+                            key={index}
+                            index={index}
+                            isLast={index === 0}
+                            onInViewChange={setIsLastMessageInView}
+                        />
+                    ))}
+                </AnimatePresence>
             </div>
             <motion.div
                 initial={{ opacity: 0 }}
@@ -208,6 +234,7 @@ const Chat = () => {
                             ref={msgRef}
                             className="dark:text-white w-full outline-none h-[3.4em] placeholder:text-gray-600 dark:placeholder:text-gray-400 px-2"
                             type="text"
+                            onChange={handleTyping}
                             placeholder="Type a message"
                         />
                     </form>

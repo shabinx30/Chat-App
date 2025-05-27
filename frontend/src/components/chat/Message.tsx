@@ -1,3 +1,6 @@
+import { useRef, useEffect } from "react";
+import { motion, useInView } from "framer-motion";
+
 interface Msg {
     msg: {
         body: string;
@@ -9,9 +12,6 @@ interface Msg {
     isLast?: boolean;
     onInViewChange?: (inView: boolean) => void;
 }
-
-import { useRef, useEffect } from "react";
-import { useInView } from "framer-motion";
 
 const Message = ({ msg, user, isLast, onInViewChange }: Msg) => {
     const ref = useRef<HTMLDivElement>(null);
@@ -25,7 +25,12 @@ const Message = ({ msg, user, isLast, onInViewChange }: Msg) => {
     }, [isInView, isLast, onInViewChange]);
 
     return (
-        <div ref={isLast ? ref : null} className="px-2 my-0.5">
+        <motion.div
+            ref={isLast ? ref : null}
+            className="px-2 my-0.5"
+            initial={{ y: 10 }}
+            animate={{ y: 0 }}
+        >
             <div
                 className={`flex ${
                     user == msg.from ? "justify-end" : "justify-start"
@@ -65,7 +70,7 @@ const Message = ({ msg, user, isLast, onInViewChange }: Msg) => {
                     </div>
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 };
 
