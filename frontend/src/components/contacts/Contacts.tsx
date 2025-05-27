@@ -79,7 +79,7 @@ const Contacts = ({ setPop }: AddContactType) => {
     },[]);
 
     return (
-        <section className="flex-1 bg-[#ffffff] relative dark:bg-gray-900 text-black border-r border-gray-800">
+        <section className="flex-1 bg-[#ffffff] relative dark:bg-gray-900 text-black dark:border-r border-gray-800">
             <div className="block h-[21vh]">
                 <div className="mx-4 h-[4em] flex justify-between items-center">
                     <h1 className="font-bold text-3xl text-[#626fff]">Chat</h1>

@@ -155,7 +155,7 @@ const Chat = () => {
                 chatId ? "flex-[calc(1/2.6*100%)]" : "hidden"
             } relative bg-[#dee1ff] dark:bg-[#131313]`}
         >
-            <div className="flex bg-[#fff] dark:bg-gray-900 border-b border-gray-800 dark:text-[#fff] text-[#000000] items-center py-4 px-2 justify-between top-0 w-[100%] h-[8.5vh]">
+            <div className="flex bg-[#fff] dark:bg-gray-900 dark:border-b border-gray-800 dark:text-[#fff] text-[#000000] items-center py-4 px-2 justify-between top-0 w-[100%] h-[8.5vh]">
                 <div className="flex items-center gap-2 px-4">
                     <img
                         className="object-cover min-w-[3em] max-h-[3em] rounded-full"
@@ -222,7 +222,7 @@ const Chat = () => {
                 initial={isLastMessageInView ? { scale: 1 } : { scale: 0 }}
                 animate={isLastMessageInView ? { scale: 0 } : { scale: 1 }}
                 onClick={scrollToBottom}
-                className="absolute cursor-pointer dark:bg-gray-800 dark:text-[#9ca5ff] bottom-[5em] rounded-2xl shadow-[0_2px_10px] shadow-black right-10 p-2"
+                className="absolute cursor-pointer bg-white dark:bg-gray-800 dark:text-[#9ca5ff] bottom-[5em] rounded-2xl shadow-[0_2px_10px] shadow-black right-10 p-2"
             >
                 <MdKeyboardDoubleArrowDown size={26} />
             </motion.div>
