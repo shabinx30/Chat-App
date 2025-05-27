@@ -11,6 +11,7 @@ import { useSelector, type TypedUseSelectorHook } from "react-redux";
 import type { RootState } from "../../redux/store";
 import { useAppContext } from "../../context/AppContext";
 import { motion } from "framer-motion";
+import { MdKeyboardDoubleArrowDown } from "react-icons/md";
 
 export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 
@@ -135,6 +136,14 @@ const Chat = () => {
         }
     };
 
+    const [isLastMessageInView, setIsLastMessageInView] = useState(true);
+
+    const scrollToBottom = () => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollTo({ top: 0, behavior: "smooth" });
+        }
+    };
+
     return (
         <section
             ref={containerRef}
@@ -178,6 +187,9 @@ const Chat = () => {
                         msg={msg}
                         user={state.auth.user.userId}
                         key={index}
+                        index={index}
+                        isLast={index === 0}
+                        onInViewChange={setIsLastMessageInView}
                     />
                 ))}
             </div>
@@ -203,6 +215,16 @@ const Chat = () => {
                         <LuSendHorizontal size={22} />
                     </div>
                 </div>
+            </motion.div>
+
+            {/* bottom button */}
+            <motion.div
+                initial={isLastMessageInView ? { scale: 1 } : { scale: 0 }}
+                animate={isLastMessageInView ? { scale: 0 } : { scale: 1 }}
+                onClick={scrollToBottom}
+                className="absolute cursor-pointer dark:bg-gray-800 dark:text-[#9ca5ff] bottom-[5em] rounded-2xl shadow-[0_2px_10px] shadow-black right-10 p-2"
+            >
+                <MdKeyboardDoubleArrowDown size={26} />
             </motion.div>
             {pos.visible && (
                 <ul
