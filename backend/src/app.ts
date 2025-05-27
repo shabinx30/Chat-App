@@ -7,7 +7,7 @@ import { connectDB } from "./libs/db.config";
 import { server, app } from "./libs/socket";
 import cors, { CorsOptions } from "cors";
 
-const allowedOrigins = ["http://localhost:3003", "chat.tungstenz.online"];
+const allowedOrigins = ["http://localhost:3003", "https://chat.tungstenz.online"];
 
 const corsOptions: CorsOptions = {
     origin: (

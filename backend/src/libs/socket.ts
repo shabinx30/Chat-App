@@ -8,7 +8,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
     cors: {
-        origin: ["http://localhost:3003", "chat.tungstenz.online"],
+        origin: ["http://localhost:3003", "https://chat.tungstenz.online"],
         methods: ["GET", "POST"],
     },
 });
