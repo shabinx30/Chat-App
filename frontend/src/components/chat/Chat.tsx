@@ -177,7 +177,7 @@ const Chat = () => {
             }
             className={` ${
                 chatId ? "flex-[calc(1/2.6*100%)]" : "hidden"
-            } relative bg-[#dee1ff] dark:bg-[#131313]`}
+            } relative h-[100dvh] bg-[#dee1ff] dark:bg-[#131313]`}
         >
             <div className="flex bg-[#fff] dark:bg-gray-900 dark:border-b border-gray-800 dark:text-[#fff] text-[#000000] items-center py-4 px-2 justify-between top-0 w-[100%] h-[8.5vh]">
                 <div className="flex items-center gap-2 px-4">
