@@ -5,11 +5,12 @@ import type React from "react";
 
 const Home = ({ aside }: { aside: React.ReactNode }) => {
     const [isPop, setPop] = useState<boolean>(false);
+    const [change, setChange] = useState('')
 
     return (
         <div className="relative flex w-[100vw] h-[100vh]">
-            {isPop && <AddContact setPop={setPop} />}
-            <Contacts setPop={setPop} />
+            {isPop && <AddContact setPop={setPop} setChange={setChange}/>}
+            <Contacts change={change} setPop={setPop}/>
             {aside}
         </div>
     );

@@ -7,10 +7,11 @@ import { motion } from "framer-motion";
 //types
 interface AddContactType {
     setPop: React.Dispatch<React.SetStateAction<boolean>>;
+    setChange: React.Dispatch<React.SetStateAction<string>>;
 }
 export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 
-const AddContact = ({ setPop }: AddContactType) => {
+const AddContact = ({ setPop, setChange }: AddContactType) => {
     const emailRef = useRef<HTMLInputElement>(null);
     const state = useTypedSelector((state) => state);
 
@@ -33,6 +34,9 @@ const AddContact = ({ setPop }: AddContactType) => {
                     if (res.data.message == "User is not existing!!!") {
                         console.log(res.data.message);
                     } else if (res.data.message == "success") {
+                        if(emailRef.current) {
+                            setChange(String(emailRef.current.value))
+                        }
                         setPop(false);
                     }
                 })

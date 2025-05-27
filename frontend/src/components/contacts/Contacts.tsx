@@ -10,6 +10,7 @@ import { useAppContext } from "../../context/AppContext";
 
 //function type
 interface AddContactType {
+    change: string;
     setPop: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -33,7 +34,7 @@ interface ctcType {
 
 export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 
-const Contacts = ({ setPop }: AddContactType) => {
+const Contacts = ({ change, setPop }: AddContactType) => {
     const [ctc, setCtc] = useState<ctcType[]>([]);
     const [onUsers, setOnUsers] = useState<Set<string>>(new Set())
     const [chatMsg, setChatMsg] = useState<string>('')
@@ -50,6 +51,7 @@ const Contacts = ({ setPop }: AddContactType) => {
     };
 
     useEffect(() => {
+        setCtc([])
         const getContacts = () => {
             axios
                 .post(
@@ -59,7 +61,7 @@ const Contacts = ({ setPop }: AddContactType) => {
                 .then((res) => {
                     for (let con of res.data.chat) {
                         if(!set.has(con._id)) {
-                            setCtc((p) => [...p, con]);
+                            setCtc((p) => [con, ...p]);
                             set.add(con._id)
                         }
                     }
@@ -76,7 +78,7 @@ const Contacts = ({ setPop }: AddContactType) => {
             console.log(message)
             setChatMsg(message.tosChat)
         })
-    },[]);
+    },[change]);
 
     return (
         <section className="flex-1 bg-[#ffffff] relative dark:bg-gray-900 text-black dark:border-r border-gray-800">
