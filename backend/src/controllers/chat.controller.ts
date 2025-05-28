@@ -71,19 +71,21 @@ export const getContacts = async (req: Request, res: Response) => {
 export const searchContacts = async (req: Request, res: Response) => {
     try {
         const { userId, value } = req.body;
-        const chat = await chatModel.find({
-            $and: [
-                {
-                    $or: [
-                        { name: { $regex: value, $options: "i" } },
-                        { email: { $regex: value, $options: "i" } },
-                    ],
-                },
-                {
-                    "members.userId": userId
-                }
-            ],
-        });
+        console.log(userId, value)
+        const chats = await chatModel
+            .find({ "members.userId": userId })
+            .populate("members.userId", "name email profile"); 
+
+        
+        const chat = chats.filter((chat: any) =>
+            chat.members.some((member: any) => {
+                const user = member.userId;
+                if (user._id.toString() === userId) return false;
+                const regex = new RegExp(value, "i");
+                return regex.test(user.name) || regex.test(user.email);
+            })
+        );
+        console.log(chat[0].members)
         res.status(201).json({chat})
     } catch (error) {
         console.log('Internal server error', error)

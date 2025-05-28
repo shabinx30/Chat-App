@@ -88,15 +88,14 @@ const Contacts = ({ change, setPop }: AddContactType) => {
     const searchRef = useRef<HTMLInputElement>(null);
 
     const searchContact = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value.trim();
+        console.log(value)
         const data = {
-            value: e.target.value.trim(),
-            userId: state.auth.user.userId
-        }
+            value: value,
+            userId: state.auth.user.userId,
+        };
         axios
-            .post(
-                `${VITE_BASE_URL}/api/chat/searchcontacts`,
-                data
-            )
+            .post(`${VITE_BASE_URL}/api/chat/searchcontacts`, data)
             .then((res) => {
                 for (let con of res.data.chat) {
                     if (!set.has(con._id)) {
@@ -105,9 +104,9 @@ const Contacts = ({ change, setPop }: AddContactType) => {
                     }
                 }
             })
-            .catch(error => {
-                console.log(error)
-            })
+            .catch((error) => {
+                console.error(error);
+            });
     };
 
     const debouncedSearch = useCallback(debounce(searchContact, 500), []);
