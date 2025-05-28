@@ -207,7 +207,7 @@ const Chat = () => {
                             placeholder="Type a message"
                         />
                     </form>
-                    <div onClick={sendMessage} className="bg-[#bec3ff] dark:bg-[#b1b7ff] dark:text-black cursor-pointer py-2 pl-2.5 pr-1.5 rounded-[12px]">
+                    <div onClick={() => sendMessage()} className="bg-[#bec3ff] dark:bg-[#b1b7ff] dark:text-black cursor-pointer py-2 pl-2.5 pr-1.5 rounded-[12px]">
                         <LuSendHorizontal size={22} />
                     </div>
                 </div>
