@@ -107,7 +107,7 @@ const Contacts = ({ change, setPop }: AddContactType) => {
                 )}
                 <div
                     onClick={() => setPop(true)}
-                    className="absolute cursor-pointer text-black rounded-2xl p-1.5 bg-[#9ca5ff] bottom-8 right-8"
+                    className="absolute cursor-pointer text-black rounded-[22px] p-1.5 bg-[#9ca5ff] bottom-8 right-8"
                 >
                     <GoPlus size={40} />
                 </div>

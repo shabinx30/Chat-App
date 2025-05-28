@@ -101,8 +101,10 @@ const Chat = () => {
             });
     }, [chatId]);
 
-    const sendMessage = (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const sendMessage = (e: FormEvent<HTMLFormElement> | null = null) => {
+        if(e) {
+            e.preventDefault();
+        }
         if (msgRef.current?.value.trim()) {
             socket.emit("chat message", {
                 msg: msgRef.current?.value,
@@ -205,7 +207,7 @@ const Chat = () => {
                             placeholder="Type a message"
                         />
                     </form>
-                    <div className="bg-[#bec3ff] dark:bg-[#b1b7ff] dark:text-black cursor-pointer py-2 pl-2.5 pr-1.5 rounded-[12px]">
+                    <div onClick={sendMessage} className="bg-[#bec3ff] dark:bg-[#b1b7ff] dark:text-black cursor-pointer py-2 pl-2.5 pr-1.5 rounded-[12px]">
                         <LuSendHorizontal size={22} />
                     </div>
                 </div>
