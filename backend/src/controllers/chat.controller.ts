@@ -67,3 +67,25 @@ export const getContacts = async (req: Request, res: Response) => {
         res.status(500).json({ message: "Internal server Error" });
     }
 };
+
+export const searchContacts = async (req: Request, res: Response) => {
+    try {
+        const { userId, value } = req.body;
+        const chat = await chatModel.find({
+            $and: [
+                {
+                    $or: [
+                        { name: { $regex: value, options: "i" } },
+                        { email: { $regex: value, options: "i" } },
+                    ],
+                },
+                {
+                    "members.userId": userId
+                }
+            ],
+        });
+        res.status(201).json({chat})
+    } catch (error) {
+        console.log('Internal server error', error)
+    }
+};
