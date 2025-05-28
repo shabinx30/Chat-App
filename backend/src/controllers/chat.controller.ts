@@ -75,8 +75,8 @@ export const searchContacts = async (req: Request, res: Response) => {
             $and: [
                 {
                     $or: [
-                        { name: { $regex: value, options: "i" } },
-                        { email: { $regex: value, options: "i" } },
+                        { name: { $regex: value, $options: "i" } },
+                        { email: { $regex: value, $options: "i" } },
                     ],
                 },
                 {
