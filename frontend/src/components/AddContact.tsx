@@ -69,7 +69,7 @@ const AddContact = ({ setPop, setChange }: AddContactType) => {
                         className="flex flex-col gap-8"
                     >
                         <div>
-                            <label htmlFor="email">Your email</label>
+                            <label htmlFor="email">Enter email</label>
                             <input
                                 ref={emailRef}
                                 id="email"

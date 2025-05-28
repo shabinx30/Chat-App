@@ -10,8 +10,6 @@ import {
     type FormEvent,
 } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { IoCloseCircleOutline } from "react-icons/io5";
-import { menuContext } from "./menuContext";
 import axios from "axios";
 import { useSelector, type TypedUseSelectorHook } from "react-redux";
 import type { RootState } from "../../redux/store";
@@ -21,11 +19,6 @@ import { MdKeyboardDoubleArrowDown } from "react-icons/md";
 
 export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 
-interface PosType {
-    visible: boolean;
-    x: number;
-    y: number;
-}
 
 interface chatType {
     _id: string;
@@ -60,30 +53,7 @@ const Chat = () => {
         }
     }, []);
 
-    const [pos, setPos] = useState<PosType>({ visible: false, x: 0, y: 0 });
-    const menuRef = useRef<HTMLUListElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
-
-    const handleClick = () => {
-        if (pos.visible == false) {
-            return;
-        }
-        setPos((prev) => ({ ...prev, visible: false }));
-    };
-
-    // Close menu when clicking outside
-    useEffect(() => {
-        const handleOutsideClick = (e: MouseEvent) => {
-            if (
-                menuRef.current &&
-                !menuRef.current.contains(e.target as Node)
-            ) {
-                setPos((prev) => ({ ...prev, visible: false }));
-            }
-        };
-        document.addEventListener("click", handleOutsideClick);
-        return () => document.removeEventListener("click", handleOutsideClick);
-    }, []);
 
     const navigate = useNavigate();
 
@@ -171,10 +141,6 @@ const Chat = () => {
     return (
         <section
             ref={containerRef}
-            onClick={handleClick}
-            onContextMenu={(e) =>
-                menuContext({ e, containerRef, setPos, menuRef })
-            }
             className={` ${
                 chatId ? "flex-[calc(1/2.6*100%)]" : "hidden"
             } relative h-[100dvh] bg-[#dee1ff] dark:bg-[#131313]`}
@@ -253,28 +219,6 @@ const Chat = () => {
             >
                 <MdKeyboardDoubleArrowDown size={26} />
             </motion.div>
-            {pos.visible && (
-                <ul
-                    onClick={(e) => e.stopPropagation()}
-                    ref={menuRef}
-                    className="absolute bg-white dark:bg-gray-800 rounded-2xl shadow-[0_2px_10px] shadow-black/50"
-                    style={{
-                        top: `${pos.y}px`,
-                        left: `${pos.x}px`,
-                    }}
-                >
-                    <li
-                        onClick={() => navigate("/")}
-                        className="dark:text-white py-2 px-4 cursor-pointer flex gap-1.5 justify-center items-center"
-                    >
-                        <IoCloseCircleOutline
-                            size={18}
-                            className="text-red-400"
-                        />
-                        <p>Close chat</p>
-                    </li>
-                </ul>
-            )}
         </section>
     );
 };
