@@ -101,11 +101,14 @@ const Chat = () => {
             });
     }, [chatId]);
 
+    const [rotate, setRotate] = useState(0);
+
     const sendMessage = (e: FormEvent<HTMLFormElement> | null = null) => {
-        if(e) {
+        if (e) {
             e.preventDefault();
         }
         if (msgRef.current?.value.trim()) {
+            setRotate((prev) => prev + 360)
             socket.emit("chat message", {
                 msg: msgRef.current?.value,
                 chatId: chatId,
@@ -149,7 +152,11 @@ const Chat = () => {
         >
             <div className="flex bg-[#fff] dark:bg-gray-900 dark:border-b border-gray-800 dark:text-[#fff] text-[#000000] items-center py-4 px-2 justify-between top-0 w-[100%] h-[8.5vh]">
                 <div className="flex items-center gap-1 md:gap-3 md:px-2">
-                    <IoIosArrowBack className="cursor-pointer" onClick={() => navigate('/')} size={30} />
+                    <IoIosArrowBack
+                        className="cursor-pointer"
+                        onClick={() => navigate("/")}
+                        size={30}
+                    />
                     <img
                         className="object-cover min-w-[2.5em] max-h-[2.5em] rounded-full"
                         src={`${
@@ -207,8 +214,20 @@ const Chat = () => {
                             placeholder="Type a message"
                         />
                     </form>
-                    <div onClick={() => sendMessage()} className="bg-[#bec3ff] dark:bg-[#b1b7ff] dark:text-black cursor-pointer py-2 pl-2.5 pr-1.5 rounded-[12px]">
-                        <LuSendHorizontal size={22} />
+                    <div
+                        onClick={() => sendMessage()}
+                        className="bg-[#bec3ff] perspective-normal dark:bg-[#b1b7ff] dark:text-black cursor-pointer py-2 pl-2.5 pr-1.5 rounded-[12px]"
+                    >
+                        <motion.div
+                            animate={{ rotateY: rotate }}
+                            transition={{ duration: .8 }}
+                            className="transform-3d"
+                        >
+                            <LuSendHorizontal
+                                className="translate-z-[4em]"
+                                size={22}
+                            />
+                        </motion.div>
                     </div>
                 </div>
             </motion.div>
