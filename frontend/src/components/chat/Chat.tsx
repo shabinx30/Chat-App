@@ -16,9 +16,9 @@ import type { RootState } from "../../redux/store";
 import { useAppContext } from "../../context/AppContext";
 import { AnimatePresence, motion } from "framer-motion";
 import { MdKeyboardDoubleArrowDown } from "react-icons/md";
+import { IoIosArrowBack } from "react-icons/io";
 
 export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
-
 
 interface chatType {
     _id: string;
@@ -146,7 +146,8 @@ const Chat = () => {
             } relative h-[100dvh] bg-[#dee1ff] dark:bg-[#131313]`}
         >
             <div className="flex bg-[#fff] dark:bg-gray-900 dark:border-b border-gray-800 dark:text-[#fff] text-[#000000] items-center py-4 px-2 justify-between top-0 w-[100%] h-[8.5vh]">
-                <div className="flex items-center gap-2 px-4">
+                <div className="flex items-center gap-3 px-4">
+                    <IoIosArrowBack className="cursor-pointer" onClick={() => navigate('/')} size={30} />
                     <img
                         className="object-cover min-w-[3em] max-h-[3em] rounded-full"
                         src={`${
