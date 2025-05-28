@@ -146,10 +146,10 @@ const Chat = () => {
             } relative h-[100dvh] bg-[#dee1ff] dark:bg-[#131313]`}
         >
             <div className="flex bg-[#fff] dark:bg-gray-900 dark:border-b border-gray-800 dark:text-[#fff] text-[#000000] items-center py-4 px-2 justify-between top-0 w-[100%] h-[8.5vh]">
-                <div className="flex items-center gap-3 px-4">
+                <div className="flex items-center gap-3 px-2">
                     <IoIosArrowBack className="cursor-pointer" onClick={() => navigate('/')} size={30} />
                     <img
-                        className="object-cover min-w-[3em] max-h-[3em] rounded-full"
+                        className="object-cover min-w-[2.5em] max-h-[2.5em] rounded-full"
                         src={`${
                             chat?.profile !== ""
                                 ? import.meta.env.VITE_BASE_URL +
