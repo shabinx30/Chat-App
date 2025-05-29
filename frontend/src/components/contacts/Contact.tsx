@@ -87,7 +87,7 @@ const Contact = ({
             <div
                 className={`font-normal h-[90%] flex justify-between items-center w-full`}
             >
-                <div className="w-full flex flex-col">
+                <div className="flex flex-col">
                     <p className={chatId == data._id ? "font-semibold" : ""}>
                         {person?.userId.name}
                     </p>
