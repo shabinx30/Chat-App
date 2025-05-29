@@ -1,3 +1,4 @@
+import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -33,16 +34,20 @@ interface typing {
     chatId: string;
 }
 
-
-const Contact = ({ userId, data, chatId, onUsers, chatMsg, isTyping }: conType) => {
+const Contact = ({
+    userId,
+    data,
+    chatId,
+    onUsers,
+    chatMsg,
+    isTyping,
+}: conType) => {
     const navigate = useNavigate();
 
     const [person, setPerson] = useState<membersType>();
 
     useEffect(() => {
-        const res = data.members.filter(
-            (user) => user.userId._id != userId
-        )[0];
+        const res = data.members.filter((user) => user.userId._id != userId)[0];
         setPerson(res);
     });
 
@@ -82,10 +87,25 @@ const Contact = ({ userId, data, chatId, onUsers, chatMsg, isTyping }: conType) 
             <div
                 className={`font-normal h-[90%] flex justify-between items-center w-full`}
             >
-                <p className={`${chatId == data._id ? "font-semibold" : ""}`}>
-                    {person?.userId.name}
-                </p>
-                {data._id == isTyping?.chatId && isTyping.isTyping && <p>Typing</p>}
+                <div className="w-full flex flex-col">
+                    <p className={chatId == data._id ? "font-semibold" : ""}>
+                        {person?.userId.name}
+                    </p>
+                    <AnimatePresence>
+                        {data._id == isTyping?.chatId && isTyping.isTyping && (
+                            <motion.p
+                                key="typing"
+                                initial={{ height: 0, opacity: 0 }}
+                                animate={{ height: "auto", opacity: 1 }}
+                                exit={{ height: 0, opacity: 0 }}
+                                transition={{ duration: 0.3 }}
+                                className="text-sm font-semibold text-[#626fff]"
+                            >
+                                Typing...
+                            </motion.p>
+                        )}
+                    </AnimatePresence>
+                </div>
                 {chatMsg == data._id ? (
                     <p
                         className={`${
