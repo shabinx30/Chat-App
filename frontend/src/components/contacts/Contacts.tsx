@@ -1,5 +1,5 @@
 import Contact from "./Contact";
-import { IoMdSettings } from "react-icons/io";
+import { LuSettings } from "react-icons/lu";
 import { GoPlus } from "react-icons/go";
 import { useCallback, useEffect, useRef, useState } from "react";
 import axios from "axios";
@@ -115,7 +115,7 @@ const Contacts = ({ change, setPop }: AddContactType) => {
                 <div className="mx-4 h-[4em] flex justify-between items-center">
                     <h1 className="font-bold text-3xl text-[#626fff]">Chat</h1>
                     <div className="bg-[#bec3ff] dark:bg-[#9ca5ff] dark:text-black cursor-pointer p-2 rounded-2xl">
-                        <IoMdSettings size={24} />
+                        <LuSettings size={24} />
                     </div>
                 </div>
                 <div className="flex justify-center mt-[2em] mb-[1em]">
@@ -130,7 +130,12 @@ const Contacts = ({ change, setPop }: AddContactType) => {
             </div>
             <div className="overflow-y-scroll bg-[#fff] dark:bg-gray-900 px-4 text-white scroll-smooth h-[79vh] scrollable">
                 {ctc && !ctc.length ? (
-                    <div></div>
+                    <div className="flex h-[20em] justify-center items-center">
+                        <div className="text-center flex flex-col gap-2 font-semibold">
+                            <div><span className=""></span>No Contacts</div>
+                            <p className="text-base text-[#72759c]">Tap the plus to add new contacts</p>
+                        </div>
+                    </div>
                 ) : (
                     ctc?.map((item, index) => (
                         <Contact
