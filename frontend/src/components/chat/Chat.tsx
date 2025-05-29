@@ -147,7 +147,7 @@ const Chat = () => {
     };
 
     useEffect(() => {
-        if (typing == true || typing == false) {
+        if (typeof typing == "boolean") {
             console.log(typing);
             socket.emit("typing", {
                 typing,
