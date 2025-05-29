@@ -14,7 +14,7 @@ import axios from "axios";
 import { useSelector, type TypedUseSelectorHook } from "react-redux";
 import type { RootState } from "../../redux/store";
 import { useAppContext } from "../../context/AppContext";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { MdKeyboardDoubleArrowDown } from "react-icons/md";
 import { IoIosArrowBack } from "react-icons/io";
 import debounce from "../../libs/debouncer";
@@ -31,6 +31,11 @@ interface Msg {
     body: string;
     createdAt: number;
     from: string;
+}
+
+interface typing {
+    isTyping: boolean;
+    chatId: string;
 }
 
 const Chat = () => {
@@ -150,6 +155,14 @@ const Chat = () => {
         }
     }, [typing]);
 
+    const [isTyping, setIsTyping] = useState<typing>();
+
+    useEffect(() => {
+        socket.on("typing", (res) => {
+            setIsTyping({ isTyping: res.typing, chatId: res.chatId });
+        });
+    }, []);
+
     return (
         <section
             ref={containerRef}
@@ -189,6 +202,15 @@ const Chat = () => {
                 ref={scrollRef}
                 className="px-4 overflow-y-auto bg-[#dee1ff] dark:bg-black scroll-smooth h-[91vh] pt-4 pb-[4.5em] flex flex-col-reverse scrollable"
             >
+                <AnimatePresence>
+                    {isTyping?.isTyping && chatId == isTyping.chatId && (
+                        <motion.div
+                            className="text-white w-[3em] min-h-[2.6em] rounded-lg bg-[#fff] dark:bg-gray-800 ml-2 mt-0.5"
+                        >
+                            <img className="object-cover" src="/5V1YDdBVLZ.gif" alt="a" />
+                        </motion.div>
+                    )}
+                </AnimatePresence>
                 {messages.map((msg, index) => (
                     <Message
                         msg={msg}
