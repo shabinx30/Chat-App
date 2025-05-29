@@ -118,7 +118,7 @@ const Contacts = ({ change, setPop }: AddContactType) => {
         >
             <div className="block h-[21vh]">
                 <div className="mx-4 h-[4em] flex justify-between items-center">
-                    <h1 className="font-bold text-3xl text-[#626fff]">Chat</h1>
+                    <h1 className="font-bold text-3xl text-[#626fff]">Convo</h1>
                     <div className="bg-[#bec3ff] dark:bg-[#9ca5ff] dark:text-black cursor-pointer p-2 rounded-2xl">
                         <LuSettings size={24} />
                     </div>
