@@ -17,6 +17,7 @@ import { useAppContext } from "../../context/AppContext";
 import { AnimatePresence, motion } from "framer-motion";
 import { MdKeyboardDoubleArrowDown } from "react-icons/md";
 import { IoIosArrowBack } from "react-icons/io";
+import debounce from "../../libs/debouncer";
 
 export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 
@@ -30,14 +31,6 @@ interface Msg {
     body: string;
     createdAt: number;
     from: string;
-}
-
-function debounce(func: (...args: any[]) => void, delay: number) {
-    let timeoutId: ReturnType<typeof setTimeout>;
-    return (...args: any[]) => {
-        clearTimeout(timeoutId);
-        timeoutId = setTimeout(() => func(...args), delay);
-    };
 }
 
 const Chat = () => {

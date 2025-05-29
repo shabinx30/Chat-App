@@ -7,6 +7,7 @@ import { useSelector, type TypedUseSelectorHook } from "react-redux";
 import type { RootState } from "../../redux/store";
 import { useParams } from "react-router-dom";
 import { useAppContext } from "../../context/AppContext";
+import debounce from "../../libs/debouncer";
 
 //function type
 interface AddContactType {
@@ -30,14 +31,6 @@ interface ctcType {
     members: membersType[];
     isGroup: boolean;
     lastMessageAt: Date;
-}
-
-function debounce(func: (...args: any[]) => void, delay: number) {
-    let timeoutId: ReturnType<typeof setTimeout>;
-    return (...args: any[]) => {
-        clearTimeout(timeoutId);
-        timeoutId = setTimeout(() => func(...args), delay);
-    };
 }
 
 interface typing {
