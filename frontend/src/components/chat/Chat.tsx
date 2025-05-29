@@ -33,10 +33,10 @@ interface Msg {
 }
 
 function debounce(func: (...args: any[]) => void, delay: number) {
-    let time: ReturnType<typeof setTimeout>;
+    let timeoutId: ReturnType<typeof setTimeout>;
     return (...args: any[]) => {
-        clearTimeout(time);
-        time = setTimeout(() => func(...args, delay));
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => func(...args), delay);
     };
 }
 
@@ -108,7 +108,7 @@ const Chat = () => {
             e.preventDefault();
         }
         if (msgRef.current?.value.trim()) {
-            setRotate((prev) => prev + 360)
+            setRotate((prev) => prev + 360);
             socket.emit("chat message", {
                 msg: msgRef.current?.value,
                 chatId: chatId,
@@ -133,15 +133,28 @@ const Chat = () => {
         }
     };
 
-    const search = () => {
-        //
+    const [typing, setTyping] = useState<boolean>();
+
+    const reset = () => {
+        setTyping(false);
     };
 
-    const debouncedSearch = useCallback(debounce(search, 300), []);
+    const debouncedSearch = useCallback(debounce(reset, 500), []);
 
     const handleTyping = () => {
+        setTyping(true);
         debouncedSearch();
     };
+
+    useEffect(() => {
+        if (typing == true || typing == false) {
+            console.log(typing);
+            socket.emit("typing", {
+                chatId,
+                userId: state.auth.user.userId,
+            });
+        }
+    }, [typing]);
 
     return (
         <section
@@ -220,7 +233,12 @@ const Chat = () => {
                     >
                         <motion.div
                             animate={{ rotateY: rotate }}
-                            transition={{ duration: .8 }}
+                            transition={{
+                                type: "spring",
+                                stiffness: 120,
+                                damping: 25,
+                                duration: 1,
+                            }}
                             className="transform-3d"
                         >
                             <LuSendHorizontal
