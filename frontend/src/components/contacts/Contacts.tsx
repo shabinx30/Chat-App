@@ -51,8 +51,7 @@ const Contacts = ({ change, setPop }: AddContactType) => {
     const { socket } = useAppContext();
     const { chatId } = useParams();
 
-    //for dev
-    const set = new Set();
+    
     const { VITE_BASE_URL } = import.meta.env;
     const userData = {
         userId: state.auth.user.userId,
@@ -65,10 +64,7 @@ const Contacts = ({ change, setPop }: AddContactType) => {
                 .post(`${VITE_BASE_URL}/api/chat/getcontacts`, userData)
                 .then((res) => {
                     for (let con of res.data.chat) {
-                        if (!set.has(con._id)) {
-                            setCtc((p) => [con, ...p]);
-                            set.add(con._id);
-                        }
+                        setCtc((p) => [con, ...p]);
                     }
                 })
                 .catch((error) => {
@@ -89,7 +85,7 @@ const Contacts = ({ change, setPop }: AddContactType) => {
 
     const searchContact = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value.trim();
-        console.log(value)
+        console.log(value);
         const data = {
             value: value,
             userId: state.auth.user.userId,
@@ -97,11 +93,9 @@ const Contacts = ({ change, setPop }: AddContactType) => {
         axios
             .post(`${VITE_BASE_URL}/api/chat/searchcontacts`, data)
             .then((res) => {
+                setCtc([]);
                 for (let con of res.data.chat) {
-                    if (!set.has(con._id)) {
-                        setCtc((p) => [con, ...p]);
-                        set.add(con._id);
-                    }
+                    setCtc((p) => [con, ...p]);
                 }
             })
             .catch((error) => {
