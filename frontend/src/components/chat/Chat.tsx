@@ -216,7 +216,7 @@ const Chat = () => {
                     </form>
                     <div
                         onClick={() => sendMessage()}
-                        className="bg-[#bec3ff] perspective-normal dark:bg-[#b1b7ff] dark:text-black cursor-pointer py-2 pl-2.5 pr-1.5 rounded-[12px]"
+                        className="bg-[#bec3ff] perspective-normal dark:bg-[#9ca5ff] dark:text-black cursor-pointer py-2 pl-2.5 pr-1.5 rounded-[12px]"
                     >
                         <motion.div
                             animate={{ rotateY: rotate }}
