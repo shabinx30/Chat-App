@@ -90,6 +90,7 @@ const Contacts = ({ change, setPop }: AddContactType) => {
         axios
             .post(`${VITE_BASE_URL}/api/chat/searchcontacts`, data)
             .then((res) => {
+                console.log(res)
                 setCtc([]);
                 for (let con of res.data.chat) {
                     setCtc((p) => [con, ...p]);

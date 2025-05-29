@@ -44,7 +44,7 @@ const Contact = ({ userId, data, chatId, onUsers, chatMsg, isTyping }: conType) 
             (user) => user.userId._id != userId
         )[0];
         setPerson(res);
-    }, []);
+    });
 
     const getTime = (date: number | Date = data.lastMessageAt) => {
         return new Date(date).toLocaleTimeString("en-US", {
