@@ -92,14 +92,14 @@ const Contact = ({
                         {person?.userId.name}
                     </p>
                     <AnimatePresence>
-                        {data._id == isTyping?.chatId && isTyping.isTyping && (
+                        {data._id == isTyping?.chatId && isTyping.isTyping && chatId != data._id && (
                             <motion.p
                                 key="typing"
                                 initial={{ height: 0, opacity: 0 }}
                                 animate={{ height: "auto", opacity: 1 }}
                                 exit={{ height: 0, opacity: 0 }}
                                 transition={{ duration: 0.3 }}
-                                className="text-sm font-semibold text-[#626fff]"
+                                className={`text-sm font-semibold text-[#626fff]`}
                             >
                                 Typing...
                             </motion.p>

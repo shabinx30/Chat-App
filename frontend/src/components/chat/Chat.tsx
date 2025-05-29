@@ -189,18 +189,16 @@ const Chat = () => {
                 ref={scrollRef}
                 className="px-4 overflow-y-auto bg-[#dee1ff] dark:bg-black scroll-smooth h-[91vh] pt-4 pb-[4.5em] flex flex-col-reverse scrollable"
             >
-                <AnimatePresence>
-                    {messages.map((msg, index) => (
-                        <Message
-                            msg={msg}
-                            user={state.auth.user.userId}
-                            key={index}
-                            index={index}
-                            isLast={index === 0}
-                            onInViewChange={setIsLastMessageInView}
-                        />
-                    ))}
-                </AnimatePresence>
+                {messages.map((msg, index) => (
+                    <Message
+                        msg={msg}
+                        user={state.auth.user.userId}
+                        key={index}
+                        index={index}
+                        isLast={index === 0}
+                        onInViewChange={setIsLastMessageInView}
+                    />
+                ))}
             </div>
             <motion.div
                 initial={{ opacity: 0 }}

@@ -100,7 +100,7 @@ const Contacts = ({ change, setPop }: AddContactType) => {
             });
     };
 
-    const debouncedSearch = useCallback(debounce(searchContact, 500), []);
+    const debouncedSearch = useCallback(debounce(searchContact, 750), []);
 
     const [isTyping, setTyping] = useState<typing>();
 
