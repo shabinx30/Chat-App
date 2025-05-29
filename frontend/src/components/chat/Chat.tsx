@@ -14,7 +14,7 @@ import axios from "axios";
 import { useSelector, type TypedUseSelectorHook } from "react-redux";
 import type { RootState } from "../../redux/store";
 import { useAppContext } from "../../context/AppContext";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { MdKeyboardDoubleArrowDown } from "react-icons/md";
 import { IoIosArrowBack } from "react-icons/io";
 import debounce from "../../libs/debouncer";
