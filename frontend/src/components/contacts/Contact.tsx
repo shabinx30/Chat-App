@@ -25,10 +25,16 @@ interface conType {
     chatId: string | undefined;
     onUsers: Set<string>;
     chatMsg: string;
+    isTyping: typing | undefined;
+}
+
+interface typing {
+    isTyping: boolean;
+    chatId: string;
 }
 
 
-const Contact = ({ userId, data, chatId, onUsers, chatMsg }: conType) => {
+const Contact = ({ userId, data, chatId, onUsers, chatMsg, isTyping }: conType) => {
     const navigate = useNavigate();
 
     const [person, setPerson] = useState<membersType>();
@@ -79,6 +85,7 @@ const Contact = ({ userId, data, chatId, onUsers, chatMsg }: conType) => {
                 <p className={`${chatId == data._id ? "font-semibold" : ""}`}>
                     {person?.userId.name}
                 </p>
+                {data._id == isTyping?.chatId && isTyping.isTyping && <p>Typing</p>}
                 {chatMsg == data._id ? (
                     <p
                         className={`${

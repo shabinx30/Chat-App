@@ -150,8 +150,9 @@ const Chat = () => {
         if (typing == true || typing == false) {
             console.log(typing);
             socket.emit("typing", {
+                typing,
                 chatId,
-                userId: state.auth.user.userId,
+                to: chat?._id,
             });
         }
     }, [typing]);

@@ -3,13 +3,16 @@ import messageModel from "../models/message.model";
 import chatModel from "../models/chat.model";
 import { DefaultEventsMap, Server } from "socket.io";
 
+interface msgData {
+    msg?: string;
+    chatId: string;
+    from?: string;
+    to: string;
+    typing?: boolean;
+}
+
 interface sndMsgType {
-    data: {
-        msg: string;
-        chatId: string;
-        from: string;
-        to: string;
-    };
+    data: msgData;
     io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>;
     map: Map<string, any>;
 }
@@ -52,5 +55,14 @@ export const sendMessage = async ({ data, io, map }: sndMsgType) => {
         io.to(map.get(to)).emit("chat message", message);
     } catch (error) {
         console.log("Error while sending message", error);
+    }
+};
+
+export const sendTypingStatus = async ({ data, io, map }: sndMsgType) => {
+    try {
+        const { to, chatId, typing } = data;
+        io.to(map.get(to)).emit("typing", {chatId, typing})
+    } catch (error) {
+        console.log("Error while sending typing indecator", error);
     }
 };

@@ -40,6 +40,11 @@ function debounce(func: (...args: any[]) => void, delay: number) {
     };
 }
 
+interface typing {
+    isTyping: boolean;
+    chatId: string;
+}
+
 export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 const Contacts = ({ change, setPop }: AddContactType) => {
@@ -51,7 +56,6 @@ const Contacts = ({ change, setPop }: AddContactType) => {
     const { socket } = useAppContext();
     const { chatId } = useParams();
 
-    
     const { VITE_BASE_URL } = import.meta.env;
     const userData = {
         userId: state.auth.user.userId,
@@ -105,6 +109,14 @@ const Contacts = ({ change, setPop }: AddContactType) => {
 
     const debouncedSearch = useCallback(debounce(searchContact, 500), []);
 
+    const [isTyping, setTyping] = useState<typing>();
+
+    useEffect(() => {
+        socket.on("typing", (res) => {
+            setTyping({ isTyping: res.typing, chatId: res.chatId });
+        });
+    }, []);
+
     return (
         <section
             className={`${
@@ -132,8 +144,12 @@ const Contacts = ({ change, setPop }: AddContactType) => {
                 {ctc && !ctc.length ? (
                     <div className="flex h-[20em] justify-center items-center">
                         <div className="text-center flex flex-col gap-2 font-semibold">
-                            <div><span className=""></span>No Contacts</div>
-                            <p className="text-base text-[#72759c]">Tap the plus to add new contacts</p>
+                            <div>
+                                <span className=""></span>No Contacts
+                            </div>
+                            <p className="text-base text-[#72759c]">
+                                Tap the plus to add new contacts
+                            </p>
                         </div>
                     </div>
                 ) : (
@@ -145,6 +161,7 @@ const Contacts = ({ change, setPop }: AddContactType) => {
                             chatMsg={chatMsg}
                             chatId={chatId}
                             data={item}
+                            isTyping={isTyping}
                         />
                     ))
                 )}

@@ -1,7 +1,7 @@
 import { Server } from "socket.io";
 import http from "http";
 import express from "express";
-import { sendMessage } from "../controllers/message.controller";
+import { sendMessage, sendTypingStatus } from "../controllers/message.controller";
 
 const app = express();
 const server = http.createServer(app);
@@ -24,6 +24,8 @@ io.on("connection", (socket) => {
         ids.set(socket.id, userId);
         io.emit("online", [...map.keys()]);
     }
+
+    socket.on("typing", (data) => sendTypingStatus({data, io, map}))
 
     socket.on("chat message", (data) => sendMessage({ data, io, map }));
 
