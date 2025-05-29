@@ -139,9 +139,11 @@ const Chat = () => {
 
     const debouncedSearch = useCallback(debounce(reset, 500), []);
 
-    const handleTyping = () => {
-        setTyping(true);
-        debouncedSearch();
+    const handleTyping = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.value.trim()) {
+            setTyping(true);
+            debouncedSearch();
+        }
     };
 
     useEffect(() => {
@@ -204,10 +206,12 @@ const Chat = () => {
             >
                 <AnimatePresence>
                     {isTyping?.isTyping && chatId == isTyping.chatId && (
-                        <motion.div
-                            className="text-white w-[3em] min-h-[2.6em] rounded-lg bg-[#fff] dark:bg-gray-800 ml-2 mt-0.5"
-                        >
-                            <img className="object-cover" src="/5V1YDdBVLZ.gif" alt="a" />
+                        <motion.div className="text-white w-[3em] min-h-[2.6em] rounded-lg bg-[#fff] dark:bg-gray-800 ml-2 mt-0.5">
+                            <img
+                                className="object-cover"
+                                src="/5V1YDdBVLZ.gif"
+                                alt="a"
+                            />
                         </motion.div>
                     )}
                 </AnimatePresence>
