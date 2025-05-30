@@ -40,13 +40,19 @@ const Message = ({ msg, user, isLast, onInViewChange }: Msg) => {
                     }`}
                 >
                     <div
+                        style={
+                            user == msg.from
+                                ? { borderRadius: "14px 14px 0 14px" }
+                                : { borderRadius: "14px 14px 14px 0" }
+                        }
                         className={`relative ${
                             user == msg.from
                                 ? "bg-[#9ca5ff]"
                                 : "bg-[#fff] dark:bg-gray-800"
-                        } text-black rounded-lg pl-2 pt-1 pb-2.5 pr-[3em]`}
+                        } max-w-[75%] text-black pl-2 pt-1 pb-2.5 pr-[3em]`}
                     >
                         <p
+                            style={{wordWrap: "break-word", overflowWrap: "break-word", wordBreak: "break-word", whiteSpace: "normal"}}
                             className={`text-base ${
                                 user == msg.from ? "" : "dark:text-white"
                             }`}
