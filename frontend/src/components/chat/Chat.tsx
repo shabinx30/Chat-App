@@ -18,6 +18,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { MdKeyboardDoubleArrowDown } from "react-icons/md";
 import { IoIosArrowBack } from "react-icons/io";
 import debounce from "../../libs/debouncer";
+import { FixedSizeList as List } from "react-window";
 
 export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 
@@ -39,105 +40,108 @@ interface typing {
 }
 
 const Chat = () => {
-    const scrollRef = useRef<HTMLDivElement | null>(null);
+    const scrollRef = useRef<any>(null);
+    const scrollRef2 = useRef<any>(null);
+    const shouldScrollToBottom = useRef(false); // Ref to control scrolling
     const state = useTypedSelector((state) => state);
     const [messages, setMessages] = useState<Msg[]>([]);
     const { socket } = useAppContext();
-
-    // Scroll to the bottom (latest message) when the component mounts
-    useEffect(() => {
-        if (scrollRef.current) {
-            scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-        }
-    }, []);
-
-    const containerRef = useRef<HTMLDivElement>(null);
-
     const navigate = useNavigate();
-
     const msgRef = useRef<HTMLInputElement>(null);
-
-    let apiUrl = import.meta.env.VITE_BASE_URL;
     const { chatId } = useParams();
+    const apiUrl = import.meta.env.VITE_BASE_URL;
 
+    // Socket listener for new messages
     useEffect(() => {
         socket.on("chat message", (msg: any) => {
-            console.log(msg);
-            console.log(msg.tosChat);
-            if (msg.tosChat == chatId) {
-                setMessages((prev) => [msg, ...prev]);
+            if (msg.tosChat === chatId) {
+                if (isLastMessageInView) {
+                    shouldScrollToBottom.current = true;
+                }
+                setMessages((prev) => [...prev, msg]);
             }
         });
-
         return () => {
             socket.off("chat message");
         };
-    }, [chatId]);
+    }, [chatId, socket]);
 
     const [chat, setChat] = useState<chatType>();
     const set = new Set();
 
+    // Fetch initial messages
     useEffect(() => {
         setMessages([]);
         axios
             .post(`${apiUrl}/api/message/getmessages`, { chatId })
             .then((res) => {
-                let result = res.data.chat.members.filter(
-                    (user: any) => user.userId._id != state.auth.user.userId
+                const result = res.data.chat.members.filter(
+                    (user: any) => user.userId._id !== state.auth.user.userId
                 )[0];
-                // console.log(res.data.messages);
                 setChat(result.userId);
+                const fetchedMessages = [];
                 for (let data of res.data.messages) {
                     if (!set.has(data._id)) {
-                        setMessages((p) => [data, ...p]);
+                        fetchedMessages.push(data);
                         set.add(data._id);
                     }
                 }
+                setMessages(fetchedMessages);
+                shouldScrollToBottom.current = true; // Scroll to bottom after initial load
             })
             .catch((error) => {
                 console.log(error);
             });
-    }, [chatId]);
+    }, [chatId, apiUrl, state.auth.user.userId]);
 
     const [rotate, setRotate] = useState(0);
 
     const sendMessage = (e: FormEvent<HTMLFormElement> | null = null) => {
-        if (e) {
-            e.preventDefault();
-        }
+        if (e) e.preventDefault();
         if (msgRef.current?.value.trim()) {
             setRotate((prev) => prev + 360);
-            socket.emit("chat message", {
-                msg: msgRef.current?.value,
-                chatId: chatId,
-                from: state.auth.user.userId,
-                to: chat?._id,
-            });
             const myMsg: Msg = {
-                body: msgRef.current?.value,
+                body: msgRef.current.value,
                 createdAt: Date.now(),
                 from: state.auth.user.userId,
             };
-            setMessages((p) => [myMsg, ...p]);
+            socket.emit("chat message", {
+                msg: myMsg.body,
+                chatId,
+                from: state.auth.user.userId,
+                to: chat?._id,
+            });
+            shouldScrollToBottom.current = true; // Always scroll for sent messages
+            setMessages((p) => [...p, myMsg]);
             msgRef.current.value = "";
         }
     };
 
     const [isLastMessageInView, setIsLastMessageInView] = useState(true);
 
+    // Scroll to bottom when messages change and shouldScrollToBottom is true
+    useEffect(() => {
+        if (
+            shouldScrollToBottom.current &&
+            scrollRef2.current &&
+            messages.length > 0
+        ) {
+            scrollRef2.current.scrollToItem(messages.length - 1, "end");
+            shouldScrollToBottom.current = false;
+        }
+    }, [messages]);
+
     const scrollToBottom = () => {
-        if (scrollRef.current) {
-            scrollRef.current.scrollTo({ top: 0, behavior: "smooth" });
+        if (scrollRef2.current && messages.length > 0) {
+            scrollRef2.current.scrollToItem(messages.length - 1, "end");
         }
     };
 
     const [typing, setTyping] = useState<boolean>();
-
-    const reset = () => {
-        setTyping(false);
-    };
-
-    const debouncedSearch = useCallback(debounce(reset, 500), []);
+    const debouncedSearch = useCallback(
+        debounce(() => setTyping(false), 500),
+        []
+    );
 
     const handleTyping = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.value.trim()) {
@@ -147,15 +151,10 @@ const Chat = () => {
     };
 
     useEffect(() => {
-        if (typeof typing == "boolean") {
-            console.log(typing);
-            socket.emit("typing", {
-                typing,
-                chatId,
-                to: chat?._id,
-            });
+        if (typeof typing === "boolean") {
+            socket.emit("typing", { typing, chatId, to: chat?._id });
         }
-    }, [typing]);
+    }, [typing, chatId, chat?._id, socket]);
 
     const [isTyping, setIsTyping] = useState<typing>();
 
@@ -163,12 +162,14 @@ const Chat = () => {
         socket.on("typing", (res) => {
             setIsTyping({ isTyping: res.typing, chatId: res.chatId });
         });
-    }, []);
+        return () => {
+            socket.off("typing");
+        };
+    }, [socket]);
 
     return (
         <section
-            ref={containerRef}
-            className={` ${
+            className={`${
                 chatId ? "flex-[calc(1/2.6*100%)]" : "hidden"
             } relative h-[100dvh] bg-[#dee1ff] dark:bg-[#131313]`}
         >
@@ -181,55 +182,51 @@ const Chat = () => {
                     />
                     <img
                         className="object-cover min-w-[2.5em] max-h-[2.5em] rounded-full"
-                        src={`${
-                            chat?.profile !== ""
-                                ? import.meta.env.VITE_BASE_URL +
-                                  "/" +
-                                  chat?.profile
+                        src={
+                            chat?.profile
+                                ? `${import.meta.env.VITE_BASE_URL}/${
+                                      chat.profile
+                                  }`
                                 : "/user.png"
-                        }`}
+                        }
                         alt={chat?.name}
                     />
-                    <div>
-                        <h1 className="font-semibold">{chat?.name}</h1>
-                        {/* <p className="text-[0.76em] font-medium text-[#6b6b6b]">
-                            Online
-                        </p> */}
-                    </div>
+                    <h1 className="font-semibold ml-2 md:m-0">{chat?.name}</h1>
                 </div>
                 <IoMdMore size={24} className="cursor-pointer" />
             </div>
-            {/* By adding "flex flex-col-reverse" we lost scroll animation */}
-            <div
-                ref={scrollRef}
-                className="px-4 overflow-y-auto bg-[#dee1ff] dark:bg-black scroll-smooth h-[91vh] pt-4 pb-[4.5em] flex flex-col-reverse scrollable"
-            >
+            <div ref={scrollRef} className="h-[82vh]">
                 <AnimatePresence>
-                    {isTyping?.isTyping && chatId == isTyping.chatId && (
+                    {isTyping?.isTyping && chatId === isTyping.chatId && (
                         <motion.div className="text-white w-[3em] min-h-[2.6em] rounded-lg bg-[#fff] dark:bg-gray-800 ml-2 mt-0.5">
                             <img
                                 className="object-cover"
                                 src="/5V1YDdBVLZ.gif"
-                                alt="a"
+                                alt="typing"
                             />
                         </motion.div>
                     )}
                 </AnimatePresence>
-                {messages.map((msg, index) => (
-                    <Message
-                        msg={msg}
-                        user={state.auth.user.userId}
-                        key={index}
-                        index={index}
-                        isLast={index === 0}
-                        onInViewChange={setIsLastMessageInView}
-                    />
-                ))}
+                <List
+                    ref={scrollRef2}
+                    className="px-4 overflow-y-auto bg-[#dee1ff] dark:bg-black scroll-smooth pt-4 scrollable"
+                    height={scrollRef.current?.clientHeight || 0}
+                    itemCount={messages.length}
+                    itemSize={44}
+                    width="100%"
+                    itemData={{
+                        messages,
+                        user: state.auth.user.userId,
+                        setIsLastMessageInView,
+                    }}
+                >
+                    {Message}
+                </List>
             </div>
             <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="flex justify-center"
+                className="flex justify-center bg-black"
             >
                 <div className="absolute flex bg-[#fff] dark:bg-gray-800 shadow-[0_2px_10px] shadow-black/50 rounded-2xl text-black justify-between pr-2 pl-5 gap-1 items-center bottom-4 w-[80%]">
                     <ImAttachment
@@ -247,7 +244,7 @@ const Chat = () => {
                     </form>
                     <div
                         onClick={() => sendMessage()}
-                        className="bg-[#bec3ff] perspective-normal dark:bg-[#9ca5ff] dark:text-black cursor-pointer py-2 pl-2.5 pr-1.5 rounded-[12px]"
+                        className="bg-[#bec3ff] dark:bg-[#9ca5ff] dark:text-black cursor-pointer py-2 pl-2.5 pr-1.5 rounded-[12px]"
                     >
                         <motion.div
                             animate={{ rotateY: rotate }}
@@ -267,8 +264,6 @@ const Chat = () => {
                     </div>
                 </div>
             </motion.div>
-
-            {/* bottom button */}
             <motion.div
                 initial={isLastMessageInView ? { scale: 1 } : { scale: 0 }}
                 animate={isLastMessageInView ? { scale: 0 } : { scale: 1 }}
