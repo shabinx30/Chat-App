@@ -28,7 +28,7 @@ const Message = ({ msg, user, isLast, onInViewChange }: Msg) => {
         <AnimatePresence>
             <motion.div
                 ref={isLast ? ref : null}
-                className="px-2 my-0.5"
+                className="md:px-2 my-0.5"
                 initial={{ height: 0 }}
                 animate={{ height: "auto" }}
                 exit={{ height: 0 }}

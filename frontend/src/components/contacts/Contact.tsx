@@ -70,7 +70,7 @@ const Contact = ({
         >
             <div className="relative flex items-center justify-center">
                 <img
-                    className="object-cover border-2 min-w-[3.5em] max-h-[3.5em] rounded-full"
+                    className="object-cover min-w-[3.5em] max-h-[3.5em] rounded-full"
                     src={`${
                         person?.userId.profile !== ""
                             ? import.meta.env.VITE_BASE_URL +
