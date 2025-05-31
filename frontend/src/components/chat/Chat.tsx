@@ -42,7 +42,7 @@ interface typing {
 const Chat = () => {
     const scrollRef = useRef<any>(null);
     const scrollRef2 = useRef<any>(null);
-    const shouldScrollToBottom = useRef(false); // Ref to control scrolling
+    const shouldScrollToBottom = useRef(false);
     const state = useTypedSelector((state) => state);
     const [messages, setMessages] = useState<Msg[]>([]);
     const { socket } = useAppContext();
@@ -50,6 +50,8 @@ const Chat = () => {
     const msgRef = useRef<HTMLInputElement>(null);
     const { chatId } = useParams();
     const apiUrl = import.meta.env.VITE_BASE_URL;
+
+    const [isLastMessageInView, setIsLastMessageInView] = useState(true);
 
     // Socket listener for new messages
     useEffect(() => {
@@ -64,7 +66,7 @@ const Chat = () => {
         return () => {
             socket.off("chat message");
         };
-    }, [chatId, socket]);
+    }, [chatId, socket, isLastMessageInView]);
 
     const [chat, setChat] = useState<chatType>();
     const set = new Set();
@@ -111,13 +113,11 @@ const Chat = () => {
                 from: state.auth.user.userId,
                 to: chat?._id,
             });
-            shouldScrollToBottom.current = true; // Always scroll for sent messages
+            shouldScrollToBottom.current = true;
             setMessages((p) => [...p, myMsg]);
             msgRef.current.value = "";
         }
     };
-
-    const [isLastMessageInView, setIsLastMessageInView] = useState(true);
 
     // Scroll to bottom when messages change and shouldScrollToBottom is true
     useEffect(() => {
@@ -127,6 +127,7 @@ const Chat = () => {
             messages.length > 0
         ) {
             scrollRef2.current.scrollToItem(messages.length - 1, "end");
+            setIsLastMessageInView(true); // Set to true since we're at the bottom
             shouldScrollToBottom.current = false;
         }
     }, [messages]);
@@ -134,6 +135,7 @@ const Chat = () => {
     const scrollToBottom = () => {
         if (scrollRef2.current && messages.length > 0) {
             scrollRef2.current.scrollToItem(messages.length - 1, "end");
+            setIsLastMessageInView(true); // Set to true since we're scrolling to the bottom
         }
     };
 
@@ -171,7 +173,7 @@ const Chat = () => {
         <section
             className={`${
                 chatId ? "flex-[calc(1/2.6*100%)]" : "hidden"
-            } relative h-[100dvh] bg-[#dee1ff] dark:bg-[#131313]`}
+            } relative h-[100dvh] bg-[#dee1ff] dark:bg-black`}
         >
             <div className="flex bg-[#fff] dark:bg-gray-900 dark:border-b border-gray-800 dark:text-[#fff] text-[#000000] items-center py-4 px-2 justify-between top-0 w-[100%] h-[8.5vh]">
                 <div className="flex items-center gap-1 md:gap-3 md:px-2">
@@ -195,7 +197,7 @@ const Chat = () => {
                 </div>
                 <IoMdMore size={24} className="cursor-pointer" />
             </div>
-            <div ref={scrollRef} className="h-[82vh]">
+            <div ref={scrollRef} className="h-[81vh] px-2 md:px-4">
                 <AnimatePresence>
                     {isTyping?.isTyping && chatId === isTyping.chatId && (
                         <motion.div className="text-white w-[3em] min-h-[2.6em] rounded-lg bg-[#fff] dark:bg-gray-800 ml-2 mt-0.5">
@@ -209,15 +211,25 @@ const Chat = () => {
                 </AnimatePresence>
                 <List
                     ref={scrollRef2}
-                    className="px-4 overflow-y-auto bg-[#dee1ff] dark:bg-black scroll-smooth pt-4 scrollable"
+                    className="overflow-y-auto bg-[#dee1ff] dark:bg-black  scrollable"
                     height={scrollRef.current?.clientHeight || 0}
                     itemCount={messages.length}
-                    itemSize={44}
+                    itemSize={42}
                     width="100%"
                     itemData={{
                         messages,
                         user: state.auth.user.userId,
-                        setIsLastMessageInView,
+                    }}
+                    onScroll={({ scrollOffset }) => {
+                        if (scrollRef.current) {
+                            const totalHeight = messages.length * 42; // itemCount * itemSize
+                            const viewportHeight =
+                                scrollRef.current.clientHeight;
+                            const isAtBottom =
+                                scrollOffset + viewportHeight >=
+                                totalHeight - 1; // Small threshold
+                            setIsLastMessageInView(isAtBottom);
+                        }
                     }}
                 >
                     {Message}
@@ -265,8 +277,8 @@ const Chat = () => {
                 </div>
             </motion.div>
             <motion.div
-                initial={isLastMessageInView ? { scale: 1 } : { scale: 0 }}
-                animate={isLastMessageInView ? { scale: 0 } : { scale: 1 }}
+                initial={{ scale: 0 }}
+                animate={{ scale: isLastMessageInView ? 0 : 1 }}
                 onClick={scrollToBottom}
                 className="absolute cursor-pointer bg-white dark:bg-gray-800 dark:text-[#9ca5ff] bottom-[5em] rounded-2xl shadow-[0_2px_10px] shadow-black right-10 p-2"
             >
