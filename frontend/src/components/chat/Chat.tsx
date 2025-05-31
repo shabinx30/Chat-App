@@ -211,7 +211,7 @@ const Chat = () => {
                 </AnimatePresence>
                 <List
                     ref={scrollRef2}
-                    className="overflow-y-auto bg-[#dee1ff] dark:bg-black  scrollable"
+                    className="overflow-y-auto bg-[#dee1ff] dark:bg-black scroll-smooth scrollable"
                     height={scrollRef.current?.clientHeight || 0}
                     itemCount={messages.length}
                     itemSize={42}
