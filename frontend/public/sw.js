@@ -20,11 +20,11 @@ self.addEventListener("push", function (event) {
 });
 
 self.addEventListener("notificationclick", function (event) {
-    console.log(event)
     const action = event.action;
+    const chatId = event.notification.tag
 
     if (action === "view") {
-        event.waitUntil(clients.openWindow("https://chat.tungstenz.online"));
+        event.waitUntil(clients.openWindow(`https://chat.tungstenz.online/chat/${chatId}`));
     } else if (action === "dismiss") {
         event.notification.close();
     } else {
