@@ -11,6 +11,13 @@ type usersData = (Document<unknown, {}, userDetails, {}> &
         __v: number;
     })[];
 
+interface sendType {
+    users: usersData;
+    body: string | undefined;
+    chatId: string;
+    profile: string | undefined;
+}
+
 let subscriptions = new Map();
 
 export const subscribe = async (req: Request, res: Response) => {
@@ -25,13 +32,14 @@ export const subscribe = async (req: Request, res: Response) => {
     }
 };
 
-export const send = async (users: usersData, body: string | undefined, chatId: string) => {
+// export const send = async (users: usersData, body: string | undefined, chatId: string, profile: string | undefined) => {
+export const send = async ({users, body, chatId, profile}: sendType) => {
     try {
         const sendPromises = users.map((user) => {
             const notificationPayload = JSON.stringify({
                 title: user.name,
                 body,
-                icon: `${process.env.SERVER_URL}/${user.profile}`,
+                icon: `${process.env.SERVER_URL}/${profile}`,
                 chatId
             });
             console.log(subscriptions.get(user))
