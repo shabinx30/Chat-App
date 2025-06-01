@@ -7,7 +7,7 @@ self.addEventListener("push", function (event) {
         {
             body: data.body || "notification",
             icon: data.icon || "/user.png",
-            badge: "/logo-small.png",
+            badge: "/icons/logo-small.png",
             actions: [
                 { action: "open", title: "Open" },
                 { action: "dismiss", title: "Dismiss" },

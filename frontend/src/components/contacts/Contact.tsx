@@ -76,7 +76,7 @@ const Contact = ({
                             ? import.meta.env.VITE_BASE_URL +
                               "/" +
                               person?.userId.profile
-                            : "/user.png"
+                            : "/icons/user.png"
                     }`}
                     alt={person?.userId.name}
                 />

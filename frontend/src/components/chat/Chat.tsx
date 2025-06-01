@@ -189,7 +189,7 @@ const Chat = () => {
                                 ? `${import.meta.env.VITE_BASE_URL}/${
                                       chat.profile
                                   }`
-                                : "/user.png"
+                                : "/icons/user.png"
                         }
                         alt={chat?.name}
                     />
@@ -228,7 +228,7 @@ const Chat = () => {
                         <motion.div className="text-white w-[3em] rounded-lg bg-[#fff] dark:bg-gray-800 ml-2 mt-0.5">
                             <img
                                 className="object-cover"
-                                src="/5V1YDdBVLZ.gif"
+                                src="/icons/5V1YDdBVLZ.gif"
                                 alt="typing"
                             />
                         </motion.div>
