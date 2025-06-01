@@ -33,7 +33,7 @@ export const send = async (users: usersData, body: string | undefined) => {
                 body,
                 icon: `${process.env.SERVER_URL}/${user.profile}`
             });
-            // console.log(subscriptions.get(user._id))
+            console.log(subscriptions.get(user))
             
             webPush
                 .sendNotification(
