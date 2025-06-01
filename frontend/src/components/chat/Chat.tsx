@@ -175,7 +175,7 @@ const Chat = () => {
                 chatId ? "flex-[calc(1/2.6*100%)]" : "hidden"
             } relative h-[100dvh] bg-[#dee1ff] dark:bg-black`}
         >
-            <div className="flex bg-[#fff] dark:bg-gray-900 dark:border-b border-gray-800 dark:text-[#fff] text-[#000000] items-center py-4 px-2 justify-between top-0 right-0 w-full h-[8.5vh]">
+            <nav className="flex bg-[#fff] dark:bg-gray-900 dark:border-b border-gray-800 dark:text-[#fff] text-[#000000] items-center py-4 px-2 justify-between top-0 right-0 w-full h-[8.5vh]">
                 <div className="flex items-center gap-1 md:gap-3 md:px-2">
                     <IoIosArrowBack
                         className="cursor-pointer"
@@ -196,7 +196,7 @@ const Chat = () => {
                     <h1 className="font-semibold ml-2 md:m-0">{chat?.name}</h1>
                 </div>
                 <IoMdMore size={24} className="cursor-pointer" />
-            </div>
+            </nav>
             <div ref={scrollRef} className="h-[81vh] px-2 md:px-4">
                 <List
                     ref={scrollRef2}
