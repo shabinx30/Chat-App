@@ -8,7 +8,7 @@ import { connectDB } from "./libs/db.config";
 import { server, app } from "./libs/socket";
 import cors, { CorsOptions } from "cors";
 import bodyParser from "body-parser";
-import webPush from "web-push";
+import webPush from "web-push"
 
 const allowedOrigins = [
     "http://localhost:3003",
@@ -41,9 +41,11 @@ app.use(express.urlencoded({ extended: true }));
 import userRouter from "./routes/auth.route";
 import chatRouter from "./routes/chat.route";
 import messageRouter from "./routes/message.route";
+import notifyRouter from "./routes/notify.route"
 app.use("/api/auth", userRouter);
 app.use("/api/chat", chatRouter);
 app.use("/api/message", messageRouter);
+app.use("/notify", notifyRouter)
 
 const { PUBLIC_KEY, PRIVATE_KEY } = process.env;
 
@@ -55,29 +57,6 @@ if (PUBLIC_KEY && PRIVATE_KEY) {
     );
 }
 
-let subscriptions: webPush.PushSubscription[] = [];
-
-app.post("/subscribe", (req, res) => {
-    const subscription = req.body;
-    subscriptions.push(subscription);
-    res.status(201).json({ message: "Subscribed" });
-});
-
-app.get("/send", async (req, res) => {
-    const notificationPayload = JSON.stringify({
-        title: "New Notification",
-        body: "You have a new message!",
-    });
-
-    const sendPromises = subscriptions.map((sub) =>
-        webPush
-            .sendNotification(sub, notificationPayload)
-            .catch((err: any) => console.error("Send error", err))
-    );
-
-    await Promise.all(sendPromises);
-    res.status(200).json({ message: "Notifications sent" });
-});
 
 const PORT = process.env.PORT || 5000;
 

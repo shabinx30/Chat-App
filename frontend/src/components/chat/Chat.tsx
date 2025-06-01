@@ -198,20 +198,9 @@ const Chat = () => {
                 <IoMdMore size={24} className="cursor-pointer" />
             </div>
             <div ref={scrollRef} className="h-[81vh] px-2 md:px-4">
-                <AnimatePresence>
-                    {isTyping?.isTyping && chatId === isTyping.chatId && (
-                        <motion.div className="text-white w-[3em] min-h-[2.6em] rounded-lg bg-[#fff] dark:bg-gray-800 ml-2 mt-0.5">
-                            <img
-                                className="object-cover"
-                                src="/5V1YDdBVLZ.gif"
-                                alt="typing"
-                            />
-                        </motion.div>
-                    )}
-                </AnimatePresence>
                 <List
-                    ref={scrollRef2}
-                    className="overflow-y-auto bg-[#dee1ff] dark:bg-black scroll-smooth scrollable"
+                    // ref={scrollRef2}
+                    className="bg-[#dee1ff] dark:bg-black scroll-smooth scrollable"
                     height={scrollRef.current?.clientHeight || 0}
                     itemCount={messages.length}
                     itemSize={42}
@@ -231,9 +220,21 @@ const Chat = () => {
                             setIsLastMessageInView(isAtBottom);
                         }
                     }}
+                    outerElementType={"div"}
                 >
                     {Message}
                 </List>
+                <AnimatePresence>
+                    {isTyping?.isTyping && chatId === isTyping.chatId && (
+                        <motion.div className="text-white w-[3em] rounded-lg bg-[#fff] dark:bg-gray-800 ml-2 mt-0.5">
+                            <img
+                                className="object-cover"
+                                src="/5V1YDdBVLZ.gif"
+                                alt="typing"
+                            />
+                        </motion.div>
+                    )}
+                </AnimatePresence>
             </div>
             <motion.div
                 initial={{ opacity: 0 }}

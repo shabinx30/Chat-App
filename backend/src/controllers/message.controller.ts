@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import messageModel from "../models/message.model";
 import chatModel from "../models/chat.model";
 import { DefaultEventsMap, Server } from "socket.io";
+import { send } from "./notify.controller";
 
 interface msgData {
     msg?: string;
@@ -53,6 +54,7 @@ export const sendMessage = async ({ data, io, map }: sndMsgType) => {
         let message = { ...result.toObject(), tosChat: chatId };
 
         io.to(map.get(to)).emit("chat message", message);
+        await send([to])
     } catch (error) {
         console.log("Error while sending message", error);
     }

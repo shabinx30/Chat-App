@@ -14,10 +14,14 @@ const Home = ({ aside }: { aside: React.ReactNode }) => {
         const handleSubscribe = async () => {
             const subscription = await subscribeToPush(VITE_PUBLIC_VAPID_KEY);
             if (subscription) {
-                await fetch(`${VITE_BASE_URL}/subscribe`, {
+                const user = JSON.parse(localStorage.getItem('jwt') || '')
+                await fetch(`${VITE_BASE_URL}/notify/subscribe`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(subscription),
+                    body: JSON.stringify({
+                        userId: user.userId,
+                        subscription
+                    }),
                 });
             }
         };
@@ -25,7 +29,7 @@ const Home = ({ aside }: { aside: React.ReactNode }) => {
     },[]);
 
     return (
-        <div className="relative flex w-[100vw] h-[100vh]">
+        <div className="relative flex">
             {isPop && <AddContact setPop={setPop} setChange={setChange} />}
             <Contacts change={change} setPop={setPop} />
             {aside}
