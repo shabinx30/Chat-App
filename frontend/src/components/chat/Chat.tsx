@@ -175,7 +175,7 @@ const Chat = () => {
                 chatId ? "flex-[calc(1/2.6*100%)]" : "hidden"
             } relative h-[100dvh] bg-[#dee1ff] dark:bg-black`}
         >
-            <div className="flex bg-[#fff] dark:bg-gray-900 dark:border-b border-gray-800 dark:text-[#fff] text-[#000000] items-center py-4 px-2 justify-between top-0 w-[100%] h-[8.5vh]">
+            <div className="flex fixed bg-[#fff] dark:bg-gray-900 dark:border-b border-gray-800 dark:text-[#fff] text-[#000000] items-center py-4 px-2 justify-between top-0 w-[100%] h-[8.5vh]">
                 <div className="flex items-center gap-1 md:gap-3 md:px-2">
                     <IoIosArrowBack
                         className="cursor-pointer"
