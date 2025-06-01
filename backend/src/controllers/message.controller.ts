@@ -59,7 +59,7 @@ export const sendMessage = async ({ data, io, map }: sndMsgType) => {
         //not optimized for group
         const user = await userModel.find({_id: to})
 
-        await send(user, msg)
+        await send(user, msg, chatId)
     } catch (error) {
         console.log("Error while sending message", error);
     }

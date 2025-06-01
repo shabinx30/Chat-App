@@ -25,13 +25,14 @@ export const subscribe = async (req: Request, res: Response) => {
     }
 };
 
-export const send = async (users: usersData, body: string | undefined) => {
+export const send = async (users: usersData, body: string | undefined, chatId: string) => {
     try {
         const sendPromises = users.map((user) => {
             const notificationPayload = JSON.stringify({
                 title: user.name,
                 body,
-                icon: `${process.env.SERVER_URL}/${user.profile}`
+                icon: `${process.env.SERVER_URL}/${user.profile}`,
+                chatId
             });
             console.log(subscriptions.get(user))
             

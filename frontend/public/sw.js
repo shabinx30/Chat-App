@@ -11,6 +11,7 @@ self.addEventListener("push", function (event) {
                 { action: "view", title: "View" },
                 { action: "dismiss", title: "Dismiss" },
             ],
+            tag: data.chatId,
             requireInteraction: true,
             silent: false,
         }
