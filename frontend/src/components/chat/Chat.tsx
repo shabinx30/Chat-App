@@ -199,7 +199,7 @@ const Chat = () => {
             </div>
             <div ref={scrollRef} className="h-[81vh] px-2 md:px-4">
                 <List
-                    // ref={scrollRef2}
+                    ref={scrollRef2}
                     className="bg-[#dee1ff] dark:bg-black scroll-smooth scrollable"
                     height={scrollRef.current?.clientHeight || 0}
                     itemCount={messages.length}
