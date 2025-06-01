@@ -8,6 +8,7 @@ import type { RootState } from "../../redux/store";
 import { useParams } from "react-router-dom";
 import { useAppContext } from "../../context/AppContext";
 import debounce from "../../libs/debouncer";
+import { PiChatTeardropDotsFill } from "react-icons/pi";
 
 //function type
 interface AddContactType {
@@ -119,6 +120,7 @@ const Contacts = ({ change, setPop }: AddContactType) => {
             <div className="block h-[21vh]">
                 <div className="mx-4 h-[4em] flex justify-between items-center">
                     <h1 className="font-bold text-3xl text-[#626fff]">Convo</h1>
+                        
                     <div className="bg-[#bec3ff] dark:bg-[#9ca5ff] dark:text-black cursor-pointer p-2 rounded-2xl">
                         <LuSettings size={24} />
                     </div>
@@ -127,7 +129,7 @@ const Contacts = ({ change, setPop }: AddContactType) => {
                     <input
                         ref={searchRef}
                         onChange={debouncedSearch}
-                        className="border border-[#8892ff] bg-[#eff0ff] dark:border-[#414678] dark:bg-gray-800 dark:text-white rounded-2xl w-[94%] outline-none px-4 py-2 placeholder:text-[#818bff]"
+                        className="bg-[#eff0ff] dark:bg-[#363a68] dark:text-white rounded-4xl w-[94%] outline-none px-4 py-2 placeholder:text-[#818bff]"
                         type="text"
                         placeholder="Search"
                     />
