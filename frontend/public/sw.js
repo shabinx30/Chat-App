@@ -9,7 +9,7 @@ self.addEventListener("push", function (event) {
             icon: data.icon || "/user.png",
             badge: "/logo-small.png",
             actions: [
-                { action: "view", title: "View" },
+                { action: "open", title: "Open" },
                 { action: "dismiss", title: "Dismiss" },
             ],
             tag: data.chatId,
@@ -24,11 +24,13 @@ self.addEventListener("notificationclick", function (event) {
     const action = event.action;
     const chatId = event.notification.tag
 
-    if (action === "view") {
+    if (action === "open") {
+        event.notification.close();
         event.waitUntil(clients.openWindow(`https://chat.tungstenz.online/chat/${chatId}`));
     } else if (action === "dismiss") {
         event.notification.close();
     } else {
-        event.waitUntil(clients.openWindow("https://chat.tungstenz.online"));
+        event.notification.close();
+        event.waitUntil(clients.openWindow(`https://chat.tungstenz.online/chat/${chatId}`));
     }
 });
