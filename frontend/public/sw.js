@@ -24,10 +24,10 @@ self.addEventListener("notificationclick", function (event) {
     const action = event.action;
 
     if (action === "view") {
-        event.waitUntil(clients.openWindow("https://your-app.com/view-page"));
+        event.waitUntil(clients.openWindow("https://chat.tungstenz.online"));
     } else if (action === "dismiss") {
         event.notification.close();
     } else {
-        event.waitUntil(clients.openWindow("https://your-app.com"));
+        event.waitUntil(clients.openWindow("https://chat.tungstenz.online"));
     }
 });
