@@ -13,6 +13,7 @@ self.addEventListener("push", function (event) {
                 { action: "dismiss", title: "Dismiss" },
             ],
             tag: data.chatId,
+            renotify: true,
             silent: false,
         }
     );
