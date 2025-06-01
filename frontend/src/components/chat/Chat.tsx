@@ -220,7 +220,6 @@ const Chat = () => {
                             setIsLastMessageInView(isAtBottom);
                         }
                     }}
-                    outerElementType={"div"}
                 >
                     {Message}
                 </List>

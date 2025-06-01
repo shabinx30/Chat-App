@@ -17,7 +17,7 @@ export const subscribe = async (req: Request, res: Response) => {
     try {
         const { userId, subscription } = req.body;
         subscriptions.set(userId, subscription);
-        console.log("test ------------- >", subscriptions);
+        // console.log("test ------------- >", subscriptions);
         res.status(201).json({ message: "Subscribed" });
     } catch (error) {
         console.error(error);
@@ -33,9 +33,11 @@ export const send = async (users: usersData, body: string | undefined) => {
                 body,
                 icon: `${process.env.SERVER_URL}/${user.profile}`
             });
+            // console.log(subscriptions.get(user._id))
+            
             webPush
                 .sendNotification(
-                    subscriptions.get(user._id),
+                    subscriptions.get(user._id && user._id.toString()),
                     notificationPayload
                 )
                 .catch((err) => console.error(err));
