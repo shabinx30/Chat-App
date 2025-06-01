@@ -12,7 +12,6 @@ self.addEventListener("push", function (event) {
                 { action: "dismiss", title: "Dismiss" },
             ],
             tag: data.chatId,
-            requireInteraction: true,
             silent: false,
         }
     );
@@ -21,6 +20,7 @@ self.addEventListener("push", function (event) {
 });
 
 self.addEventListener("notificationclick", function (event) {
+    console.log(event)
     const action = event.action;
 
     if (action === "view") {
