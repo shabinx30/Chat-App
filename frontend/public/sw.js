@@ -1,7 +1,7 @@
 self.addEventListener("push", function (event) {
     const data = event.data.json();
-    self.registration.showNotification(data.title, {
-        body: data.body,
+    self.registration.showNotification(data.title || 'New notification', {
+        body: data.body || 'notification',
         icon: data.icon || "/user.png",
         actions: [
             { action: "view", title: "View" },

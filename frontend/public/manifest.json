@@ -1,6 +1,6 @@
 {
     "name": "Convo",
-    "short_name": "convo",
+    "short_name": "Convo",
     "start_url": "/",
     "display": "standalone",
     "orientation": "portrait",
