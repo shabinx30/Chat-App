@@ -8,7 +8,6 @@ import type { RootState } from "../../redux/store";
 import { useParams } from "react-router-dom";
 import { useAppContext } from "../../context/AppContext";
 import debounce from "../../libs/debouncer";
-import { PiChatTeardropDotsFill } from "react-icons/pi";
 
 //function type
 interface AddContactType {
