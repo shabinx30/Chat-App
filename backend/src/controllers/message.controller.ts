@@ -3,6 +3,7 @@ import messageModel from "../models/message.model";
 import chatModel from "../models/chat.model";
 import { DefaultEventsMap, Server } from "socket.io";
 import { send } from "./notify.controller";
+import userModel from "../models/user.model";
 
 interface msgData {
     msg?: string;
@@ -54,7 +55,11 @@ export const sendMessage = async ({ data, io, map }: sndMsgType) => {
         let message = { ...result.toObject(), tosChat: chatId };
 
         io.to(map.get(to)).emit("chat message", message);
-        await send([to])
+ 
+        //not optimized for group
+        const user = await userModel.find({_id: to})
+
+        await send(user, msg)
     } catch (error) {
         console.log("Error while sending message", error);
     }

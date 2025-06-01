@@ -1,5 +1,15 @@
 import { Request, Response } from "express";
+import { Document } from "mongoose";
 import webPush from "web-push";
+import { userDetails } from "../models/user.model";
+
+type usersData = (Document<unknown, {}, userDetails, {}> &
+    userDetails &
+    Required<{
+        _id: unknown;
+    }> & {
+        __v: number;
+    })[];
 
 let subscriptions = new Map();
 
@@ -15,23 +25,21 @@ export const subscribe = async (req: Request, res: Response) => {
     }
 };
 
-export const send = async (userIds: string[]) => {
+export const send = async (users: usersData, body: string | undefined) => {
     try {
-        
-        const notificationPayload = JSON.stringify({
-            title: "New Notification",
-            body: "You have a new message!",
-        });
-
-        
-        const sendPromises = userIds.map((userId) =>
+        const sendPromises = users.map((user) => {
+            const notificationPayload = JSON.stringify({
+                title: user.name,
+                body,
+                icon: `${process.env.SERVER_URL}/${user.profile}`
+            });
             webPush
                 .sendNotification(
-                    subscriptions.get(userId),
+                    subscriptions.get(user._id),
                     notificationPayload
                 )
-                .catch((err) => console.error(err))
-        );
+                .catch((err) => console.error(err));
+        });
 
         await Promise.all(sendPromises);
         // res.status(200).json({ message: "Notifications sent" });
