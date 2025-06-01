@@ -73,7 +73,7 @@ const Contacts = ({ change, setPop }: AddContactType) => {
             setOnUsers(new Set(res));
         });
         socket.on("chat message", (message) => {
-            console.log(message);
+            // console.log(message);
             setChatMsg(message.tosChat);
         });
     }, [change]);
