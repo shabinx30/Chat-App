@@ -33,23 +33,25 @@ export const subscribe = async (req: Request, res: Response) => {
 };
 
 // export const send = async (users: usersData, body: string | undefined, chatId: string, profile: string | undefined) => {
-export const send = async ({users, body, chatId, profile}: sendType) => {
+export const send = async ({ users, body, chatId, profile }: sendType) => {
     try {
         const sendPromises = users.map((user) => {
-            const notificationPayload = JSON.stringify({
-                title: user.name,
-                body,
-                icon: `${process.env.SERVER_URL}/${profile}`,
-                chatId
-            });
-            console.log(subscriptions.get(user))
-            
-            webPush
-                .sendNotification(
-                    subscriptions.get(user._id && user._id.toString()),
-                    notificationPayload
-                )
-                .catch((err) => console.error(err));
+            if (subscriptions.get(user._id && user._id.toString())) {
+                const notificationPayload = JSON.stringify({
+                    title: user.name,
+                    body,
+                    icon: `${process.env.SERVER_URL}/${profile}`,
+                    chatId,
+                });
+                // console.log(subscriptions.get(user))
+
+                webPush
+                    .sendNotification(
+                        subscriptions.get(user._id && user._id.toString()),
+                        notificationPayload
+                    )
+                    .catch((err) => console.error(err));
+            }
         });
 
         await Promise.all(sendPromises);

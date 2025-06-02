@@ -116,7 +116,7 @@ const Contacts = ({ change, setPop }: AddContactType) => {
                 chatId ? "hidden md:block md:flex-1" : "flex-1"
             } bg-[#ffffff] h-[100dvh] relative dark:bg-gray-900 text-black dark:border-r border-gray-800`}
         >
-            <div className="block h-[21vh]">
+            <div className="block">
                 <div className="mx-4 h-[4em] flex justify-between items-center">
                     <h1 className="font-bold text-3xl text-[#626fff]">Convo</h1>
                         

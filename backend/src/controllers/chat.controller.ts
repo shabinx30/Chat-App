@@ -57,7 +57,7 @@ export const getContacts = async (req: Request, res: Response) => {
         const userId = new mongoose.Types.ObjectId(req.body.userId); // ensure it's ObjectId
 
         let chat = await chatModel
-            .find({ "members.userId": userId })
+            .find({ "members.userId": userId }).sort({lastMessageAt: 1})
             .populate("members.userId", "name email profile");
 
         // console.log(result)
