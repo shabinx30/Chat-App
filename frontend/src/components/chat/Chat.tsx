@@ -169,6 +169,22 @@ const Chat = () => {
         };
     }, [socket]);
 
+    const [size, setSize] = useState(0)
+
+    useEffect(() => {
+        const handleResize = () => {
+            setSize(scrollRef.current.clientHeight)
+        };
+
+        window.addEventListener("resize", handleResize);
+
+        handleResize();
+
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    }, []);
+
     return (
         <section
             className={`${
@@ -201,7 +217,7 @@ const Chat = () => {
                 <List
                     ref={scrollRef2}
                     className="bg-[#dee1ff] dark:bg-black scroll-smooth scrollable"
-                    height={scrollRef.current?.clientHeight || 0}
+                    height={size}
                     itemCount={messages.length}
                     itemSize={42}
                     width="100%"

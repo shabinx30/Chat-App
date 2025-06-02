@@ -114,9 +114,9 @@ const Contacts = ({ change, setPop }: AddContactType) => {
         <section
             className={`${
                 chatId ? "hidden md:block md:flex-1" : "flex-1"
-            } bg-[#ffffff] h-[100dvh] relative dark:bg-gray-900 text-black dark:border-r border-gray-800`}
+            } bg-[#ffffff] h-[100vh] relative dark:bg-gray-900 text-black dark:border-r border-gray-800`}
         >
-            <div className="block">
+            <div className="absolute h-[21vh] w-full z-10 bg-[#ffffff] dark:bg-gray-900">
                 <div className="mx-4 h-[4em] flex justify-between items-center">
                     <h1 className="font-bold text-3xl text-[#626fff]">Convo</h1>
                         
@@ -134,7 +134,7 @@ const Contacts = ({ change, setPop }: AddContactType) => {
                     />
                 </div>
             </div>
-            <div className="overflow-y-scroll bg-[#fff] dark:bg-gray-900 px-4 text-white scroll-smooth h-[79vh] scrollable">
+            <div className="overflow-y-scroll bg-[#fff] dark:bg-gray-900 px-4 text-white h-[79vh] mt-[21vh] scroll-smooth scrollable">
                 {ctc && !ctc.length ? (
                     <div className="flex h-[20em] justify-center items-center">
                         <div className="text-center flex flex-col gap-2 font-semibold">
