@@ -34,8 +34,8 @@ const AddContact = ({ setPop, setChange }: AddContactType) => {
                     if (res.data.message == "User is not existing!!!") {
                         console.log(res.data.message);
                     } else if (res.data.message == "success") {
-                        if(emailRef.current) {
-                            setChange(String(emailRef.current.value))
+                        if (emailRef.current) {
+                            setChange(String(emailRef.current.value));
                         }
                         setPop(false);
                     }
@@ -56,7 +56,15 @@ const AddContact = ({ setPop, setChange }: AddContactType) => {
             onClick={() => setPop(false)}
             className="absolute z-30 bg-[#000]/25 backdrop-blur-[8px] w-screen h-screen flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
         >
-            <div
+            <motion.div
+                initial={{ y: 50 }}
+                animate={{ y: 0 }}
+                transition={{
+                    type: "spring",
+                    stiffness: 120,
+                    damping: 25,
+                    duration: .8,
+                }}
                 onClick={(e) => e.stopPropagation()}
                 className="w-full bg-white rounded-3xl shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-[#1b1b1b]/50 dark:border-[#2b2b2b]"
             >
@@ -94,7 +102,7 @@ const AddContact = ({ setPop, setChange }: AddContactType) => {
                         </div>
                     </form>
                 </div>
-            </div>
+            </motion.div>
         </motion.div>
     );
 };
