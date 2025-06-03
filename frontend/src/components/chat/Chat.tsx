@@ -169,11 +169,11 @@ const Chat = () => {
         };
     }, [socket]);
 
-    const [size, setSize] = useState(0)
+    const [size, setSize] = useState(0);
 
     useEffect(() => {
         const handleResize = () => {
-            setSize(scrollRef.current.clientHeight)
+            setSize(scrollRef.current.clientHeight);
         };
 
         window.addEventListener("resize", handleResize);
@@ -191,29 +191,33 @@ const Chat = () => {
                 chatId ? "flex-[calc(1/2.6*100%)]" : "hidden"
             } relative h-[100dvh] bg-[#dee1ff] dark:bg-black`}
         >
-            <nav className="flex bg-[#fff] dark:bg-gray-900 dark:border-b border-gray-800 dark:text-[#fff] text-[#000000] items-center py-4 px-2 justify-between top-0 right-0 w-full h-[8.5vh]">
-                <div className="flex items-center gap-1 md:gap-3 md:px-2">
-                    <IoIosArrowBack
-                        className="cursor-pointer"
-                        onClick={() => navigate("/")}
-                        size={30}
-                    />
-                    <img
-                        className="object-cover min-w-[2.5em] max-h-[2.5em] rounded-full"
-                        src={
-                            chat?.profile
-                                ? `${import.meta.env.VITE_BASE_URL}/${
-                                      chat.profile
-                                  }`
-                                : "/icons/user.png"
-                        }
-                        alt={chat?.name}
-                    />
-                    <h1 className="font-semibold ml-2 md:m-0">{chat?.name}</h1>
-                </div>
-                <IoMdMore size={24} className="cursor-pointer" />
-            </nav>
-            <div ref={scrollRef} className="h-[81vh] px-2 md:px-4">
+            <div className="flex justify-center mt-2">
+                <nav className="flex bg-[#fff] rounded-2xl dark:border border-[#2b2b2b] dark:bg-[#121212] w-[90%] dark:text-[#fff] text-[#000000] items-center py-4 px-2 justify-between top-0 right-0 h-[8.5vh]">
+                    <div className="flex items-center gap-1 md:gap-3 md:px-2">
+                        <IoIosArrowBack
+                            className="cursor-pointer"
+                            onClick={() => navigate("/")}
+                            size={30}
+                        />
+                        <img
+                            className="object-cover min-w-[2.5em] max-h-[2.5em] rounded-full"
+                            src={
+                                chat?.profile
+                                    ? `${import.meta.env.VITE_BASE_URL}/${
+                                          chat.profile
+                                      }`
+                                    : "/icons/user.png"
+                            }
+                            alt={chat?.name}
+                        />
+                        <h1 className="font-semibold ml-2 md:m-0">
+                            {chat?.name}
+                        </h1>
+                    </div>
+                    <IoMdMore size={24} className="cursor-pointer" />
+                </nav>
+            </div>
+            <div ref={scrollRef} className="h-[79vh] mt-1 px-2 md:px-4">
                 <List
                     ref={scrollRef2}
                     className="bg-[#dee1ff] dark:bg-black scroll-smooth scrollable"
@@ -256,10 +260,10 @@ const Chat = () => {
                 animate={{ opacity: 1 }}
                 className="flex justify-center bg-black"
             >
-                <div className="absolute flex bg-[#fff] dark:bg-gray-800 shadow-[0_2px_10px] shadow-black/50 rounded-2xl text-black justify-between pr-2 pl-5 gap-1 items-center bottom-4 w-[80%]">
+                <div className="absolute flex dark:border border-[#2b2b2b] bg-[#fff] dark:bg-[#1d1d1d] shadow-[0_2px_10px] shadow-black/50 rounded-2xl text-black justify-between pr-2 pl-5 gap-1 items-center bottom-4 w-[80%]">
                     <ImAttachment
                         size={18}
-                        className="cursor-pointer dark:text-[#626fff]"
+                        className="cursor-pointer dark:text-[#b0ff62]"
                     />
                     <form className="w-full" onSubmit={sendMessage}>
                         <input
@@ -272,7 +276,7 @@ const Chat = () => {
                     </form>
                     <div
                         onClick={() => sendMessage()}
-                        className="bg-[#bec3ff] dark:bg-[#9ca5ff] dark:text-black cursor-pointer py-2 pl-2.5 pr-1.5 rounded-[12px]"
+                        className="bg-[#bec3ff] dark:bg-[#b0ff62] dark:text-black cursor-pointer py-2 pl-2.5 pr-1.5 rounded-[12px]"
                     >
                         <motion.div
                             animate={{ rotateY: rotate }}
@@ -296,7 +300,7 @@ const Chat = () => {
                 initial={{ scale: 0 }}
                 animate={{ scale: isLastMessageInView ? 0 : 1 }}
                 onClick={scrollToBottom}
-                className="absolute cursor-pointer bg-white dark:bg-gray-800 dark:text-[#9ca5ff] bottom-[5em] rounded-2xl shadow-[0_2px_10px] shadow-black right-10 p-2"
+                className="absolute cursor-pointer bg-white dark:bg-gray-800 dark:text-[#b0ff62] bottom-[5em] rounded-2xl shadow-[0_2px_10px] shadow-black right-10 p-2"
             >
                 <MdKeyboardDoubleArrowDown size={26} />
             </motion.div>

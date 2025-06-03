@@ -114,13 +114,13 @@ const Contacts = ({ change, setPop }: AddContactType) => {
         <section
             className={`${
                 chatId ? "hidden md:block md:flex-1" : "flex-1"
-            } bg-[#ffffff] h-[100vh] relative dark:bg-gray-900 text-black dark:border-r border-gray-800`}
+            } bg-[#ffffff] h-[100vh] relative dark:bg-gray-900 text-black dark:border-r border-[#282828]`}
         >
-            <div className="absolute h-[21vh] w-full z-10 bg-[#ffffff] dark:bg-gray-900">
+            <div className="absolute h-[21vh] w-full z-10 bg-[#ffffff] dark:bg-[#121212]">
                 <div className="mx-4 h-[4em] flex justify-between items-center">
-                    <h1 className="font-bold text-3xl text-[#626fff]">Convo</h1>
+                    <h1 className="font-bold text-3xl text-[#b0ff62] select-none">Convo</h1>
                         
-                    <div className="bg-[#bec3ff] dark:bg-[#9ca5ff] dark:text-black cursor-pointer p-2 rounded-2xl">
+                    <div className="bg-[#bec3ff] dark:bg-[#b0ff62] dark:text-black cursor-pointer p-1.5 rounded-[15px]">
                         <LuSettings size={24} />
                     </div>
                 </div>
@@ -128,20 +128,20 @@ const Contacts = ({ change, setPop }: AddContactType) => {
                     <input
                         ref={searchRef}
                         onChange={debouncedSearch}
-                        className="bg-[#eff0ff] dark:bg-[#363a68] dark:text-white rounded-4xl w-[94%] outline-none px-4 py-2 placeholder:text-[#818bff]"
+                        className="bg-[#eff0ff] dark:bg-[#2b2b2b] text-white rounded-4xl w-[90%] outline-none px-4 py-2 dark:placeholder:text-[#e8ffd291]"
                         type="text"
                         placeholder="Search"
                     />
                 </div>
             </div>
-            <div className="overflow-y-scroll bg-[#fff] dark:bg-gray-900 px-4 text-white h-[79vh] mt-[21vh] scroll-smooth scrollable">
+            <div className="overflow-y-scroll bg-[#fff] dark:bg-[#121212] px-4 text-white h-[79vh] mt-[21vh] scroll-smooth scrollable">
                 {ctc && !ctc.length ? (
                     <div className="flex h-[20em] justify-center items-center">
                         <div className="text-center flex flex-col gap-2 font-semibold">
                             <div>
                                 <span className=""></span>No Contacts
                             </div>
-                            <p className="text-base text-[#72759c]">
+                            <p className="text-base text-[#e1ffc283]">
                                 Tap the plus to add new contacts
                             </p>
                         </div>
@@ -161,7 +161,7 @@ const Contacts = ({ change, setPop }: AddContactType) => {
                 )}
                 <div
                     onClick={() => setPop(true)}
-                    className="absolute cursor-pointer text-black rounded-[22px] p-1.5 bg-[#9ca5ff] bottom-8 right-8"
+                    className="absolute cursor-pointer text-black rounded-[22px] p-1.5 bg-[#b0ff62] bottom-8 right-8"
                 >
                     <GoPlus size={40} />
                 </div>

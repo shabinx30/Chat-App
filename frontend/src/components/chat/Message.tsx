@@ -20,8 +20,8 @@ const Message = ({ index, style, data }: any) => {
                     }
                     className={`relative ${
                         user === messages[index].from
-                            ? "bg-[#9ca5ff] pr-[3.2em]"
-                            : "bg-[#fff] dark:bg-gray-800 pr-[3.4em]"
+                            ? "bg-[#b0ff62] pr-[3.2em]"
+                            : "bg-[#fff] dark:bg-[#1d1d1d] pr-[3.4em]"
                     } max-w-[75%] text-black pl-2 pt-1 pb-2.5`}
                 >
                     <p
