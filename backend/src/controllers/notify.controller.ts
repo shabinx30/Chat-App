@@ -3,19 +3,22 @@ import { Document } from "mongoose";
 import webPush from "web-push";
 import { userDetails } from "../models/user.model";
 
-type usersData = (Document<unknown, {}, userDetails, {}> &
-    userDetails &
-    Required<{
-        _id: unknown;
-    }> & {
-        __v: number;
-    })[];
+type usersData =
+    | (Document<unknown, {}, userDetails, {}> &
+          userDetails &
+          Required<{
+              _id: unknown;
+          }> & {
+              __v: number;
+          })
+    | null;
+
 
 interface sendType {
-    users: usersData;
+    users: usersData[];
     body: string | undefined;
     chatId: string;
-    profile: string | undefined;
+    user: usersData;
 }
 
 let subscriptions = new Map();
@@ -33,21 +36,21 @@ export const subscribe = async (req: Request, res: Response) => {
 };
 
 // export const send = async (users: usersData, body: string | undefined, chatId: string, profile: string | undefined) => {
-export const send = async ({ users, body, chatId, profile }: sendType) => {
+export const send = async ({ users, body, chatId, user }: sendType) => {
     try {
-        const sendPromises = users.map((user) => {
-            if (subscriptions.get(user._id && user._id.toString())) {
+        const sendPromises = users.map((to) => {
+            if (subscriptions.get(to?._id && to._id.toString())) {
                 const notificationPayload = JSON.stringify({
-                    title: user.name,
+                    title: user?.name,
                     body,
-                    icon: `${process.env.SERVER_URL}/${profile}`,
+                    icon: `${process.env.SERVER_URL}/${user?.profile}`,
                     chatId,
                 });
                 // console.log(subscriptions.get(user))
 
                 webPush
                     .sendNotification(
-                        subscriptions.get(user._id && user._id.toString()),
+                        subscriptions.get(to?._id && to._id.toString()),
                         notificationPayload
                     )
                     .catch((err) => console.error(err));
