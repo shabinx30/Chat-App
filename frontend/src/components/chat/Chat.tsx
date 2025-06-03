@@ -98,12 +98,14 @@ const Chat = () => {
 
     const [rotate, setRotate] = useState(0);
 
+    const hello = useRef<boolean>(null);
+
     const sendMessage = (e: FormEvent<HTMLFormElement> | null = null) => {
         if (e) e.preventDefault();
-        if (msgRef.current?.value.trim()) {
+        if (msgRef.current?.value.trim() || hello.current) {
             setRotate((prev) => prev + 360);
             const myMsg: Msg = {
-                body: msgRef.current.value,
+                body: msgRef?.current?.value || "Hello👋",
                 createdAt: Date.now(),
                 from: state.auth.user.userId,
             };
@@ -115,7 +117,11 @@ const Chat = () => {
             });
             shouldScrollToBottom.current = true;
             setMessages((p) => [...p, myMsg]);
-            msgRef.current.value = "";
+            if (msgRef.current) {
+                msgRef.current.value = "";
+            } else if (hello.current) {
+                hello.current = false;
+            }
         }
     };
 
@@ -192,7 +198,7 @@ const Chat = () => {
             } relative h-[100dvh] bg-[#e6ffcb] dark:bg-black`}
         >
             <div className="flex justify-center mt-2">
-                <nav className="flex bg-[#fff] rounded-2xl dark:border border-[#2b2b2b] dark:bg-[#121212] w-[90%] dark:text-[#fff] text-[#000000] items-center py-4 px-2 justify-between top-0 right-0 h-[8.5vh]">
+                <nav className="flex bg-white rounded-2xl dark:border dark:shadow-none shadow-[0_1px_10px] shadow-black/40 border-[#2b2b2b] dark:bg-[#121212] w-[90%] dark:text-[#fff] text-[#000000] items-center py-4 px-2 justify-between top-0 right-0 h-[8.5vh]">
                     <div className="flex items-center gap-1 md:gap-3 md:px-2">
                         <IoIosArrowBack
                             className="cursor-pointer"
@@ -217,32 +223,46 @@ const Chat = () => {
                     <IoMdMore size={24} className="cursor-pointer" />
                 </nav>
             </div>
-            <div ref={scrollRef} className="h-[79vh] mt-1 px-2 md:px-4">
-                <List
-                    ref={scrollRef2}
-                    className="bg-[#e6ffcb] dark:bg-black scroll-smooth scrollable"
-                    height={size}
-                    itemCount={messages.length}
-                    itemSize={42}
-                    width="100%"
-                    itemData={{
-                        messages,
-                        user: state.auth.user.userId,
-                    }}
-                    onScroll={({ scrollOffset }) => {
-                        if (scrollRef.current) {
-                            const totalHeight = messages.length * 42; // itemCount * itemSize
-                            const viewportHeight =
-                                scrollRef.current.clientHeight;
-                            const isAtBottom =
-                                scrollOffset + viewportHeight >=
-                                totalHeight - 1; // Small threshold
-                            setIsLastMessageInView(isAtBottom);
-                        }
-                    }}
-                >
-                    {Message}
-                </List>
+            <div ref={scrollRef} className="h-[78vh] mt-3 px-2 md:px-4">
+                {!messages.length ? (
+                    <div className="flex justify-center items-center h-full">
+                        <div
+                            onClick={() => {
+                                hello.current = true;
+                                sendMessage();
+                            }}
+                            className="cursor-pointer border border-[#b0ff62] border-dashed rounded-2xl py-1 px-2"
+                        >
+                            Say Hello👋
+                        </div>
+                    </div>
+                ) : (
+                    <List
+                        ref={scrollRef2}
+                        className="bg-[#e6ffcb] dark:bg-black scroll-smooth scrollable"
+                        height={size}
+                        itemCount={messages.length}
+                        itemSize={42}
+                        width="100%"
+                        itemData={{
+                            messages,
+                            user: state.auth.user.userId,
+                        }}
+                        onScroll={({ scrollOffset }) => {
+                            if (scrollRef.current) {
+                                const totalHeight = messages.length * 42; // itemCount * itemSize
+                                const viewportHeight =
+                                    scrollRef.current.clientHeight;
+                                const isAtBottom =
+                                    scrollOffset + viewportHeight >=
+                                    totalHeight - 1; // Small threshold
+                                setIsLastMessageInView(isAtBottom);
+                            }
+                        }}
+                    >
+                        {Message}
+                    </List>
+                )}
                 <AnimatePresence>
                     {isTyping?.isTyping && chatId === isTyping.chatId && (
                         <motion.div className="text-white w-[3em] rounded-lg bg-[#fff] dark:bg-gray-800 ml-2 mt-0.5">
@@ -260,7 +280,7 @@ const Chat = () => {
                 animate={{ opacity: 1 }}
                 className="flex justify-center bg-black"
             >
-                <div className="absolute flex dark:border border-[#2b2b2b] bg-[#fff] dark:bg-[#1d1d1d] shadow-[0_2px_10px] shadow-black/50 rounded-2xl text-black justify-between pr-2 pl-5 gap-1 items-center bottom-4 w-[80%]">
+                <div className="absolute flex dark:border border-[#2b2b2b] bg-[#fff] dark:bg-[#1d1d1d] dark:shadow-none shadow-[0_1px_10px] shadow-black/50 rounded-2xl text-black justify-between pr-2 pl-5 gap-1 items-center bottom-4 w-[80%]">
                     <ImAttachment
                         size={18}
                         className="cursor-pointer dark:text-[#b0ff62]"
@@ -300,7 +320,7 @@ const Chat = () => {
                 initial={{ scale: 0 }}
                 animate={{ scale: isLastMessageInView ? 0 : 1 }}
                 onClick={scrollToBottom}
-                className="absolute cursor-pointer bg-white dark:bg-gray-800 dark:text-[#b0ff62] bottom-[5em] rounded-2xl shadow-[0_2px_10px] shadow-black right-10 p-2"
+                className="absolute cursor-pointer bg-white dark:bg-gray-800 dark:text-[#b0ff62] bottom-[5em] rounded-2xl shadow-[0_2px_10px] shadow-black/50 right-10 p-2"
             >
                 <MdKeyboardDoubleArrowDown size={26} />
             </motion.div>
