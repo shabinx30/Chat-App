@@ -57,7 +57,8 @@ export const getContacts = async (req: Request, res: Response) => {
         const userId = new mongoose.Types.ObjectId(req.body.userId); // ensure it's ObjectId
 
         let chat = await chatModel
-            .find({ "members.userId": userId }).sort({lastMessageAt: 1})
+            .find({ "members.userId": userId })
+            .sort({ lastMessageAt: 1 })
             .populate("members.userId", "name email profile");
 
         // console.log(result)
@@ -74,6 +75,7 @@ export const searchContacts = async (req: Request, res: Response) => {
         // console.log(userId, value);
         const chats = await chatModel
             .find({ "members.userId": userId })
+            .sort({ lastMessageAt: 1 })
             .populate("members.userId", "name email profile");
 
         const chat = chats.filter((chat: any) => {
