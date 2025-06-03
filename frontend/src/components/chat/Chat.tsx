@@ -189,7 +189,7 @@ const Chat = () => {
         <section
             className={`${
                 chatId ? "flex-[calc(1/2.6*100%)]" : "hidden"
-            } relative h-[100dvh] bg-[#dee1ff] dark:bg-black`}
+            } relative h-[100dvh] bg-[#e6ffcb] dark:bg-black`}
         >
             <div className="flex justify-center mt-2">
                 <nav className="flex bg-[#fff] rounded-2xl dark:border border-[#2b2b2b] dark:bg-[#121212] w-[90%] dark:text-[#fff] text-[#000000] items-center py-4 px-2 justify-between top-0 right-0 h-[8.5vh]">
@@ -220,7 +220,7 @@ const Chat = () => {
             <div ref={scrollRef} className="h-[79vh] mt-1 px-2 md:px-4">
                 <List
                     ref={scrollRef2}
-                    className="bg-[#dee1ff] dark:bg-black scroll-smooth scrollable"
+                    className="bg-[#e6ffcb] dark:bg-black scroll-smooth scrollable"
                     height={size}
                     itemCount={messages.length}
                     itemSize={42}
@@ -276,7 +276,7 @@ const Chat = () => {
                     </form>
                     <div
                         onClick={() => sendMessage()}
-                        className="bg-[#bec3ff] dark:bg-[#b0ff62] dark:text-black cursor-pointer py-2 pl-2.5 pr-1.5 rounded-[12px]"
+                        className="bg-[#b0ff62] dark:text-black cursor-pointer py-2 pl-2.5 pr-1.5 rounded-[12px]"
                     >
                         <motion.div
                             animate={{ rotateY: rotate }}

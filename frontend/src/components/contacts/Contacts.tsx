@@ -118,9 +118,9 @@ const Contacts = ({ change, setPop }: AddContactType) => {
         >
             <div className="absolute h-[21vh] w-full z-10 bg-[#ffffff] dark:bg-[#121212]">
                 <div className="mx-4 h-[4em] flex justify-between items-center">
-                    <h1 className="font-bold text-3xl text-[#b0ff62] select-none">Convo</h1>
+                    <h1 className="font-bold text-3xl dark:text-[#fff] text-[#000] select-none">Convo</h1>
                         
-                    <div className="bg-[#bec3ff] dark:bg-[#b0ff62] dark:text-black cursor-pointer p-1.5 rounded-[15px]">
+                    <div className="bg-[#b0ff62] dark:text-black cursor-pointer p-1.5 rounded-[15px]">
                         <LuSettings size={24} />
                     </div>
                 </div>
@@ -128,7 +128,7 @@ const Contacts = ({ change, setPop }: AddContactType) => {
                     <input
                         ref={searchRef}
                         onChange={debouncedSearch}
-                        className="bg-[#eff0ff] dark:bg-[#2b2b2b] text-white rounded-4xl w-[90%] outline-none px-4 py-2 dark:placeholder:text-[#e8ffd291]"
+                        className="bg-[#e6ffcb] dark:bg-[#2b2b2b] dark:text-white rounded-4xl w-[90%] outline-none px-4 py-2 dark:placeholder:text-[#e8ffd291]"
                         type="text"
                         placeholder="Search"
                     />
