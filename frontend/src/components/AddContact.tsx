@@ -59,6 +59,7 @@ const AddContact = ({ setPop, setChange }: AddContactType) => {
             <motion.div
                 initial={{ y: 50 }}
                 animate={{ y: 0 }}
+                exit={{ y: 50 }}
                 transition={{
                     type: "spring",
                     stiffness: 120,

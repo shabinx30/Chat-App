@@ -3,6 +3,7 @@ import AddContact from "../components/AddContact";
 import Contacts from "../components/contacts/Contacts";
 import type React from "react";
 import { subscribeToPush } from "../utils/push";
+import { AnimatePresence } from "framer-motion";
 
 const Home = ({ aside }: { aside: React.ReactNode }) => {
     const [isPop, setPop] = useState<boolean>(false);
@@ -30,7 +31,9 @@ const Home = ({ aside }: { aside: React.ReactNode }) => {
 
     return (
         <div className="relative flex">
-            {isPop && <AddContact setPop={setPop} setChange={setChange} />}
+            <AnimatePresence>
+                {isPop && <AddContact setPop={setPop} setChange={setChange} />}
+            </AnimatePresence>
             <Contacts change={change} setPop={setPop} />
             {aside}
         </div>
