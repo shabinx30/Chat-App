@@ -292,6 +292,9 @@ const Chat = () => {
                             placeholder="Type a message"
                             onKeyDown={(e) => {
                                 if(e.key == "Enter") {
+                                    if(e.shiftKey) {
+                                        return
+                                    }
                                     e.preventDefault()
                                     sendMessage()
                                 }
