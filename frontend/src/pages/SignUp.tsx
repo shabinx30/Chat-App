@@ -37,9 +37,9 @@ const SignUp: React.FC = () => {
         confirmPassword: { status: true, message: "" },
     });
     const errorClass =
-        "bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-500 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-red-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500";
+        "bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-500 focus:border-primary-600 block w-full p-2.5 dark:bg-[#2b2b2b] dark:border-red-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500";
     const regularClass =
-        "bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500";
+        "bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-[#2b2b2b] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500";
 
     // error animation
     const [isError, setError] = useState({
@@ -322,9 +322,9 @@ const SignUp: React.FC = () => {
                     </div>
                 </div>
             )}
-            <section className="bg-gray-50 dark:bg-gray-900 pt-16">
+            <section className="bg-gray-50 dark:bg-black pt-16">
                 <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-                    <div className="w-full bg-white rounded-3xl shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+                    <div className="w-full bg-white rounded-3xl shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-[#1b1b1b] dark:border-[#2b2b2b]">
                         <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                                 Create your account
@@ -464,7 +464,7 @@ const SignUp: React.FC = () => {
                                 </div>
                                 <button
                                     type="submit"
-                                    className="w-full text-white bg-[#626fff] hover:bg-[#98a1ff] duration-200 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                                    className="w-full text-black bg-[#b0ff62] hover:bg-[#b0ff62] duration-200 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                                 >
                                     Sign Up
                                 </button>
@@ -472,7 +472,7 @@ const SignUp: React.FC = () => {
                                     Already have an account?{" "}
                                     <Link
                                         to="/login"
-                                        className="font-medium text-[#626fff] hover:underline dark:text-[#98a1ff] cursor-pointer"
+                                        className="font-medium text-black hover:underline dark:text-[#b0ff62] cursor-pointer"
                                     >
                                         Sign In
                                     </Link>
