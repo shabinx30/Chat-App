@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import userModel from "../models/user.model";
 import bcrypt from "bcryptjs";
+import cloudinary from "../utils/cloudinary";
 
 interface userDetails {
     name: string;
@@ -23,7 +24,23 @@ export const SignUp = async (req: Request, res: Response): Promise<void> => {
             return;
         }
 
-        const profile = req.file?.path;
+        let profile
+
+        //uploading the profile pic
+        if (req.file?.path) {
+            const uploadResult = await cloudinary.uploader
+                .upload(req.file?.path, {
+                    public_id: "profile",
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+
+            profile = uploadResult?.url
+        }else {
+            console.log("couldn't find a file")
+        }
+
         const password = await hashPassword(req.body.password);
 
         const result = new userModel({
