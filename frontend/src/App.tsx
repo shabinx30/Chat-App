@@ -7,8 +7,6 @@ import SignUp from "./pages/SignUp";
 import Protector from "./components/Protector";
 
 function App() {
-    
-
     return (
         <Routes>
             <Route path="/" element={<Protector type='in'><Home aside={<Welcome />} /></Protector>} />
