@@ -208,11 +208,7 @@ const Chat = () => {
                         <img
                             className="object-cover min-w-[2.5em] max-h-[2.5em] rounded-full"
                             src={
-                                chat?.profile
-                                    ? `${import.meta.env.VITE_BASE_URL}/${
-                                          chat.profile
-                                      }`
-                                    : "/icons/user.png"
+                                chat?.profile ? chat.profile : "/icons/user.png"
                             }
                             alt={chat?.name}
                         />

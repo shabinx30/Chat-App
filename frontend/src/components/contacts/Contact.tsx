@@ -70,12 +70,12 @@ const Contact = ({
         >
             <div className="relative flex items-center justify-center">
                 <img
-                    className={`object-cover ${!person?.userId.profile && 'dark:invert' } min-w-[3.5em] max-h-[3.5em] rounded-full`}
+                    className={`object-cover ${
+                        !person?.userId.profile && "dark:invert"
+                    } min-w-[3.5em] max-h-[3.5em] rounded-full`}
                     src={`${
                         person?.userId.profile !== ""
-                            ? import.meta.env.VITE_BASE_URL +
-                              "/" +
-                              person?.userId.profile
+                            ? person?.userId.profile
                             : "/icons/user.png"
                     }`}
                     alt={person?.userId.name}
@@ -92,18 +92,20 @@ const Contact = ({
                         {person?.userId.name}
                     </p>
                     <AnimatePresence>
-                        {data._id == isTyping?.chatId && isTyping.isTyping && chatId != data._id && (
-                            <motion.p
-                                key="typing"
-                                initial={{ height: 0, opacity: 0 }}
-                                animate={{ height: "auto", opacity: 1 }}
-                                exit={{ height: 0, opacity: 0 }}
-                                transition={{ duration: 0.3 }}
-                                className={`text-sm font-semibold text-[#b0ff62]`}
-                            >
-                                Typing...
-                            </motion.p>
-                        )}
+                        {data._id == isTyping?.chatId &&
+                            isTyping.isTyping &&
+                            chatId != data._id && (
+                                <motion.p
+                                    key="typing"
+                                    initial={{ height: 0, opacity: 0 }}
+                                    animate={{ height: "auto", opacity: 1 }}
+                                    exit={{ height: 0, opacity: 0 }}
+                                    transition={{ duration: 0.3 }}
+                                    className={`text-sm font-semibold text-[#b0ff62]`}
+                                >
+                                    Typing...
+                                </motion.p>
+                            )}
                     </AnimatePresence>
                 </div>
                 {chatMsg == data._id ? (
