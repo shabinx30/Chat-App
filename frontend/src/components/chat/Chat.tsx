@@ -47,7 +47,7 @@ const Chat = () => {
     const [messages, setMessages] = useState<Msg[]>([]);
     const { socket } = useAppContext();
     const navigate = useNavigate();
-    const msgRef = useRef<HTMLInputElement>(null);
+    const msgRef = useRef<HTMLTextAreaElement>(null);
     const { chatId } = useParams();
     const apiUrl = import.meta.env.VITE_BASE_URL;
 
@@ -151,7 +151,7 @@ const Chat = () => {
         []
     );
 
-    const handleTyping = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleTyping = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         if (e.target.value.trim()) {
             setTyping(true);
             debouncedSearch();
@@ -281,14 +281,22 @@ const Chat = () => {
                         size={18}
                         className="cursor-pointer dark:text-[#b0ff62]"
                     />
-                    <form className="w-full" onSubmit={sendMessage}>
-                        <input
+                    <form
+                        className="w-full items-center"
+                        onSubmit={sendMessage}
+                    >
+                        <textarea
                             ref={msgRef}
-                            className="dark:text-white w-full outline-none h-[3.4em] placeholder:text-gray-600 dark:placeholder:text-gray-400 px-2"
-                            type="text"
+                            className="resize-none scrollable pt-4 dark:text-white w-full outline-none h-[3.4em] placeholder:text-gray-600 dark:placeholder:text-gray-400 px-2"
                             onChange={handleTyping}
                             placeholder="Type a message"
-                        />
+                            onKeyDown={(e) => {
+                                if(e.key == "Enter") {
+                                    e.preventDefault()
+                                    sendMessage()
+                                }
+                            }}
+                        ></textarea>
                     </form>
                     <div
                         onClick={() => sendMessage()}
