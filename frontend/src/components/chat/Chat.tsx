@@ -182,12 +182,18 @@ const Chat = () => {
             setSize(scrollRef.current.clientHeight);
         };
 
+        const handleFocus = () => {
+            msgRef.current?.focus()
+        }
+
         window.addEventListener("resize", handleResize);
+        window.addEventListener("keydown", handleFocus)
 
         handleResize();
 
         return () => {
             window.removeEventListener("resize", handleResize);
+            window.removeEventListener("keydown", handleFocus)
         };
     }, []);
 
