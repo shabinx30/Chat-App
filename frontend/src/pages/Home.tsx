@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
-import AddContact from "../components/AddContact";
+import AddContact from "../components/contacts/AddContact";
 import Contacts from "../components/contacts/Contacts";
 import type React from "react";
 import { subscribeToPush } from "../utils/push";
 import { AnimatePresence } from "framer-motion";
+import Settings from "../components/settings/Settings";
 
 const Home = ({ aside }: { aside: React.ReactNode }) => {
     const [isPop, setPop] = useState<boolean>(false);
+    const [isSett, setSett] = useState<boolean>(false);
     const [change, setChange] = useState("");
 
     const {VITE_PUBLIC_VAPID_KEY, VITE_BASE_URL} = import.meta.env
@@ -32,9 +34,10 @@ const Home = ({ aside }: { aside: React.ReactNode }) => {
     return (
         <div className="relative flex">
             <AnimatePresence>
+                {isSett && <Settings setSett={setSett}/>}
                 {isPop && <AddContact setPop={setPop} setChange={setChange} />}
             </AnimatePresence>
-            <Contacts change={change} setPop={setPop} />
+            <Contacts change={change} setPop={setPop} setSett={setSett} />
             {aside}
         </div>
     );

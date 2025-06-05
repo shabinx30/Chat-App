@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useRef, type FormEvent } from "react";
 import { useSelector, type TypedUseSelectorHook } from "react-redux";
-import type { RootState } from "../redux/store";
+import type { RootState } from "../../redux/store";
 import { motion } from "framer-motion";
 
 //types

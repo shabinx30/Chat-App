@@ -13,6 +13,7 @@ import debounce from "../../libs/debouncer";
 interface AddContactType {
     change: string;
     setPop: React.Dispatch<React.SetStateAction<boolean>>;
+    setSett: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 //type for member
@@ -40,7 +41,7 @@ interface typing {
 
 export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 
-const Contacts = ({ change, setPop }: AddContactType) => {
+const Contacts = ({ change, setPop, setSett }: AddContactType) => {
     const [ctc, setCtc] = useState<ctcType[]>([]);
     const [onUsers, setOnUsers] = useState<Set<string>>(new Set());
     const [chatMsg, setChatMsg] = useState<string>("");
@@ -118,9 +119,14 @@ const Contacts = ({ change, setPop }: AddContactType) => {
         >
             <div className="absolute h-[21vh] w-full z-10 bg-[#ffffff] dark:bg-[#121212]">
                 <div className="mx-4 h-[4em] flex justify-between items-center">
-                    <h1 className="font-bold text-3xl dark:text-[#fff] text-[#000] select-none">Convo</h1>
-                        
-                    <div className="bg-[#b0ff62] dark:text-black cursor-pointer p-1.5 rounded-[15px]">
+                    <h1 className="font-bold text-3xl dark:text-[#fff] text-[#000] select-none">
+                        Convo
+                    </h1>
+
+                    <div
+                        onClick={() => setSett(true)}
+                        className="bg-[#b0ff62] dark:text-black cursor-pointer p-1.5 rounded-[15px]"
+                    >
                         <LuSettings size={24} />
                     </div>
                 </div>
