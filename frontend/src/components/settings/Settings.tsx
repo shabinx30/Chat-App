@@ -4,6 +4,9 @@ import { useSelector, type TypedUseSelectorHook } from "react-redux";
 import type { RootState } from "../../redux/store";
 import { RxExit } from "react-icons/rx";
 import { MdOutlineModeEditOutline } from "react-icons/md";
+import { useDispatch } from "react-redux";
+import { logout } from "../../redux/store";
+import { useNavigate } from "react-router-dom";
 
 interface settingsType {
     setSett: React.Dispatch<React.SetStateAction<boolean>>;
@@ -14,9 +17,13 @@ const Settings = ({ setSett }: settingsType) => {
     //     e.preventDefault();
     // };
 
-    const logout = () => {
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    const handleLogout = () => {
+        dispatch(logout())
         localStorage.removeItem('jwt')
-        
+        navigate('/login')
     }
 
     const selector: TypedUseSelectorHook<RootState> = useSelector;
@@ -48,7 +55,7 @@ const Settings = ({ setSett }: settingsType) => {
                         <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                             Settings
                         </h1>
-                        <div onClick={logout} className="flex items-center justify-between gap-2 bg-red-400 rounded-2xl cursor-pointer px-3 pt-1 pb-1.5">
+                        <div onClick={handleLogout} className="flex items-center justify-between gap-2 bg-red-400 rounded-2xl cursor-pointer px-3 pt-1 pb-1.5">
                             <h2 className="dark:text-white text-sm">Log out</h2>
                             <RxExit size={17} className="text-white" />
                         </div>
