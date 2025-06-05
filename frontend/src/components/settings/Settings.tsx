@@ -82,7 +82,7 @@ const Settings = ({ setSett }: settingsType) => {
                             <MdOutlineModeEditOutline className="cursor-pointer" size={18} />
                         </div>
                         <div className="flex justify-center items-end h-[4em]">
-                            <h2 className="flex items-center text-sm gap-2 bg-[#2b2b2b] w-fit rounded-2xl px-4 pt-1 pb-2">
+                            <h2 className="flex items-center text-sm gap-2 bg-[#2b2b2b] w-fit rounded-2xl px-4 pt-1 pb-1.5">
                                 Change password
                                 <MdOutlineModeEditOutline className="cursor-pointer" size={18} />
                             </h2>

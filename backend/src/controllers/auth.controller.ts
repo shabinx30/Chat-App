@@ -24,7 +24,7 @@ export const SignUp = async (req: Request, res: Response): Promise<void> => {
             return;
         }
 
-        let profile
+        let profile;
 
         //uploading the profile pic
         if (req.file?.path) {
@@ -36,9 +36,9 @@ export const SignUp = async (req: Request, res: Response): Promise<void> => {
                     console.log(error);
                 });
 
-            profile = uploadResult?.url
-        }else {
-            console.log("couldn't find a file")
+            profile = uploadResult?.url;
+        } else {
+            console.log("couldn't find a file");
         }
 
         const password = await hashPassword(req.body.password);
@@ -78,7 +78,7 @@ export const Login = async (req: Request, res: Response): Promise<void> => {
 
         res.status(201).json({
             message: "success",
-            user: { userId: user._id, email },
+            user: { userId: user._id, name: user.name, email, profile: user.profile }
         });
     } catch (error) {
         console.log("while Login", error);
