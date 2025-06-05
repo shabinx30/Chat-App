@@ -13,19 +13,20 @@ interface settingsType {
 }
 
 const Settings = ({ setSett }: settingsType) => {
-    // const handleSubmit = (e: FormEvent) => {
-    //     e.preventDefault();
-    // };
-
+    
     const dispatch = useDispatch()
     const navigate = useNavigate()
-
+    
     const handleLogout = () => {
         dispatch(logout())
         localStorage.removeItem('jwt')
         navigate('/login')
     }
-
+    
+    // const handleSubmit = (e: FormEvent) => {
+    //     e.preventDefault();
+    // };
+    
     const selector: TypedUseSelectorHook<RootState> = useSelector;
     const state = selector((state) => state);
 
@@ -61,7 +62,10 @@ const Settings = ({ setSett }: settingsType) => {
                         </div>
                     </div>
                     <div className="flex flex-col gap-2 mt-[3em]">
-                        <img className="w-[5em] rounded-full" src={state.auth.user.profile} alt="user" />
+                        <div className="relative flex justify-center group w-fit cursor-pointer">
+                            <MdOutlineModeEditOutline className="absolute opacity-0 self-center group-hover:opacity-100 z-20 " size={18} />
+                            <img className="z-10 w-[5em] rounded-full brightness-100 group-hover:brightness-50 duration-150" src={state.auth.user.profile} alt="user" />
+                        </div>
                         <div className="flex justify-between items-center">
                             <h1 className="dark:text-white font-bold text-lg">
                                 {state.auth.user.name}
@@ -83,9 +87,9 @@ const Settings = ({ setSett }: settingsType) => {
                             <MdOutlineModeEditOutline className="cursor-pointer" size={18} />
                         </div>
                         <div className="flex justify-center items-end h-[4em]">
-                            <h2 className="flex items-center text-sm gap-2 bg-[#2b2b2b] w-fit rounded-2xl px-4 pt-1 pb-1.5">
+                            <h2 className="flex items-center cursor-pointer text-sm gap-2 bg-[#2b2b2b] w-fit rounded-2xl px-4 pt-1 pb-1.5">
                                 Change password
-                                <MdOutlineModeEditOutline className="cursor-pointer" size={18} />
+                                <MdOutlineModeEditOutline size={18} />
                             </h2>
                         </div>
                     </div>
