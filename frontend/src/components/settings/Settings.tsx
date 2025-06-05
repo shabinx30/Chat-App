@@ -61,6 +61,7 @@ const Settings = ({ setSett }: settingsType) => {
                         </div>
                     </div>
                     <div className="flex flex-col gap-2 mt-[3em]">
+                        <img className="w-[5em] rounded-full" src={state.auth.user.profile} alt="user" />
                         <div className="flex justify-between items-center">
                             <h1 className="dark:text-white font-bold text-lg">
                                 {state.auth.user.name}
