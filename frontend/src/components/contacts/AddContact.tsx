@@ -19,6 +19,9 @@ const AddContact = ({ setPop, setChange }: AddContactType) => {
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
         try {
+            if (!emailRef?.current?.value.trim()) {
+                return;
+            }
             const formData = {
                 userId: state.auth.user.userId,
                 member: emailRef.current?.value,
@@ -64,7 +67,7 @@ const AddContact = ({ setPop, setChange }: AddContactType) => {
                     type: "spring",
                     stiffness: 120,
                     damping: 25,
-                    duration: .8,
+                    duration: 0.8,
                 }}
                 onClick={(e) => e.stopPropagation()}
                 className="w-full bg-white rounded-3xl shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-[#1b1b1b]/50 dark:border-[#2b2b2b]"
@@ -90,13 +93,13 @@ const AddContact = ({ setPop, setChange }: AddContactType) => {
                         <div className="flex gap-4">
                             <button
                                 onClick={() => setPop(false)}
-                                className="w-full text-black dark:text-white border border-[#d7ffae82] duration-200 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-2xl text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                                className="cursor-pointer w-full text-black dark:text-white border border-[#d7ffae82] duration-200 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-2xl text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                             >
                                 Cancel
                             </button>
                             <button
                                 type="submit"
-                                className="w-full text-black bg-[#b0ff62] focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-2xl text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                                className="cursor-pointer w-full text-black bg-[#b0ff62] focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-2xl text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                             >
                                 Add
                             </button>
