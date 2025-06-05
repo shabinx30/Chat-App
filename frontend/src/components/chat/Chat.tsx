@@ -18,7 +18,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { MdKeyboardDoubleArrowDown } from "react-icons/md";
 import { IoIosArrowBack } from "react-icons/io";
 import debounce from "../../libs/debouncer";
-import { FixedSizeList as List } from "react-window";
+import { VariableSizeList as List } from "react-window";
 
 export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 
@@ -74,6 +74,9 @@ const Chat = () => {
     // Fetch initial messages
     useEffect(() => {
         setMessages([]);
+        // Clear the item size map when switching chats
+        itemSizeMap.current = {};
+        
         axios
             .post(`${apiUrl}/api/message/getmessages`, { chatId })
             .then((res) => {
@@ -89,7 +92,7 @@ const Chat = () => {
                     }
                 }
                 setMessages(fetchedMessages);
-                shouldScrollToBottom.current = true; // Scroll to bottom after initial load
+                shouldScrollToBottom.current = true;
             })
             .catch((error) => {
                 console.log(error);
@@ -132,16 +135,19 @@ const Chat = () => {
             scrollRef2.current &&
             messages.length > 0
         ) {
-            scrollRef2.current.scrollToItem(messages.length - 1, "end");
-            setIsLastMessageInView(true); // Set to true since we're at the bottom
-            shouldScrollToBottom.current = false;
+            // Add a small delay to ensure all heights are calculated
+            setTimeout(() => {
+                scrollRef2.current?.scrollToItem(messages.length - 1, "end");
+                setIsLastMessageInView(true);
+                shouldScrollToBottom.current = false;
+            }, 50);
         }
     }, [messages]);
 
     const scrollToBottom = () => {
         if (scrollRef2.current && messages.length > 0) {
             scrollRef2.current.scrollToItem(messages.length - 1, "end");
-            setIsLastMessageInView(true); // Set to true since we're scrolling to the bottom
+            setIsLastMessageInView(true);
         }
     };
 
@@ -179,14 +185,52 @@ const Chat = () => {
 
     useEffect(() => {
         const handleResize = () => {
-            setSize(scrollRef.current.clientHeight);
+            const height = scrollRef.current?.clientHeight || 0;
+            setSize(height);
+            // Reset the list on resize to recalculate all visible item sizes
+            scrollRef2.current?.resetAfterIndex(0);
         };
 
         handleResize();
-
+        window.addEventListener("resize", handleResize);
         return () => {
             window.removeEventListener("resize", handleResize);
         };
+    }, []);
+
+    const itemSizeMap = useRef<{ [index: number]: number }>({});
+    
+    // Improved getItemSize with better default height estimation
+    const getItemSize = (index: number) => {
+        if (itemSizeMap.current[index]) {
+            return itemSizeMap.current[index];
+        }
+        
+        // Better default height estimation based on message length
+        const message = messages[index];
+        if (message) {
+            const textLength = message.body.length;
+            // Estimate height based on text length (rough calculation)
+            const estimatedLines = Math.ceil(textLength / 35); // ~35 chars per line
+            const baseHeight = 60; // Base height for message bubble
+            const lineHeight = 20; // Height per line of text
+            return baseHeight + (estimatedLines * lineHeight);
+        }
+        
+        return 80; // Fallback default
+    };
+
+    const setSizeForIndex = useCallback((index: number, size: number) => {
+        // Add a small buffer to prevent cutting off
+        const adjustedSize = size + 2;
+        
+        if (itemSizeMap.current[index] !== adjustedSize) {
+            itemSizeMap.current[index] = adjustedSize;
+            // Use requestAnimationFrame to ensure smooth updates
+            requestAnimationFrame(() => {
+                scrollRef2.current?.resetAfterIndex(index);
+            });
+        }
     }, []);
 
     return (
@@ -233,26 +277,31 @@ const Chat = () => {
                 ) : (
                     <List
                         ref={scrollRef2}
-                        className="bg-[#e6ffcb] dark:bg-black scroll-smooth scrollable"
+                        className="bg-[#e6ff62] dark:bg-black scroll-smooth scrollable"
                         height={size}
                         itemCount={messages.length}
-                        itemSize={42}
+                        itemSize={getItemSize}
                         width="100%"
                         itemData={{
                             messages,
                             user: state.auth.user.userId,
+                            setSizeForIndex,
                         }}
                         onScroll={({ scrollOffset }) => {
                             if (scrollRef.current) {
-                                const totalHeight = messages.length * 42; // itemCount * itemSize
+                                const totalHeight = messages
+                                    .map((_, i) => getItemSize(i))
+                                    .reduce((a, b) => a + b, 0);
                                 const viewportHeight =
                                     scrollRef.current.clientHeight;
                                 const isAtBottom =
                                     scrollOffset + viewportHeight >=
-                                    totalHeight - 1; // Small threshold
+                                    totalHeight - 10; // Small buffer for better detection
                                 setIsLastMessageInView(isAtBottom);
                             }
                         }}
+                        // Add overscan to improve performance and height calculation
+                        overscanCount={5}
                     >
                         {Message}
                     </List>
@@ -289,12 +338,12 @@ const Chat = () => {
                             onChange={handleTyping}
                             placeholder="Type a message"
                             onKeyDown={(e) => {
-                                if(e.key == "Enter") {
-                                    if(e.shiftKey) {
-                                        return
+                                if (e.key == "Enter") {
+                                    if (e.shiftKey) {
+                                        return;
                                     }
-                                    e.preventDefault()
-                                    sendMessage()
+                                    e.preventDefault();
+                                    sendMessage();
                                 }
                             }}
                         ></textarea>

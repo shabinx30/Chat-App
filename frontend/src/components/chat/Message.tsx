@@ -1,11 +1,39 @@
 import { motion } from "framer-motion";
+import { useLayoutEffect, useRef, useEffect } from "react";
 
 const Message = ({ index, style, data }: any) => {
-    const { messages, user } = data;
+    const { messages, user, setSizeForIndex } = data;
+    const ref = useRef<HTMLDivElement>(null);
+
+    useLayoutEffect(() => {
+        if (ref.current) {
+            const height = ref.current.getBoundingClientRect().height;
+            setSizeForIndex(index, height);
+        }
+    }, [messages[index].body, setSizeForIndex, index]);
+
+    // Additional effect to handle delayed rendering and ensure accurate measurement
+    useEffect(() => {
+        const measureHeight = () => {
+            if (ref.current) {
+                const height = ref.current.getBoundingClientRect().height;
+                setSizeForIndex(index, height);
+            }
+        };
+
+        // Measure immediately
+        measureHeight();
+
+        // Also measure after a short delay to catch any delayed renders
+        const timeoutId = setTimeout(measureHeight, 0);
+        
+        return () => clearTimeout(timeoutId);
+    }, [messages[index].body, setSizeForIndex, index]);
 
     return (
         <motion.div style={style} className="md:px-2 my-0.5">
             <div
+                ref={ref}
                 className={`flex ${
                     user === messages[index].from
                         ? "justify-end"
