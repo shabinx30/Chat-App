@@ -1,14 +1,26 @@
-import React, { type FormEvent } from "react";
+// import React, { type FormEvent } from "react";
 import { motion } from "framer-motion";
+import { useSelector, type TypedUseSelectorHook } from "react-redux";
+import type { RootState } from "../../redux/store";
+import { RxExit } from "react-icons/rx";
+import { MdOutlineModeEditOutline } from "react-icons/md";
 
 interface settingsType {
     setSett: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const Settings = ({ setSett }: settingsType) => {
-    const handleSubmit = (e: FormEvent) => {
-        e.preventDefault();
-    };
+    // const handleSubmit = (e: FormEvent) => {
+    //     e.preventDefault();
+    // };
+
+    const logout = () => {
+        localStorage.removeItem('jwt')
+        
+    }
+
+    const selector: TypedUseSelectorHook<RootState> = useSelector;
+    const state = selector((state) => state);
 
     return (
         <motion.div
@@ -36,11 +48,39 @@ const Settings = ({ setSett }: settingsType) => {
                         <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                             Settings
                         </h1>
-                        <div className="bg-red-400 rounded-2xl px-3 pt-1 pb-2">
-                            <h2 className="text-white">Log out</h2>
+                        <div onClick={logout} className="flex items-center justify-between gap-2 bg-red-400 rounded-2xl cursor-pointer px-3 pt-1 pb-1.5">
+                            <h2 className="dark:text-white text-sm">Log out</h2>
+                            <RxExit size={17} className="text-white" />
                         </div>
                     </div>
-                    
+                    <div className="flex flex-col gap-2 mt-[3em]">
+                        <div className="flex justify-between items-center">
+                            <h1 className="dark:text-white font-bold text-lg">
+                                {state.auth.user.name}
+                            </h1>
+                            <MdOutlineModeEditOutline className="cursor-pointer" size={18} />
+                        </div>
+                        <div className="flex justify-between items-center">
+                            <div>
+                                <label
+                                    htmlFor="email"
+                                    className="text-gray-500 text-sm font-semibold"
+                                >
+                                    Email
+                                </label>
+                                <h2 className="dark:text-white font-semibold">
+                                    {state.auth.user.email}
+                                </h2>
+                            </div>
+                            <MdOutlineModeEditOutline className="cursor-pointer" size={18} />
+                        </div>
+                        <div className="flex justify-center items-end h-[4em]">
+                            <h2 className="flex items-center text-sm gap-2 bg-[#2b2b2b] w-fit rounded-2xl px-4 pt-1 pb-2">
+                                Change password
+                                <MdOutlineModeEditOutline className="cursor-pointer" size={18} />
+                            </h2>
+                        </div>
+                    </div>
                 </div>
             </motion.div>
         </motion.div>
