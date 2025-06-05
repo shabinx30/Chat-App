@@ -84,7 +84,10 @@ const Settings = ({ setSett }: settingsType) => {
                             />
                         </div>
                         <div
-                            onClick={(e) => e.stopPropagation()}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setEdit((p) => ({ ...p, name: true }));
+                            }}
                             className="flex justify-between items-center"
                         >
                             {isEdit.name ? (
@@ -100,16 +103,16 @@ const Settings = ({ setSett }: settingsType) => {
                             )}
                             {!isEdit.name && (
                                 <MdOutlineModeEditOutline
-                                    onClick={() => {
-                                        setEdit((p) => ({ ...p, name: true }));
-                                    }}
                                     className="cursor-pointer"
                                     size={18}
                                 />
                             )}
                         </div>
                         <div
-                            onClick={(e) => e.stopPropagation()}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setEdit((p) => ({ ...p, email: true }));
+                            }}
                             className="flex justify-between items-center"
                         >
                             <div className="flex flex-col w-full">
@@ -134,9 +137,6 @@ const Settings = ({ setSett }: settingsType) => {
                             </div>
                             {!isEdit.email && (
                                 <MdOutlineModeEditOutline
-                                    onClick={() => {
-                                        setEdit((p) => ({ ...p, email: true }));
-                                    }}
                                     className="cursor-pointer"
                                     size={18}
                                 />
@@ -152,10 +152,10 @@ const Settings = ({ setSett }: settingsType) => {
                             {(isEdit.name || isEdit.email) && (
                                 <div className="flex justify-center">
                                     <motion.div
-                                        initial={{ height: 0, opacity: 0 }}
-                                        animate={{ height: "auto", opacity: 1 }}
-                                        exit={{ height: 0, opacity: 0 }}
-                                        transition={{duration: .1}}
+                                        initial={{ height: 0, y: 10 }}
+                                        animate={{ height: "auto", y: 0 }}
+                                        exit={{ height: 0, y: 10 }}
+                                        transition={{ duration: 0.1 }}
                                         className="bg-[#b0ff62] text-black w-fit px-4 pt-1 pb-1.5 rounded-2xl"
                                     >
                                         Save
