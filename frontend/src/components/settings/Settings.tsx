@@ -150,7 +150,7 @@ const Settings = ({ setSett }: settingsType) => {
                         </div>
                         <AnimatePresence>
                             {(isEdit.name || isEdit.email) && (
-                                <div className="flex justify-center">
+                                <div className="flex justify-center mt-2">
                                     <motion.div
                                         initial={{ height: 0, y: 10 }}
                                         animate={{ height: "auto", y: 0 }}
