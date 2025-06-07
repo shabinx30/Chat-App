@@ -261,7 +261,7 @@ const Chat = () => {
                     <IoMdMore size={24} className="cursor-pointer" />
                 </nav>
             </div>
-            <div ref={scrollRef} className="h-[78vh] mt-3 px-2 md:px-4">
+            <div ref={scrollRef} className="h-[78vh] mt-2 px-2 md:px-4">
                 {!messages.length ? (
                     <div className="flex justify-center items-center h-full">
                         <div
