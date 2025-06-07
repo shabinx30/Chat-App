@@ -89,7 +89,7 @@ const Login: React.FC = () => {
         axios
             .post(`${apiUrl}/api/auth/login`, formData)
             .then((res) => {
-                console.log("login res", res);
+                // console.log("login res", res);
                 if (res.data.message == "success") {
                     window.localStorage.setItem("jwt", JSON.stringify(res.data.user));
                     dispatch(
@@ -97,17 +97,19 @@ const Login: React.FC = () => {
                     );
 
                     navigate("/");
-                } else if (res.data.message == "User is not existing!!!") {
-                    showError(res.data.message);
-                    setTimeout(() => {
-                        navigate("/signup");
-                    }, 3500);
                 } else {
                     showError(res.data.message);
                 }
             })
             .catch((err) => {
-                showError(err.response.data.message || 'An Error Occured.')
+                if(err.response.data.message == "User is not existing!!!") {
+                    showError('Cannot find the user!, Please sign up')
+                    setTimeout(() => {
+                        navigate("/signup");
+                    }, 3500);
+                }else{
+                    showError(err.response.data.message || 'An Error Occured.')
+                }
                 console.error(err);
             });
     };
