@@ -10,7 +10,7 @@ const Welcome = () => {
         >
             <BiMessageSquareDetail size={50} className="mb-4 text-[#b0ff62]" />
             <h1 className="font-semibold text-2xl mb-2">Welcome to Convo!</h1>
-            <p className="text-[#484848] dark:text-[#e1ffc283] text-base font-semibold">
+            <p className="text-[#484848] dark:text-[#747e6a] text-base font-semibold">
                 Select a contact to start the conversation.
             </p>
         </div>

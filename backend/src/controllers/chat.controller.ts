@@ -10,7 +10,7 @@ export const addContact = async (req: Request, res: Response) => {
         //checking the user is existing or not
         const user = await userModel.findOne({ email: member });
         if (!user) {
-            res.status(401).json({ message: "User is not existing!!!" });
+            res.status(401).json({ message: "User is not existing" });
             return;
         }
 
