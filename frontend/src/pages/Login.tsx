@@ -85,7 +85,7 @@ const Login: React.FC = () => {
         }
         setValid({ ...valid, password: { status: true, message: "" } });
 
-        console.log(formData)
+        // console.log(formData)
         axios
             .post(`${apiUrl}/api/auth/login`, formData)
             .then((res) => {
@@ -107,8 +107,8 @@ const Login: React.FC = () => {
                 }
             })
             .catch((err) => {
-                showError(err.response.data.message)
-                console.log(err);
+                showError(err.response.data.message || 'An Error Occured.')
+                console.error(err);
             });
     };
 

@@ -247,7 +247,7 @@ const SignUp: React.FC = () => {
             }
         }
 
-        console.log("new", formData);
+        // console.log("new", formData);
 
         let data = new FormData();
 
@@ -266,7 +266,7 @@ const SignUp: React.FC = () => {
             .post(`${apiUrl}/api/auth/signup`, data)
             .then((res) => {
                 if (res.data.message === "success") {
-                    console.log(res.data.user)
+                    // console.log(res.data.user)
                     window.localStorage.setItem("jwt", JSON.stringify(res.data.user));
                     dispatch(
                         login({ token: null, user: res.data.user })
@@ -275,14 +275,15 @@ const SignUp: React.FC = () => {
                         navigate("/");
                     }, 500);
                 } else {
-                    console.log(res.data.message);
+                    // console.log(res.data.message);
 
                     //show the error message
                     showError(res.data.message);
                 }
             })
             .catch((err) => {
-                console.log(err);
+                console.error(err);
+                showError(err.response?.data?.message || 'An Error Occured.')
             });
     };
 
