@@ -119,7 +119,7 @@ const Contacts = ({ change, setPop, setSett }: AddContactType) => {
         >
             <div className="absolute h-[21vh] w-full z-10 bg-[#ffffff] dark:bg-[#121212]">
                 <div className="mx-4 h-[4em] flex justify-between items-center">
-                    <h1 className="font-bold text-3xl dark:text-[#fff] text-[#000] select-none">
+                    <h1 className="font-bold text-3xl dark:text-[#fff] text-[#000] leading-tight tracking-tight select-none">
                         Convo
                     </h1>
 

@@ -322,7 +322,7 @@ const SignUp: React.FC = () => {
                     </div>
                 </div>
             )}
-            <section className="bg-gray-50 dark:bg-black pt-16">
+            <section className="bg-gray-50 dark:bg-black">
                 <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
                     <div className="w-full bg-white rounded-3xl shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-[#1b1b1b] dark:border-[#2b2b2b]">
                         <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
