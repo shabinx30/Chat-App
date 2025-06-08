@@ -88,7 +88,7 @@ export const searchContacts = async (req: Request, res: Response) => {
             });
         });
         // console.log(chat[0]?.members);
-        res.status(201).json({ chat });
+        res.status(200).json({ chat });
     } catch (error) {
         console.log("Internal server error", error);
     }

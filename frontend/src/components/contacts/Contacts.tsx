@@ -117,12 +117,11 @@ const Contacts = ({ change, setPop, setSett }: AddContactType) => {
                 chatId ? "hidden md:block md:flex-1" : "flex-1"
             } bg-[#ffffff] h-[100vh] relative dark:bg-gray-900 text-black dark:border-r border-[#282828]`}
         >
-            <div className="absolute h-[25vh] w-full z-10 bg-[#ffffff] dark:bg-[#121212]">
+            <div className="absolute h-[21vh] w-full z-10 bg-[#ffffff] dark:bg-[#121212]">
                 <div className="mx-4 h-[4em] flex justify-between items-center">
                     <h1 className="font-bold text-3xl dark:text-[#fff] text-[#000] leading-tight tracking-tight select-none">
                         Convo
                     </h1>
-
                     <div
                         onClick={() => setSett(true)}
                         className="bg-[#b0ff62] dark:text-black cursor-pointer p-1.5 rounded-[15px]"
@@ -139,14 +138,14 @@ const Contacts = ({ change, setPop, setSett }: AddContactType) => {
                         placeholder="Search"
                     />
                 </div>
-                <div className="flex justify-center">
+                {/* <div className="flex justify-center">
                     <ul className="flex gap-4 bg-[#2b2b2b] pt-1 py-1.5 px-4 rounded-2xl text-sm font-semibold cursor-pointer dark:text-[#e8ffd291]">
                         <li>All</li>
                         <li>Unread</li>
                     </ul>
-                </div>
+                </div> */}
             </div>
-            <div className="overflow-y-scroll bg-[#fff] dark:bg-[#121212] px-4 text-white h-[75vh] mt-[25vh] scroll-smooth scrollable">
+            <div className="overflow-y-scroll bg-[#fff] dark:bg-[#121212] px-4 text-white h-[79vh] mt-[21vh] scroll-smooth scrollable">
                 {ctc && !ctc.length ? (
                     <div className="flex h-[20em] justify-center items-center">
                         <div className="text-center flex flex-col gap-2 font-semibold">
