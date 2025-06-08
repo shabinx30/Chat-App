@@ -114,8 +114,8 @@ const Contacts = ({ change, setPop, setSett }: AddContactType) => {
     return (
         <section
             className={`${
-                chatId ? "hidden md:block md:min-w-[30.8%] md:max-w-[60%]" : "flex-1"
-            } bg-[#ffffff] h-[100vh] relative md:overflow-auto md:resize-x dark:bg-gray-900 text-black dark:border-r border-[#282828]`}
+                chatId ? "hidden md:block" : "flex-1 md:flex-none"
+            } bg-[#ffffff] h-[100vh] relative md:min-w-[30.8%] md:max-w-[60%] lg:overflow-auto lg:resize-x dark:bg-gray-900 text-black dark:border-r border-[#282828]`}
         >
             <div className="absolute h-[21vh] w-full z-10 bg-[#ffffff] dark:bg-[#121212]">
                 <div className="mx-4 h-[4em] flex justify-between items-center">
