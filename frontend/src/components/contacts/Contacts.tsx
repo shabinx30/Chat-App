@@ -109,7 +109,7 @@ const Contacts = ({ change, setPop, setSett }: AddContactType) => {
         socket.on("typing", (res) => {
             setTyping({ isTyping: res.typing, chatId: res.chatId });
         });
-    }, []);
+    });
 
     return (
         <section

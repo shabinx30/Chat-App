@@ -44,7 +44,7 @@ export const addContact = async (req: Request, res: Response) => {
                 lastMessageAt: Date.now(),
             });
             await result.save();
-            res.status(201).json({ message: "success" });
+            res.status(204).json({ message: "success" });
         }
     } catch (error) {
         console.log(error);
