@@ -5,6 +5,9 @@ interface messageType extends Document {
     body: String;
     from: String;
     to: String;
+    hasMedia: Boolean;
+    media: String;
+    mediaType: String;
 }
 
 const messageModel = new Schema<messageType>(
@@ -25,6 +28,18 @@ const messageModel = new Schema<messageType>(
             type: String,
             required: true,
         },
+        hasMedia: {
+            type: Boolean,
+            default: false
+        },
+        media: {
+            type: String,
+            required: false
+        },
+        mediaType: {
+            type: String,
+            required: false
+        }
     },
     {
         timestamps: true,
