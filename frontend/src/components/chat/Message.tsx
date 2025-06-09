@@ -50,9 +50,9 @@ const Message = ({ index, style, data }: any) => {
                         user === messages[index].from
                             ? "bg-[#b0ff62]"
                             : "bg-[#fff] dark:bg-[#1d1d1d]"
-                    } max-w-[75%] text-black px-1 pt-1 pb-2.5`}
+                    } ${messages[index].hasMedia ? "max-w-[40%]" : 'max-w-[75%]'} text-black px-1 pt-1 pb-2.5`}
                 >
-                    {messages[index].hasMedia && <img className="rounded-[12px] object-cover" src={messages[index].media}/>}
+                    {messages[index].hasMedia && messages[index].mediaType == 'image' && <img className="rounded-[12px] object-cover object-center aspect-square" src={messages[index].media}/>}
                     <p
                         style={{
                             wordWrap: "break-word",
