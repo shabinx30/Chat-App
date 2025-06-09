@@ -48,10 +48,11 @@ const Message = ({ index, style, data }: any) => {
                     }
                     className={`relative ${
                         user === messages[index].from
-                            ? "bg-[#b0ff62] pr-[3.2em]"
-                            : "bg-[#fff] dark:bg-[#1d1d1d] pr-[3.4em]"
-                    } max-w-[75%] text-black pl-2 pt-1 pb-2.5`}
+                            ? "bg-[#b0ff62]"
+                            : "bg-[#fff] dark:bg-[#1d1d1d]"
+                    } max-w-[75%] text-black px-1 pt-1 pb-2.5`}
                 >
+                    {messages[index].hasMedia && <img className="rounded-[12px] object-cover" src={messages[index].media}/>}
                     <p
                         style={{
                             wordWrap: "break-word",
@@ -61,8 +62,8 @@ const Message = ({ index, style, data }: any) => {
                         }}
                         className={`text-base ${
                             user === messages[index].from
-                                ? ""
-                                : "dark:text-white"
+                                ? "mr-[3.2em]"
+                                : "dark:text-white mr-[3.4em]"
                         }`}
                     >
                         {messages[index].body}
