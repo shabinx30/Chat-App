@@ -127,6 +127,7 @@ const Chat = () => {
                 reader.readAsDataURL(file);
             });
         }
+        // console.log(media)
 
         setRotate((prev) => prev + 360);
 

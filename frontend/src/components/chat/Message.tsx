@@ -58,14 +58,14 @@ const Message = ({ index, style, data }: any) => {
                     {messages[index].hasMedia &&
                         messages[index].mediaType == "image" && (
                             <img
-                                className="rounded-[12px] object-cover object-center aspect-square"
+                                className="rounded-[12px] object-cover w-full object-center aspect-square"
                                 src={messages[index].media}
                             />
                         )}
                     {/* video */}
                     {messages[index].hasMedia &&
                         messages[index].mediaType == "video" && (
-                            <video controls className="rounded-[12px] object-cover object-center aspect-video" src={messages[index].media}></video>
+                            <video controls className="rounded-[12px] object-cover w-full object-center aspect-video" src={messages[index].media}></video>
                         )}
                     <p
                         style={{
