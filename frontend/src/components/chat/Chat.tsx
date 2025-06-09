@@ -32,6 +32,9 @@ interface Msg {
     body: string;
     createdAt: number;
     from: string;
+    hasMedia: boolean;
+    media: string | undefined;
+    mediaType: string | undefined;
 }
 
 interface typing {
@@ -49,6 +52,7 @@ const Chat = () => {
     const navigate = useNavigate();
     const msgRef = useRef<HTMLTextAreaElement>(null);
     const { chatId } = useParams();
+    const attachRef = useRef<HTMLInputElement>(null);
     const apiUrl = import.meta.env.VITE_BASE_URL;
 
     const [isLastMessageInView, setIsLastMessageInView] = useState(true);
@@ -76,7 +80,7 @@ const Chat = () => {
         setMessages([]);
         // Clear the item size map when switching chats
         itemSizeMap.current = {};
-        
+
         axios
             .post(`${apiUrl}/api/message/getmessages`, { chatId })
             .then((res) => {
@@ -103,28 +107,52 @@ const Chat = () => {
 
     const hello = useRef<boolean>(null);
 
-    const sendMessage = (e: FormEvent<HTMLFormElement> | null = null) => {
+    const sendMessage = async (e: FormEvent<HTMLFormElement> | null = null) => {
         if (e) e.preventDefault();
-        if (msgRef.current?.value.trim() || hello.current) {
-            setRotate((prev) => prev + 360);
-            const myMsg: Msg = {
-                body: msgRef?.current?.value || "Hello👋",
-                createdAt: Date.now(),
-                from: state.auth.user.userId,
-            };
-            socket.emit("chat message", {
-                msg: myMsg.body,
-                chatId,
-                from: state.auth.user.userId,
-                to: chat?._id,
+
+        const text = msgRef.current?.value.trim();
+        const file = attachRef.current?.files?.[0];
+
+        const shouldSend = text || hello.current || file;
+
+        if (!shouldSend) return;
+
+        let media: string | undefined;
+
+        if (file) {
+            media = await new Promise<string>((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result as string);
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
             });
-            shouldScrollToBottom.current = true;
-            setMessages((p) => [...p, myMsg]);
-            if (msgRef.current) {
-                msgRef.current.value = "";
-            } else if (hello.current) {
-                hello.current = false;
-            }
+        }
+
+        setRotate((prev) => prev + 360);
+
+        const myMsg: Msg = {
+            body: text || "Hello👋",
+            createdAt: Date.now(),
+            from: state.auth.user.userId,
+            hasMedia: !!media,
+            media,
+            mediaType: file ? "image" : undefined,
+        };
+
+        socket.emit("chat message", {
+            ...myMsg,
+            chatId,
+            to: chat?._id,
+        });
+
+        shouldScrollToBottom.current = true;
+        setMessages((p) => [...p, myMsg]);
+
+        if (msgRef.current) {
+            msgRef.current.value = "";
+        }
+        if (hello.current) {
+            hello.current = false;
         }
     };
 
@@ -199,13 +227,13 @@ const Chat = () => {
     }, []);
 
     const itemSizeMap = useRef<{ [index: number]: number }>({});
-    
+
     // Improved getItemSize with better default height estimation
     const getItemSize = (index: number) => {
         if (itemSizeMap.current[index]) {
             return itemSizeMap.current[index];
         }
-        
+
         // Better default height estimation based on message length
         const message = messages[index];
         if (message) {
@@ -214,16 +242,16 @@ const Chat = () => {
             const estimatedLines = Math.ceil(textLength / 35); // ~35 chars per line
             const baseHeight = 60; // Base height for message bubble
             const lineHeight = 20; // Height per line of text
-            return baseHeight + (estimatedLines * lineHeight);
+            return baseHeight + estimatedLines * lineHeight;
         }
-        
+
         return 80; // Fallback default
     };
 
     const setSizeForIndex = useCallback((index: number, size: number) => {
         // Add a small buffer to prevent cutting off
         const adjustedSize = size + 2;
-        
+
         if (itemSizeMap.current[index] !== adjustedSize) {
             itemSizeMap.current[index] = adjustedSize;
             // Use requestAnimationFrame to ensure smooth updates
@@ -324,10 +352,18 @@ const Chat = () => {
                 className="flex justify-center bg-black"
             >
                 <div className="absolute flex dark:border border-[#2b2b2b] bg-[#fff] dark:bg-[#1d1d1d] dark:shadow-none shadow-[0_1px_10px] shadow-black/50 rounded-2xl text-black justify-between pr-2 pl-5 gap-1 items-center bottom-4 w-[80%]">
-                    <ImAttachment
-                        size={18}
-                        className="cursor-pointer dark:text-[#b0ff62]"
-                    />
+                    <div className="relative w-[18px] flex items-center cursor-pointer">
+                        <ImAttachment
+                            size={18}
+                            className="z-10 absolute dark:text-[#b0ff62]"
+                        />
+                        <input
+                            ref={attachRef}
+                            className="absolute z-20 w-[18px] opacity-0"
+                            type="file"
+                            accept="image/*"
+                        />
+                    </div>
                     <form
                         className="w-full items-center"
                         onSubmit={sendMessage}
