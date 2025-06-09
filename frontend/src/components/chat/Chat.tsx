@@ -136,7 +136,7 @@ const Chat = () => {
             from: state.auth.user.userId,
             hasMedia: !!media,
             media,
-            mediaType: file ? "image" : undefined,
+            mediaType: file ? file.type.slice(0,5) : undefined,
         };
 
         socket.emit("chat message", {
@@ -361,7 +361,7 @@ const Chat = () => {
                             ref={attachRef}
                             className="absolute z-20 w-[18px] opacity-0"
                             type="file"
-                            accept="image/*"
+                            accept="image/*, video/*"
                         />
                     </div>
                     <form

@@ -26,7 +26,7 @@ const Message = ({ index, style, data }: any) => {
 
         // Also measure after a short delay to catch any delayed renders
         const timeoutId = setTimeout(measureHeight, 0);
-        
+
         return () => clearTimeout(timeoutId);
     }, [messages[index].body, setSizeForIndex, index]);
 
@@ -50,9 +50,23 @@ const Message = ({ index, style, data }: any) => {
                         user === messages[index].from
                             ? "bg-[#b0ff62]"
                             : "bg-[#fff] dark:bg-[#1d1d1d]"
-                    } ${messages[index].hasMedia ? "max-w-[40%]" : 'max-w-[75%]'} text-black px-1 pt-1 pb-2.5`}
+                    } ${
+                        messages[index].hasMedia ? "max-w-[40%]" : "max-w-[75%]"
+                    } text-black px-1 pt-1 pb-2.5`}
                 >
-                    {messages[index].hasMedia && messages[index].mediaType == 'image' && <img className="rounded-[12px] object-cover object-center aspect-square" src={messages[index].media}/>}
+                    {/* image */}
+                    {messages[index].hasMedia &&
+                        messages[index].mediaType == "image" && (
+                            <img
+                                className="rounded-[12px] object-cover object-center aspect-square"
+                                src={messages[index].media}
+                            />
+                        )}
+                    {/* video */}
+                    {messages[index].hasMedia &&
+                        messages[index].mediaType == "video" && (
+                            <video controls className="rounded-[12px] object-cover object-center aspect-video" src={messages[index].media}></video>
+                        )}
                     <p
                         style={{
                             wordWrap: "break-word",
