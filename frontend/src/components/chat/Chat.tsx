@@ -48,12 +48,11 @@ const Chat = () => {
     const shouldScrollToBottom = useRef(false);
     const state = useTypedSelector((state) => state);
     const [messages, setMessages] = useState<Msg[]>([]);
-    const { socket } = useAppContext();
+    const { socket, preview, setPreview } = useAppContext();
     const navigate = useNavigate();
     const msgRef = useRef<HTMLTextAreaElement>(null);
     const { chatId } = useParams();
     const attachRef = useRef<HTMLInputElement>(null);
-    const [preview, setPreview] = useState<string>("");
 
     const apiUrl = import.meta.env.VITE_BASE_URL;
 
@@ -158,6 +157,10 @@ const Chat = () => {
         }
         if (hello.current) {
             hello.current = false;
+        }
+        if(attachRef.current) {
+            attachRef.current.value = ""
+            setPreview('')
         }
     };
 
@@ -266,6 +269,14 @@ const Chat = () => {
         }
     }, []);
 
+    useEffect(() => {
+        if(!preview) {
+            if(attachRef.current) {
+                attachRef.current.value = ''
+            }
+        }
+    },[preview])
+
     return (
         <section
             className={`${
@@ -351,9 +362,8 @@ const Chat = () => {
                     )}
                 </AnimatePresence>
             </div>
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
+            <div
+                onClick={(e) => e.stopPropagation()}
                 className="flex justify-center bg-black"
             >
                 <div className="absolute flex dark:border border-[#2b2b2b] bg-[#fff] dark:bg-[#1d1d1d] dark:shadow-none shadow-[0_1px_10px] shadow-black/50 rounded-2xl text-black justify-between pr-2 pl-5 gap-1 items-center bottom-4 w-[80%]">
@@ -441,7 +451,7 @@ const Chat = () => {
                         </motion.div>
                     </div>
                 </div>
-            </motion.div>
+            </div>
             <motion.div
                 initial={{ scale: 0 }}
                 animate={{ scale: isLastMessageInView ? 0 : 1 }}

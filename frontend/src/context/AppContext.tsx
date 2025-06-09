@@ -1,10 +1,12 @@
-import { createContext, type ReactNode, useContext } from "react";
+import { createContext, type ReactNode, useContext, useState } from "react";
 import { useDispatch } from "react-redux";
 import { io, Socket } from "socket.io-client";
 import { login } from "../redux/store";
 
 interface AppContextType {
     socket: Socket;
+    preview: string;
+    setPreview: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -22,8 +24,10 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
         },
     });
 
+    const [preview, setPreview] = useState('')
+
     return (
-        <AppContext.Provider value={{ socket }}>{children}</AppContext.Provider>
+        <AppContext.Provider value={{ socket, preview, setPreview }}>{children}</AppContext.Provider>
     );
 };
 

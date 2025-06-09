@@ -78,7 +78,7 @@ const Message = ({ index, style, data }: any) => {
                             user === messages[index].from
                                 ? "mr-[3.2em]"
                                 : "dark:text-white mr-[3.4em]"
-                        }`}
+                        } ml-1.5`}
                     >
                         {messages[index].body}
                     </p>
