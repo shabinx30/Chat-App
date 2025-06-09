@@ -159,7 +159,6 @@ const Chat = () => {
             hello.current = false;
         }
         if(attachRef.current) {
-            attachRef.current.value = ""
             setPreview('')
         }
     };
