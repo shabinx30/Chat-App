@@ -7,7 +7,7 @@ import userModel from "../models/user.model";
 import cloudinary from "../utils/cloudinary";
 
 interface msgData {
-    msg?: string;
+    body?: string;
     chatId: string;
     from?: string;
     to: string;
@@ -41,9 +41,8 @@ export const getMessages = async (req: Request, res: Response) => {
 
 export const sendMessage = async ({ data, io, map }: sndMsgType) => {
     try {
-        const { chatId, msg, to, from, hasMedia, media, mediaType } = data;
+        const { chatId, body, to, from, hasMedia, media, mediaType } = data;
 
-        console.log(data);
         //uloading the media into cloudinary
         let url;
 
@@ -64,7 +63,7 @@ export const sendMessage = async ({ data, io, map }: sndMsgType) => {
 
         let result = new messageModel({
             chatId,
-            body: msg || '',
+            body,
             to,
             from,
             hasMedia,
@@ -86,7 +85,7 @@ export const sendMessage = async ({ data, io, map }: sndMsgType) => {
         const users = await userModel.find({ _id: to });
         const user = await userModel.findOne({ _id: from });
 
-        await send({ users, body: msg, chatId, user });
+        await send({ users, body, chatId, user });
     } catch (error) {
         console.log("Error while sending message", error);
     }
