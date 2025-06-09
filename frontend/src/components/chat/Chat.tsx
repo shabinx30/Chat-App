@@ -53,6 +53,8 @@ const Chat = () => {
     const msgRef = useRef<HTMLTextAreaElement>(null);
     const { chatId } = useParams();
     const attachRef = useRef<HTMLInputElement>(null);
+    const [preview, setPreview] = useState<string>("");
+
     const apiUrl = import.meta.env.VITE_BASE_URL;
 
     const [isLastMessageInView, setIsLastMessageInView] = useState(true);
@@ -122,12 +124,14 @@ const Chat = () => {
         if (file) {
             media = await new Promise<string>((resolve, reject) => {
                 const reader = new FileReader();
-                reader.onload = () => resolve(reader.result as string);
+                reader.onload = () => {
+                    resolve(reader.result as string);
+                };
                 reader.onerror = reject;
                 reader.readAsDataURL(file);
             });
         }
-        console.log(media)
+        // console.log(media)
 
         setRotate((prev) => prev + 360);
 
@@ -137,7 +141,7 @@ const Chat = () => {
             from: state.auth.user.userId,
             hasMedia: !!media,
             media,
-            mediaType: file ? file.type.slice(0,5) : undefined,
+            mediaType: file ? file.type.slice(0, 5) : undefined,
         };
 
         socket.emit("chat message", {
@@ -353,6 +357,24 @@ const Chat = () => {
                 className="flex justify-center bg-black"
             >
                 <div className="absolute flex dark:border border-[#2b2b2b] bg-[#fff] dark:bg-[#1d1d1d] dark:shadow-none shadow-[0_1px_10px] shadow-black/50 rounded-2xl text-black justify-between pr-2 pl-5 gap-1 items-center bottom-4 w-[80%]">
+                    <AnimatePresence>
+                        {preview && (
+                            <motion.div
+                                initial={{ opacity: 0, y: 50 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: 50 }}
+                                transition={{
+                                    duration: 0.5,
+                                }}
+                                className="absolute bottom-[4em] left-0 bg-[#2b2b2b] p-1 rounded-[12px]"
+                            >
+                                <img
+                                    src={preview}
+                                    className="max-h-[50vh] rounded-[12px]"
+                                />
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
                     <div className="relative w-[18px] flex items-center cursor-pointer">
                         <ImAttachment
                             size={18}
@@ -362,6 +384,19 @@ const Chat = () => {
                             ref={attachRef}
                             className="absolute z-20 w-[18px] opacity-0"
                             type="file"
+                            onChange={(e) => {
+                                const file =
+                                    e.target.files && e.target.files[0];
+                                if (!file) {
+                                    setPreview("");
+                                    return;
+                                }
+                                const reader = new FileReader();
+                                reader.onload = () => {
+                                    setPreview(reader.result as string);
+                                };
+                                reader.readAsDataURL(file);
+                            }}
                             accept="image/*, video/*"
                         />
                     </div>
