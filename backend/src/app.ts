@@ -1,7 +1,6 @@
 import express from "express";
 import { config } from "dotenv";
 config();
-import path from "path";
 
 //config
 import { connectDB } from "./libs/db.config";
@@ -32,7 +31,6 @@ const corsOptions: CorsOptions = {
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
-app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

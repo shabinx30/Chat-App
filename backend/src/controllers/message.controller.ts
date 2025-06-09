@@ -43,6 +43,7 @@ export const sendMessage = async ({ data, io, map }: sndMsgType) => {
     try {
         const { chatId, body, to, from, hasMedia, media, mediaType } = data;
 
+        // console.log(data)
         //uloading the media into cloudinary
         let url;
 

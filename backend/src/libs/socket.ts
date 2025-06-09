@@ -11,6 +11,7 @@ const io = new Server(server, {
         origin: ["http://localhost:3003", "https://chat.tungstenz.online"],
         methods: ["GET", "POST"],
     },
+    maxHttpBufferSize: 1e7,
 });
 
 const map = new Map();
