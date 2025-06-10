@@ -32,7 +32,7 @@ const InputPreview = ({ preview, setPreview }: previewType) => {
                         <IoCloseCircle
                             size={22}
                             onClick={() => setPreview('')}
-                            className="absolute right-2 top-2 text-white mix-blend-difference"
+                            className="absolute cursor-pointer right-[-1.1em] top-[-1.1em] text-white mix-blend-difference"
                         />
                         <img
                             src={preview}
