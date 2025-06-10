@@ -158,8 +158,8 @@ const Chat = () => {
         if (hello.current) {
             hello.current = false;
         }
-        if(attachRef.current) {
-            setPreview('')
+        if (attachRef.current) {
+            setPreview("");
         }
     };
 
@@ -269,12 +269,12 @@ const Chat = () => {
     }, []);
 
     useEffect(() => {
-        if(!preview) {
-            if(attachRef.current) {
-                attachRef.current.value = ''
+        if (!preview) {
+            if (attachRef.current) {
+                attachRef.current.value = "";
             }
         }
-    },[preview])
+    }, [preview]);
 
     return (
         <section
@@ -283,7 +283,7 @@ const Chat = () => {
             } relative h-[100dvh] bg-[#e6ffcb] dark:bg-black`}
         >
             <div className="flex justify-center mt-2">
-                <nav className="flex bg-white rounded-2xl dark:border dark:shadow-none shadow-[0_1px_10px] shadow-black/40 border-[#2b2b2b] dark:bg-[#121212] w-[90%] dark:text-[#fff] text-[#000000] items-center py-4 px-2 justify-between top-0 right-0 h-[8.5vh]">
+                <nav className="flex bg-white rounded-2xl dark:border dark:shadow-none shadow-[0_1px_10px] shadow-black/40 border-[#2b2b2b] dark:bg-[#1b1b1b] w-[90%] dark:text-[#fff] text-[#000000] items-center py-4 px-2 justify-between top-0 right-0 h-[8.5vh]">
                     <div className="flex items-center gap-1 md:gap-3 md:px-2">
                         <IoIosArrowBack
                             className="cursor-pointer"
@@ -320,7 +320,7 @@ const Chat = () => {
                 ) : (
                     <List
                         ref={scrollRef2}
-                        className="bg-[#e6ff62] dark:bg-black scroll-smooth scrollable"
+                        className="bg-[#e6ffcb] dark:bg-black scroll-smooth scrollable"
                         height={size}
                         itemCount={messages.length}
                         itemSize={getItemSize}
@@ -351,7 +351,7 @@ const Chat = () => {
                 )}
                 <AnimatePresence>
                     {isTyping?.isTyping && chatId === isTyping.chatId && (
-                        <motion.div className="text-white w-[3em] rounded-lg bg-[#fff] dark:bg-gray-800 ml-2 mt-0.5">
+                        <motion.div className="hidden md:block text-white w-[3em] rounded-lg bg-[#fff] dark:bg-[#1b1b1b] ml-2 mt-0.5">
                             <img
                                 className="object-cover"
                                 src="/icons/5V1YDdBVLZ.gif"
@@ -365,17 +365,26 @@ const Chat = () => {
                 onClick={(e) => e.stopPropagation()}
                 className="flex justify-center bg-black"
             >
-                <div className="absolute flex dark:border border-[#2b2b2b] bg-[#fff] dark:bg-[#1d1d1d] dark:shadow-none shadow-[0_1px_10px] shadow-black/50 rounded-2xl text-black justify-between pr-2 pl-5 gap-1 items-center bottom-4 w-[80%]">
+                <div className="absolute flex dark:border border-[#2b2b2b] bg-[#fff] dark:bg-[#1b1b1b] dark:shadow-none shadow-[0_1px_10px] shadow-black/50 rounded-2xl text-black justify-between pr-2 pl-5 gap-1 items-center bottom-4 w-[80%]">
                     <AnimatePresence>
                         {preview && (
                             <motion.div
                                 initial={{ opacity: 0, y: 50 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: 50 }}
-                                transition={{
-                                    duration: 0.5,
+                                animate={{
+                                    opacity: 1,
+                                    y: 0,
+                                    transition: {
+                                        duration: 0.5,
+                                    },
                                 }}
-                                className="absolute bottom-[4em] left-0 bg-[#2b2b2b] p-1 rounded-[12px]"
+                                exit={{
+                                    opacity: 0,
+                                    y: 50,
+                                    transition: {
+                                        duration: 0.25,
+                                    },
+                                }}
+                                className="absolute bottom-[4em] left-0 shadow-[0_1px_10px] shadow-black/50 dark:shadow-black bg-white dark:bg-[#2b2b2b] p-1 rounded-[12px]"
                             >
                                 <img
                                     src={preview}
