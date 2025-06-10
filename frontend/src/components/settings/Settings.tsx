@@ -1,4 +1,4 @@
-// import React, { type FormEvent } from "react";
+import React, { type FormEvent } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useSelector, type TypedUseSelectorHook } from "react-redux";
 import type { RootState } from "../../redux/store";
@@ -27,9 +27,9 @@ const Settings = ({ setSett }: settingsType) => {
         navigate("/login");
     };
 
-    // const handleSubmit = (e: FormEvent) => {
-    //     e.preventDefault();
-    // };
+    const handleSubmit = (e: FormEvent) => {
+        e.preventDefault();
+    };
 
     const selector: TypedUseSelectorHook<RootState> = useSelector;
     const state = selector((state) => state);
@@ -72,97 +72,100 @@ const Settings = ({ setSett }: settingsType) => {
                         </div>
                     </div>
                     <div className="flex flex-col gap-2 mt-[3em]">
-                        <div className="relative flex justify-center group w-fit cursor-pointer">
-                            <MdOutlineModeEditOutline
-                                className="absolute opacity-0 self-center group-hover:opacity-100 z-20 "
-                                size={18}
-                            />
-                            <img
-                                className="z-10 w-[5em] rounded-full brightness-100 group-hover:brightness-50 duration-150"
-                                src={state.auth.user.profile}
-                                alt="user"
-                            />
-                        </div>
-                        <div
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                setEdit((p) => ({ ...p, name: true }));
-                            }}
-                            className="flex justify-between items-center"
-                        >
-                            {isEdit.name ? (
-                                <input
-                                    className="font-bold text-lg bg-[#2b2b2b] w-full p-1"
-                                    defaultValue={state.auth.user.name}
-                                    type="text"
-                                />
-                            ) : (
-                                <h1 className="dark:text-white font-bold text-lg">
-                                    {state.auth.user.name}
-                                </h1>
-                            )}
-                            {!isEdit.name && (
+                        <form onSubmit={handleSubmit}>
+                            <div className="relative flex justify-center group w-fit cursor-pointer">
                                 <MdOutlineModeEditOutline
-                                    className="cursor-pointer"
+                                    className="absolute opacity-0 self-center group-hover:opacity-100 z-20 "
                                     size={18}
                                 />
-                            )}
-                        </div>
-                        <div
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                setEdit((p) => ({ ...p, email: true }));
-                            }}
-                            className="flex justify-between items-center"
-                        >
-                            <div className="flex flex-col w-full">
-                                <label
-                                    htmlFor="email"
-                                    className="text-gray-500 text-sm font-semibold"
-                                >
-                                    Email
-                                </label>
-                                {isEdit.email ? (
+                                <img
+                                    className="z-10 w-[5em] rounded-full brightness-100 group-hover:brightness-50 duration-150"
+                                    src={state.auth.user.profile}
+                                    alt="user"
+                                />
+                            </div>
+                            <div
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setEdit((p) => ({ ...p, name: true }));
+                                }}
+                                className="flex justify-between items-center"
+                            >
+                                {isEdit.name ? (
                                     <input
-                                        id="eamil"
-                                        className="bg-[#2b2b2b] font-semibold w-full p-1"
-                                        defaultValue={state.auth.user.email}
+                                        className="font-bold text-lg bg-[#2b2b2b] w-full p-1"
+                                        defaultValue={state.auth.user.name}
                                         type="text"
                                     />
                                 ) : (
-                                    <h2 className="dark:text-white font-semibold">
-                                        {state.auth.user.email}
-                                    </h2>
+                                    <h1 className="dark:text-white font-bold text-lg">
+                                        {state.auth.user.name}
+                                    </h1>
+                                )}
+                                {!isEdit.name && (
+                                    <MdOutlineModeEditOutline
+                                        className="cursor-pointer"
+                                        size={18}
+                                    />
                                 )}
                             </div>
-                            {!isEdit.email && (
-                                <MdOutlineModeEditOutline
-                                    className="cursor-pointer"
-                                    size={18}
-                                />
-                            )}
-                        </div>
-                        <div className="flex justify-center items-end h-[4em]">
-                            <h2 className="flex items-center cursor-pointer text-sm gap-2 bg-[#2b2b2b] w-fit rounded-2xl px-4 pt-1 pb-1.5">
-                                Change password
-                                <MdOutlineModeEditOutline size={18} />
-                            </h2>
-                        </div>
-                        <AnimatePresence>
-                            {(isEdit.name || isEdit.email) && (
-                                <div className="flex justify-center mt-2">
-                                    <motion.div
-                                        initial={{ height: 0, y: 10 }}
-                                        animate={{ height: "auto", y: 0 }}
-                                        exit={{ height: 0, y: 10 }}
-                                        transition={{ duration: 0.1 }}
-                                        className="bg-[#b0ff62] text-black w-fit px-4 pt-1 pb-1.5 rounded-2xl"
+                            <div
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setEdit((p) => ({ ...p, email: true }));
+                                }}
+                                className="flex justify-between items-center"
+                            >
+                                <div className="flex flex-col w-full">
+                                    <label
+                                        htmlFor="email"
+                                        className="text-gray-500 text-sm font-semibold"
                                     >
-                                        Save
-                                    </motion.div>
+                                        Email
+                                    </label>
+                                    {isEdit.email ? (
+                                        <input
+                                            id="eamil"
+                                            className="bg-[#2b2b2b] font-semibold w-full p-1"
+                                            defaultValue={state.auth.user.email}
+                                            type="text"
+                                        />
+                                    ) : (
+                                        <h2 className="dark:text-white font-semibold">
+                                            {state.auth.user.email}
+                                        </h2>
+                                    )}
                                 </div>
-                            )}
-                        </AnimatePresence>
+                                {!isEdit.email && (
+                                    <MdOutlineModeEditOutline
+                                        className="cursor-pointer"
+                                        size={18}
+                                    />
+                                )}
+                            </div>
+                            <div className="flex justify-center items-end h-[4em]">
+                                <h2 className="flex items-center cursor-pointer text-sm gap-2 bg-[#2b2b2b] w-fit rounded-2xl px-4 pt-1 pb-1.5">
+                                    Change password
+                                    <MdOutlineModeEditOutline size={18} />
+                                </h2>
+                            </div>
+                            <AnimatePresence>
+                                {(isEdit.name || isEdit.email) && (
+                                    <div className="flex justify-center mt-2">
+                                        <motion.button
+                                            type="submit"
+                                            initial={{ height: 0, y: 10 }}
+                                            animate={{ height: "auto", y: 0 }}
+                                            exit={{ height: 0, y: 10 }}
+                                            transition={{ duration: 0.1 }}
+                                            className="bg-[#b0ff62] text-black w-fit px-4 pt-1 pb-1.5 rounded-2xl"
+                                        >
+                                            Save
+                                        </motion.button>
+                                    </div>
+                                )}
+                            </AnimatePresence>
+                        </form>
                     </div>
                 </div>
             </motion.div>
