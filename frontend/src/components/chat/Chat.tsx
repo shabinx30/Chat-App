@@ -180,13 +180,6 @@ const Chat = () => {
         }
     }, [messages]);
 
-    const scrollToBottom = () => {
-        if (scrollRef2.current && messages.length > 0) {
-            scrollRef2.current.scrollToItem(messages.length - 1, "end");
-            setIsLastMessageInView(true);
-        }
-    };
-
     const [typing, setTyping] = useState<boolean>();
     const debouncedSearch = useCallback(
         debounce(() => setTyping(false), 500),
@@ -207,6 +200,12 @@ const Chat = () => {
     }, [typing, chatId, chat?._id, socket]);
 
     const [isTyping, setIsTyping] = useState<typing>();
+    const scrollToBottom = () => {
+        if (scrollRef2.current && messages.length > 0) {
+            setIsLastMessageInView(true);
+            scrollRef2.current.scrollToItem(messages.length - 1, "end");
+        }
+    };
 
     useEffect(() => {
         socket.on("typing", (res) => {
@@ -227,10 +226,12 @@ const Chat = () => {
             scrollRef2.current?.resetAfterIndex(0);
         };
 
+        document.body.style.overflow = "hidden";
         handleResize();
         window.addEventListener("resize", handleResize);
         return () => {
             window.removeEventListener("resize", handleResize);
+            // document.body.style.overflow = "auto"
         };
     }, []);
 
@@ -278,177 +279,193 @@ const Chat = () => {
     }, [preview]);
 
     return (
-        <section
-            className={`${
-                chatId ? "flex-[calc(1/2.6*100%)]" : "hidden"
-            } relative h-[100dvh] bg-[#e6ffcb] dark:bg-black`}
-        >
-            <div className="flex justify-center mt-2">
-                <nav className="flex bg-white rounded-2xl dark:border dark:shadow-none shadow-[0_1px_10px] shadow-black/40 border-[#2b2b2b] dark:bg-[#1b1b1b] w-[90%] dark:text-[#fff] text-[#000000] items-center py-4 px-2 justify-between top-0 right-0 h-[8.5vh]">
-                    <div className="flex items-center gap-1 md:gap-3 md:px-2">
-                        <IoIosArrowBack
-                            className="cursor-pointer"
-                            onClick={() => navigate("/")}
-                            size={30}
-                        />
-                        <img
-                            className="object-cover min-w-[2.5em] max-h-[2.5em] rounded-full"
-                            src={
-                                chat?.profile ? chat.profile : "/icons/user.png"
-                            }
-                            alt={chat?.name}
-                        />
-                        <h1 className="font-semibold ml-2 md:m-0">
-                            {chat?.name}
-                        </h1>
-                    </div>
-                    <IoMdMore size={24} className="cursor-pointer" />
-                </nav>
-            </div>
-            <div ref={scrollRef} className="h-[78vh] mt-2 px-2 md:px-4">
-                {!messages.length ? (
-                    <div className="flex justify-center items-center h-full">
-                        <div
-                            onClick={() => {
-                                hello.current = true;
-                                sendMessage();
-                            }}
-                            className="cursor-pointer border border-[#b0ff62] border-dashed rounded-3xl pt-1 pb-1.5 pl-3 pr-2"
-                        >
-                            Say Hello👋
-                        </div>
-                    </div>
-                ) : (
-                    <List
-                        ref={scrollRef2}
-                        className="bg-[#e6ffcb] dark:bg-black scrollable"
-                        height={size}
-                        itemCount={messages.length}
-                        itemSize={getItemSize}
-                        width="100%"
-                        itemData={{
-                            messages,
-                            user: state.auth.user.userId,
-                            setSizeForIndex,
-                        }}
-                        onScroll={({ scrollOffset }) => {
-                            if (scrollRef.current) {
-                                const totalHeight = messages
-                                    .map((_, i) => getItemSize(i))
-                                    .reduce((a, b) => a + b, 0);
-                                const viewportHeight =
-                                    scrollRef.current.clientHeight;
-                                const isAtBottom =
-                                    scrollOffset + viewportHeight >=
-                                    totalHeight - 10; // Small buffer for better detection
-                                setIsLastMessageInView(isAtBottom);
-                            }
-                        }}
-                        // Add overscan to improve performance and height calculation
-                        overscanCount={5}
-                    >
-                        {Message}
-                    </List>
-                )}
-                <AnimatePresence>
-                    {isTyping?.isTyping && chatId === isTyping.chatId && (
-                        <motion.div className="hidden md:block text-white w-[3em] rounded-lg bg-[#fff] dark:bg-[#1b1b1b] ml-2 mt-0.5">
-                            <img
-                                className="object-cover"
-                                src="/icons/5V1YDdBVLZ.gif"
-                                alt="typing"
-                            />
-                        </motion.div>
-                    )}
-                </AnimatePresence>
-            </div>
-            <div
-                onClick={(e) => e.stopPropagation()}
-                className="flex justify-center bg-black"
+        <div className="absolute md:relative md:flex-[calc(1/2.6*100%)] w-full z-50">
+            <motion.section
+                initial={window.innerWidth <= 768 && { x: 400, opacity: 0 }}
+                animate={window.innerWidth <= 768 && { x: 0, opacity: 1 }}
+                transition={{
+                    type: "spring",
+                    stiffness: 150,
+                    damping: 25,
+                    duration: 1,
+                }}
+                className={`${
+                    chatId ? "flex-[calc(1/2.6*100%)]" : "hidden"
+                } relative h-[100dvh] bg-[#e6ffcb] dark:bg-black`}
             >
-                <div className="absolute flex dark:border border-[#2b2b2b] bg-[#fff] dark:bg-[#1b1b1b] dark:shadow-none shadow-[0_1px_10px] shadow-black/50 rounded-2xl text-black justify-between pr-2 pl-5 gap-1 items-center bottom-4 w-[80%]">
-                    <InputPreview preview={preview} setPreview={setPreview}/>
-                    <div className="relative w-[18px] flex items-center cursor-pointer">
-                        <ImAttachment
-                            size={18}
-                            className="z-10 absolute dark:text-[#b0ff62]"
-                        />
-                        <input
-                            ref={attachRef}
-                            className="absolute z-20 w-[18px] opacity-0"
-                            type="file"
-                            onChange={(e) => {
-                                const file =
-                                    e.target.files && e.target.files[0];
-                                if (!file) {
-                                    setPreview("");
-                                    return;
+                <div className="flex justify-center mt-2">
+                    <nav className="flex bg-white rounded-2xl dark:border dark:shadow-none shadow-[0_1px_10px] shadow-black/40 border-[#2b2b2b] dark:bg-[#1b1b1b] w-[90%] dark:text-[#fff] text-[#000000] items-center py-4 px-2 justify-between top-0 right-0 h-[8.5vh]">
+                        <div className="flex items-center gap-1 md:gap-3 md:px-2">
+                            <IoIosArrowBack
+                                className="cursor-pointer"
+                                onClick={() => navigate("/")}
+                                size={30}
+                            />
+                            <img
+                                className="object-cover min-w-[2.5em] max-h-[2.5em] rounded-full"
+                                src={
+                                    chat?.profile
+                                        ? chat.profile
+                                        : "/icons/user.png"
                                 }
-                                if(file.type.slice(0,5) != 'image') {
-                                    e.target.value = ''
-                                    return
-                                }
-                                const reader = new FileReader();
-                                reader.onload = () => {
-                                    setPreview(reader.result as string);
-                                };
-                                reader.readAsDataURL(file);
+                                alt={chat?.name}
+                            />
+                            <h1 className="font-semibold ml-2 md:m-0">
+                                {chat?.name}
+                            </h1>
+                        </div>
+                        <IoMdMore size={24} className="cursor-pointer" />
+                    </nav>
+                </div>
+                <div ref={scrollRef} className="h-[78vh] mt-2 px-2 md:px-4">
+                    {!messages.length ? (
+                        <div className="flex justify-center items-center h-full">
+                            <div
+                                onClick={() => {
+                                    hello.current = true;
+                                    sendMessage();
+                                }}
+                                className="cursor-pointer border border-[#b0ff62] border-dashed rounded-3xl pt-1 pb-1.5 pl-3 pr-2"
+                            >
+                                Say Hello👋
+                            </div>
+                        </div>
+                    ) : (
+                        <List
+                            ref={scrollRef2}
+                            className="bg-[#e6ffcb] dark:bg-black scroll-smooth scrollable"
+                            height={size}
+                            itemCount={messages.length}
+                            itemSize={getItemSize}
+                            width="100%"
+                            itemData={{
+                                messages,
+                                user: state.auth.user.userId,
+                                setSizeForIndex,
                             }}
-                            // accept="image/*, video/*"
-                            accept="image/*"
+                            onScroll={({ scrollOffset }) => {
+                                if (scrollRef.current) {
+                                    const totalHeight = messages
+                                        .map((_, i) => getItemSize(i))
+                                        .reduce((a, b) => a + b, 0);
+                                    const viewportHeight =
+                                        scrollRef.current.clientHeight;
+                                    const isAtBottom =
+                                        scrollOffset + viewportHeight >=
+                                        totalHeight - 100; // Small buffer for better detection
+                                    setIsLastMessageInView(isAtBottom);
+                                }
+                            }}
+                            // Add overscan to improve performance and height calculation
+                            overscanCount={5}
+                        >
+                            {Message}
+                        </List>
+                    )}
+                    <AnimatePresence>
+                        {isTyping?.isTyping && chatId === isTyping.chatId && (
+                            <motion.div className="hidden md:block text-white w-[3em] rounded-lg bg-[#fff] dark:bg-[#1b1b1b] ml-2 mt-0.5">
+                                <img
+                                    className="object-cover"
+                                    src="/icons/5V1YDdBVLZ.gif"
+                                    alt="typing"
+                                />
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                </div>
+                <div
+                    onClick={(e) => e.stopPropagation()}
+                    className="flex justify-center bg-black"
+                >
+                    <div className="absolute flex dark:border border-[#2b2b2b] bg-[#fff] dark:bg-[#1b1b1b] dark:shadow-none shadow-[0_1px_10px] shadow-black/50 rounded-2xl text-black justify-between pr-2 pl-5 gap-1 items-center bottom-4 w-[80%]">
+                        {/* file input preview */}
+                        <InputPreview
+                            preview={preview}
+                            setPreview={setPreview}
                         />
-                    </div>
-                    <form
-                        className="w-full items-center"
-                        onSubmit={sendMessage}
-                    >
-                        <textarea
-                            ref={msgRef}
-                            className="resize-none scrollable pt-4 dark:text-white w-full outline-none h-[3.4em] placeholder:text-gray-600 dark:placeholder:text-gray-400 px-2"
-                            onChange={handleTyping}
-                            placeholder="Type a message"
-                            onKeyDown={(e) => {
-                                if (e.key == "Enter") {
-                                    if (e.shiftKey) {
+                        <div className="relative w-[18px] flex items-center cursor-pointer">
+                            <ImAttachment
+                                size={18}
+                                className="z-10 absolute dark:text-[#b0ff62]"
+                            />
+                            <input
+                                ref={attachRef}
+                                className="absolute z-20 w-[18px] opacity-0"
+                                type="file"
+                                onChange={(e) => {
+                                    const file =
+                                        e.target.files && e.target.files[0];
+                                    if (!file) {
+                                        setPreview("");
                                         return;
                                     }
-                                    e.preventDefault();
-                                    sendMessage();
-                                }
-                            }}
-                        ></textarea>
-                    </form>
-                    <div
-                        onClick={() => sendMessage()}
-                        className="bg-[#b0ff62] dark:text-black cursor-pointer py-2 pl-2.5 pr-1.5 rounded-[12px]"
-                    >
-                        <motion.div
-                            animate={{ rotateY: rotate }}
-                            transition={{
-                                type: "spring",
-                                stiffness: 120,
-                                damping: 25,
-                                duration: 1,
-                            }}
-                            className="transform-3d"
-                        >
-                            <LuSendHorizontal
-                                className="translate-z-[4em]"
-                                size={22}
+                                    if (file.type.slice(0, 5) != "image") {
+                                        e.target.value = "";
+                                        return;
+                                    }
+                                    const reader = new FileReader();
+                                    reader.onload = () => {
+                                        setPreview(reader.result as string);
+                                    };
+                                    reader.readAsDataURL(file);
+                                }}
+                                // accept="image/*, video/*"
+                                accept="image/*"
                             />
-                        </motion.div>
+                        </div>
+                        <form
+                            className="w-full items-center"
+                            onSubmit={sendMessage}
+                        >
+                            <textarea
+                                ref={msgRef}
+                                className="resize-none scrollable pt-4 dark:text-white w-full outline-none h-[3.4em] placeholder:text-gray-600 dark:placeholder:text-gray-400 px-2"
+                                onChange={handleTyping}
+                                placeholder="Type a message"
+                                onKeyDown={(e) => {
+                                    if (e.key == "Enter") {
+                                        if (e.shiftKey) {
+                                            return;
+                                        }
+                                        e.preventDefault();
+                                        sendMessage();
+                                    }
+                                }}
+                            ></textarea>
+                        </form>
+                        <div
+                            onClick={() => sendMessage()}
+                            className="bg-[#b0ff62] dark:text-black cursor-pointer py-2 pl-2.5 pr-1.5 rounded-[12px]"
+                        >
+                            <motion.div
+                                animate={{ rotateY: rotate }}
+                                transition={{
+                                    type: "spring",
+                                    stiffness: 120,
+                                    damping: 25,
+                                    duration: 1,
+                                }}
+                                className="transform-3d"
+                            >
+                                <LuSendHorizontal
+                                    className="translate-z-[4em]"
+                                    size={22}
+                                />
+                            </motion.div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: isLastMessageInView ? 0 : 1 }}
-                onClick={scrollToBottom}
-                className="absolute cursor-pointer bg-white dark:bg-[#2b2b2b] dark:text-[#b0ff62] bottom-[5em] rounded-2xl shadow-[0_2px_10px] shadow-black/50 right-10 p-2"
-            >
-                <MdKeyboardDoubleArrowDown size={26} />
-            </motion.div>
-        </section>
+                <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: isLastMessageInView ? 0 : 1 }}
+                    onClick={scrollToBottom}
+                    className="absolute cursor-pointer bg-white dark:bg-[#2b2b2b] dark:text-[#b0ff62] bottom-[5em] rounded-2xl shadow-[0_2px_10px] shadow-black/50 right-10 p-2"
+                >
+                    <MdKeyboardDoubleArrowDown size={26} />
+                </motion.div>
+            </motion.section>
+        </div>
     );
 };
 

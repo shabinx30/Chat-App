@@ -8,6 +8,7 @@ import type { RootState } from "../../redux/store";
 import { useParams } from "react-router-dom";
 import { useAppContext } from "../../context/AppContext";
 import debounce from "../../libs/debouncer";
+import { motion } from "framer-motion";
 
 //function type
 interface AddContactType {
@@ -112,10 +113,17 @@ const Contacts = ({ change, setPop, setSett }: AddContactType) => {
     });
 
     return (
-        <section
+        <motion.section
+            initial={{ opacity: 1, transition: { duration: 0 } }}
+            animate={chatId && window.innerWidth <= 768 && { opacity: 0 }}
+            transition={{
+                duration: 0.75,
+            }}
             className={`${
-                chatId ? "hidden md:block" : "flex-1 md:flex-none"
-            } bg-[#ffffff] h-[100vh] relative md:min-w-[30.8%] md:max-w-[60%] lg:overflow-auto lg:resize-x dark:bg-gray-900 text-black dark:border-r border-[#282828]`}
+                chatId
+                    ? setTimeout(() => "hidden md:block", 1000)
+                    : "flex-1 md:flex-none"
+            } bg-[#ffffff] w-full h-[100vh] relative md:min-w-[30.8%] md:max-w-[60%] lg:overflow-auto lg:resize-x dark:bg-gray-900 text-black dark:border-r border-[#282828]`}
         >
             <div className="absolute h-[21vh] w-full z-10 bg-[#ffffff] dark:bg-[#121212]">
                 <div className="mx-4 h-[4em] flex justify-between items-center">
@@ -177,7 +185,7 @@ const Contacts = ({ change, setPop, setSett }: AddContactType) => {
                     <GoPlus size={40} />
                 </div>
             </div>
-        </section>
+        </motion.section>
     );
 };
 

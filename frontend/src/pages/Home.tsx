@@ -11,36 +11,40 @@ const Home = ({ aside }: { aside: React.ReactNode }) => {
     const [isPop, setPop] = useState<boolean>(false);
     const [isSett, setSett] = useState<boolean>(false);
     const [change, setChange] = useState("");
-    const {setPreview} = useAppContext()
+    const { setPreview } = useAppContext();
 
-    const {VITE_PUBLIC_VAPID_KEY, VITE_BASE_URL} = import.meta.env
+    const { VITE_PUBLIC_VAPID_KEY, VITE_BASE_URL } = import.meta.env;
 
     useEffect(() => {
         const handleSubscribe = async () => {
             const subscription = await subscribeToPush(VITE_PUBLIC_VAPID_KEY);
             if (subscription) {
-                const user = JSON.parse(localStorage.getItem('jwt') || '')
+                const user = JSON.parse(localStorage.getItem("jwt") || "");
                 await fetch(`${VITE_BASE_URL}/notify/subscribe`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
                         userId: user.userId,
-                        subscription
+                        subscription,
                     }),
                 });
             }
         };
-        handleSubscribe()
-    },[]);
+        handleSubscribe();
+    }, []);
 
     return (
-        <div onClick={() => {
-            setPreview('')
-        }} className="relative flex">
+        <div
+            onClick={() => {
+                setPreview("");
+            }}
+            className="relative flex"
+        >
             <AnimatePresence>
-                {isSett && <Settings setSett={setSett}/>}
+                {isSett && <Settings setSett={setSett} />}
                 {isPop && <AddContact setPop={setPop} setChange={setChange} />}
             </AnimatePresence>
+
             <Contacts change={change} setPop={setPop} setSett={setSett} />
             {aside}
         </div>
