@@ -117,7 +117,7 @@ const Contacts = ({ change, setPop, setSett }: AddContactType) => {
             initial={{ opacity: 1, transition: { duration: 0 } }}
             animate={chatId && window.innerWidth <= 768 && { opacity: 0 }}
             transition={{
-                duration: 0.75,
+                duration: 0.65,
             }}
             className={`${
                 chatId

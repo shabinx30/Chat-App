@@ -283,8 +283,9 @@ const Chat = () => {
                 animate={window.innerWidth <= 768 && { x: 0, opacity: 1 }}
                 transition={{
                     type: "spring",
-                    stiffness: 175,
-                    damping: 27.5,
+                    stiffness: 150,
+                    damping: 25,
+                    duration: 1,
                 }}
                 className={`${
                     chatId ? "flex-[calc(1/2.6*100%)]" : "hidden"
