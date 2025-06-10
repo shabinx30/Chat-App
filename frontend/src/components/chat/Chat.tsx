@@ -320,7 +320,7 @@ const Chat = () => {
                 ) : (
                     <List
                         ref={scrollRef2}
-                        className="bg-[#e6ffcb] dark:bg-black scroll-smooth scrollable"
+                        className="bg-[#e6ffcb] dark:bg-black scrollable"
                         height={size}
                         itemCount={messages.length}
                         itemSize={getItemSize}
@@ -409,13 +409,15 @@ const Chat = () => {
                                     setPreview("");
                                     return;
                                 }
+                                if(file.type.slice(0,5) != 'image') return
                                 const reader = new FileReader();
                                 reader.onload = () => {
                                     setPreview(reader.result as string);
                                 };
                                 reader.readAsDataURL(file);
                             }}
-                            accept="image/*, video/*"
+                            // accept="image/*, video/*"
+                            accept="image/*"
                         />
                     </div>
                     <form

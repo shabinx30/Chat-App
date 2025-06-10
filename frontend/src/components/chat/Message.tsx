@@ -64,10 +64,10 @@ const Message = ({ index, style, data }: any) => {
                             />
                         )}
                     {/* video */}
-                    {messages[index].hasMedia &&
+                    {/* {messages[index].hasMedia &&
                         messages[index].mediaType == "video" && (
                             <video controls className="rounded-[12px] object-cover w-full object-center aspect-video" src={messages[index].media}></video>
-                        )}
+                        )} */}
                     <p
                         style={{
                             wordWrap: "break-word",
