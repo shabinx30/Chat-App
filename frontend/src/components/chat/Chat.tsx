@@ -19,6 +19,7 @@ import { MdKeyboardDoubleArrowDown } from "react-icons/md";
 import { IoIosArrowBack } from "react-icons/io";
 import debounce from "../../libs/debouncer";
 import { VariableSizeList as List } from "react-window";
+import InputPreview from "./InputPreview";
 
 export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 
@@ -366,33 +367,7 @@ const Chat = () => {
                 className="flex justify-center bg-black"
             >
                 <div className="absolute flex dark:border border-[#2b2b2b] bg-[#fff] dark:bg-[#1b1b1b] dark:shadow-none shadow-[0_1px_10px] shadow-black/50 rounded-2xl text-black justify-between pr-2 pl-5 gap-1 items-center bottom-4 w-[80%]">
-                    <AnimatePresence>
-                        {preview && (
-                            <motion.div
-                                initial={{ opacity: 0, y: 50 }}
-                                animate={{
-                                    opacity: 1,
-                                    y: 0,
-                                    transition: {
-                                        duration: 0.5,
-                                    },
-                                }}
-                                exit={{
-                                    opacity: 0,
-                                    y: 50,
-                                    transition: {
-                                        duration: 0.25,
-                                    },
-                                }}
-                                className="absolute bottom-[4em] left-0 shadow-[0_1px_10px] shadow-black/50 dark:shadow-black bg-white dark:bg-[#2b2b2b] p-1 rounded-[12px]"
-                            >
-                                <img
-                                    src={preview}
-                                    className="max-h-[50vh] rounded-[12px]"
-                                />
-                            </motion.div>
-                        )}
-                    </AnimatePresence>
+                    <InputPreview preview={preview} setPreview={setPreview}/>
                     <div className="relative w-[18px] flex items-center cursor-pointer">
                         <ImAttachment
                             size={18}
