@@ -67,8 +67,8 @@ const Contact = ({
         <div
             onClick={() => navigate(`/chat/${data._id}`)}
             className={`w-full h-[4.5em] ${
-                chatId == data._id && window.innerWidth >= 768
-                    ? "bg-[#c5ff87] dark:bg-[#b0ff62] text-black hover:bg-[#e8ffd0] hover:dark:bg-[#b0ff62]"
+                chatId == data._id
+                    ? "md:bg-[#c5ff87] md:dark:bg-[#b0ff62] md:text-black md:hover:bg-[#e8ffd0] md:hover:dark:bg-[#b0ff62]"
                     : "dark:text-[#eff0ff] hover:bg-[#f0ffe0] hover:dark:bg-[#282828]"
             } duration-200 rounded-4xl select-none text-black flex justify-center gap-4 items-center px-3`}
         >
@@ -92,7 +92,7 @@ const Contact = ({
                 className={`font-normal h-[90%] flex justify-between items-center w-full`}
             >
                 <div className="flex flex-col">
-                    <p className={chatId == data._id ? "font-semibold" : ""}>
+                    <p className={chatId == data._id ? "md:font-semibold" : ""}>
                         {person?.userId.name}
                     </p>
                     <AnimatePresence>
