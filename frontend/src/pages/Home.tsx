@@ -31,6 +31,7 @@ const Home = ({ aside }: { aside: React.ReactNode }) => {
             }
         };
         handleSubscribe();
+        document.body.style.overflow = "hidden"
     }, []);
 
     return (
