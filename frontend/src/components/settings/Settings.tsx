@@ -93,7 +93,7 @@ const Settings = ({ setSett }: settingsType) => {
                             {isEdit.name ? (
                                 <input
                                     className="font-bold text-lg bg-[#2b2b2b] w-full p-1"
-                                    value={state.auth.user.name}
+                                    defaultValue={state.auth.user.name}
                                     type="text"
                                 />
                             ) : (
@@ -126,7 +126,7 @@ const Settings = ({ setSett }: settingsType) => {
                                     <input
                                         id="eamil"
                                         className="bg-[#2b2b2b] font-semibold w-full p-1"
-                                        value={state.auth.user.email}
+                                        defaultValue={state.auth.user.email}
                                         type="text"
                                     />
                                 ) : (

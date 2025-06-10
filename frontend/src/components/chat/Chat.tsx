@@ -409,7 +409,10 @@ const Chat = () => {
                                     setPreview("");
                                     return;
                                 }
-                                if(file.type.slice(0,5) != 'image') return
+                                if(file.type.slice(0,5) != 'image') {
+                                    e.target.value = ''
+                                    return
+                                }
                                 const reader = new FileReader();
                                 reader.onload = () => {
                                     setPreview(reader.result as string);
