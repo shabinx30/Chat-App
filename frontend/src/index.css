@@ -18,6 +18,13 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+@layer utilities {
+  ::selection {
+    background-color: #b0ff62;
+    color: white;
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #000;

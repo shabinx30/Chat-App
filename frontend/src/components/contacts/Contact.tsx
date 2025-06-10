@@ -66,7 +66,7 @@ const Contact = ({
                 chatId == data._id && window.innerWidth >= 768
                     ? "bg-[#c5ff87] dark:bg-[#b0ff62] text-black hover:bg-[#e8ffd0] hover:dark:bg-[#b0ff62]"
                     : "dark:text-[#eff0ff] hover:bg-[#f0ffe0] hover:dark:bg-[#282828]"
-            } duration-200 rounded-4xl text-black flex justify-center gap-4 items-center px-3`}
+            } duration-200 rounded-4xl select-none text-black flex justify-center gap-4 items-center px-3`}
         >
             <div className="relative flex items-center justify-center">
                 <img

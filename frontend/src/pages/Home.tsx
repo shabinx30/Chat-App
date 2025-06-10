@@ -31,7 +31,6 @@ const Home = ({ aside }: { aside: React.ReactNode }) => {
             }
         };
         handleSubscribe();
-        document.body.style.overflow = "hidden"
     }, []);
 
     return (
@@ -39,7 +38,7 @@ const Home = ({ aside }: { aside: React.ReactNode }) => {
             onClick={() => {
                 setPreview("");
             }}
-            className="relative flex"
+            className="relative flex overflow-hidden"
         >
             <AnimatePresence>
                 {isSett && <Settings setSett={setSett} />}
