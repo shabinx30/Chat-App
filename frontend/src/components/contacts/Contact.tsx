@@ -59,6 +59,10 @@ const Contact = ({
         });
     };
 
+    useEffect(() => {
+        console.log(person)
+    },[person])
+
     return (
         <div
             onClick={() => navigate(`/chat/${data._id}`)}

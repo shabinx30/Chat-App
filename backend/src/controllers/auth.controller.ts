@@ -30,7 +30,7 @@ export const SignUp = async (req: Request, res: Response): Promise<void> => {
         if (req.file?.path) {
             const uploadResult = await cloudinary.uploader
                 .upload(req.file?.path, {
-                    public_id: "profile",
+                    public_id: `media_${Date.now()}`,
                 })
                 .catch((error) => {
                     console.log(error);
