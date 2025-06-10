@@ -226,12 +226,10 @@ const Chat = () => {
             scrollRef2.current?.resetAfterIndex(0);
         };
 
-        // document.body.style.overflow = "hidden";
         handleResize();
         window.addEventListener("resize", handleResize);
         return () => {
             window.removeEventListener("resize", handleResize);
-            // document.body.style.overflow = "auto"
         };
     }, []);
 
@@ -279,7 +277,7 @@ const Chat = () => {
     }, [preview]);
 
     return (
-        <div className="absolute md:relative md:flex-[calc(1/2.6*100%)] w-full z-50">
+        <div className="absolute md:relative md:flex-[calc(1/2.6*100%)] w-full max-h-[100vh] z-50">
             <motion.section
                 initial={window.innerWidth <= 768 && { x: 400, opacity: 0 }}
                 animate={window.innerWidth <= 768 && { x: 0, opacity: 1 }}
