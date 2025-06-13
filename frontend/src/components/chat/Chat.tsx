@@ -1,6 +1,5 @@
 import { LuSendHorizontal } from "react-icons/lu";
 import { ImAttachment } from "react-icons/im";
-import { IoMdMore } from "react-icons/io";
 import Message from "./Message";
 import {
     useCallback,
@@ -16,14 +15,14 @@ import type { RootState } from "../../redux/store";
 import { useAppContext } from "../../context/AppContext";
 import { AnimatePresence, motion } from "framer-motion";
 import { MdKeyboardDoubleArrowDown } from "react-icons/md";
-import { IoIosArrowBack } from "react-icons/io";
 import debounce from "../../libs/debouncer";
 import { VariableSizeList as List } from "react-window";
 import InputPreview from "./InputPreview";
+import ChatHeader from "./ChatHeader";
 
 export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 
-interface chatType {
+export interface chatType {
     _id: string;
     name: string;
     profile: string;
@@ -291,30 +290,7 @@ const Chat = () => {
                     chatId ? "flex-[calc(1/2.6*100%)]" : "hidden"
                 } relative h-[100dvh] bg-[#e6ffcb] dark:bg-black`}
             >
-                <div className="flex justify-center mt-2">
-                    <nav className="flex bg-white rounded-2xl dark:border dark:shadow-none shadow-[0_1px_10px] shadow-black/40 border-[#2b2b2b] dark:bg-[#1b1b1b] w-[90%] dark:text-[#fff] text-[#000000] items-center py-4 px-2 justify-between top-0 right-0 h-[8.5vh]">
-                        <div className="flex items-center gap-1 md:gap-3 md:px-2">
-                            <IoIosArrowBack
-                                className="cursor-pointer"
-                                onClick={() => navigate("/")}
-                                size={30}
-                            />
-                            <img
-                                className="object-cover min-w-[2.5em] max-h-[2.5em] rounded-full"
-                                src={
-                                    chat?.profile
-                                        ? chat.profile
-                                        : "/icons/user.png"
-                                }
-                                alt={chat?.name}
-                            />
-                            <h1 className="font-semibold ml-2 md:m-0">
-                                {chat?.name}
-                            </h1>
-                        </div>
-                        <IoMdMore size={24} className="cursor-pointer" />
-                    </nav>
-                </div>
+                <ChatHeader chat={chat} navigate={navigate}/>
                 <div ref={scrollRef} className="h-[78vh] mt-2 px-2 md:px-4">
                     {!messages.length ? (
                         <div className="flex justify-center items-center h-full">
