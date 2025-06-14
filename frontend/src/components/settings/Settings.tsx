@@ -60,7 +60,7 @@ const Settings = ({ setSett }: settingsType) => {
                     className="p-6 space-y-4 md:space-y-6 sm:p-8 text-gray-900 dark:text-white"
                 >
                     <div className="flex justify-between">
-                        <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                        <h1 className="text-2xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white">
                             Settings
                         </h1>
                         <div
@@ -68,7 +68,7 @@ const Settings = ({ setSett }: settingsType) => {
                             className="flex items-center justify-between gap-2 bg-red-400 rounded-2xl cursor-pointer px-3 pt-1 pb-1.5"
                         >
                             <h2 className="dark:text-white text-sm">Log out</h2>
-                            <RxExit size={17} className="text-white" />
+                            <RxExit size={17} />
                         </div>
                     </div>
                     <div className="flex flex-col gap-2 mt-[3em]">
@@ -93,7 +93,7 @@ const Settings = ({ setSett }: settingsType) => {
                             >
                                 {isEdit.name ? (
                                     <input
-                                        className="font-bold text-lg bg-[#2b2b2b] w-full p-1"
+                                        className="font-bold text-lg bg-[#cecece] dark:bg-[#2b2b2b] w-full p-1"
                                         defaultValue={state.auth.user.name}
                                         type="text"
                                     />
@@ -126,7 +126,7 @@ const Settings = ({ setSett }: settingsType) => {
                                     {isEdit.email ? (
                                         <input
                                             id="eamil"
-                                            className="bg-[#2b2b2b] font-semibold w-full p-1"
+                                            className="bg-[#cecece] dark:bg-[#2b2b2b] font-semibold w-full p-1"
                                             defaultValue={state.auth.user.email}
                                             type="text"
                                         />
@@ -144,7 +144,7 @@ const Settings = ({ setSett }: settingsType) => {
                                 )}
                             </div>
                             <div className="flex justify-center items-end h-[4em]">
-                                <h2 className="flex items-center cursor-pointer text-sm gap-2 bg-[#2b2b2b] w-fit rounded-2xl px-4 pt-1 pb-1.5">
+                                <h2 className="flex items-center cursor-pointer text-sm gap-2 bg-[#cecece] dark:bg-[#2b2b2b] w-fit rounded-2xl px-4 pt-1 pb-1.5">
                                     Change password
                                     <MdOutlineModeEditOutline size={18} />
                                 </h2>
