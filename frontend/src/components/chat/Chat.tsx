@@ -176,8 +176,6 @@ const Chat = () => {
         }
     }, [messages]);
 
-    
-
     const [isTyping, setIsTyping] = useState<typing>();
     const scrollToBottom = () => {
         if (scrollRef2.current && messages.length > 0) {
