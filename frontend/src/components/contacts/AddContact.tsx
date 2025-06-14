@@ -143,13 +143,13 @@ const AddContact = ({ setPop, setChange }: AddContactType) => {
                                 <button
                                     onClick={() => setPop(false)}
                                     type="button"
-                                    className="cursor-pointer w-full text-black dark:text-white border border-[#d7ffae82] duration-200 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-2xl text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                                    className="cursor-pointer w-full text-white dark:text-black bg-[#3d3d3d] dark:bg-[#d3d3d3] outline-none duration-200 font-medium rounded-2xl text-sm px-5 py-2.5 text-center"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
-                                    className="cursor-pointer w-full text-black bg-[#b0ff62] focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-2xl text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                                    className="cursor-pointer w-full text-black bg-[#b0ff62] font-medium rounded-2xl text-sm px-5 py-2.5 text-center"
                                 >
                                     Add
                                 </button>
