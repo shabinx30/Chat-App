@@ -13,7 +13,6 @@ import type { RootState } from "../../redux/store";
 import { useAppContext } from "../../context/AppContext";
 import { AnimatePresence, motion } from "framer-motion";
 import { MdKeyboardDoubleArrowDown } from "react-icons/md";
-import debounce from "../../libs/debouncer";
 import { VariableSizeList as List } from "react-window";
 import ChatHeader from "./ChatHeader";
 import ChatInput from "./ChatInput";
@@ -177,24 +176,7 @@ const Chat = () => {
         }
     }, [messages]);
 
-    const [typing, setTyping] = useState<boolean>();
-    const debouncedSearch = useCallback(
-        debounce(() => setTyping(false), 500),
-        []
-    );
-
-    const handleTyping = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        if (e.target.value.trim()) {
-            setTyping(true);
-            debouncedSearch();
-        }
-    };
-
-    useEffect(() => {
-        if (typeof typing === "boolean") {
-            socket.emit("typing", { typing, chatId, to: chat?._id });
-        }
-    }, [typing, chatId, chat?._id, socket]);
+    
 
     const [isTyping, setIsTyping] = useState<typing>();
     const scrollToBottom = () => {
@@ -353,7 +335,8 @@ const Chat = () => {
                     attachRef={attachRef}
                     msgRef={msgRef}
                     sendMessage={sendMessage}
-                    handleTyping={handleTyping}
+                    chatId={chatId}
+                    chat={chat}
                 />
                 <motion.div
                     initial={{ scale: 0 }}

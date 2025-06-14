@@ -3,18 +3,40 @@ import { ImAttachment } from "react-icons/im";
 import { motion } from "framer-motion";
 import { useAppContext } from "../../context/AppContext";
 import { LuSendHorizontal } from "react-icons/lu";
-import type { FormEvent } from "react";
+import { useCallback, useEffect, useState, type FormEvent } from "react";
+import debounce from "../../libs/debouncer";
+import { type chatType } from "./Chat";
 
 interface CIType {
     rotate: number;
     attachRef: React.RefObject<HTMLInputElement | null>;
     msgRef: React.RefObject<HTMLTextAreaElement | null>;
     sendMessage: (e?: FormEvent<HTMLFormElement> | null) => Promise<void>;
-    handleTyping: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+    chatId: string | undefined;
+    chat: chatType | undefined;
 }
 
-const ChatInput = ({ rotate, attachRef, msgRef, sendMessage, handleTyping }: CIType) => {
-    const { preview, setPreview } = useAppContext();
+const ChatInput = ({ rotate, attachRef, msgRef, sendMessage, chatId, chat }: CIType) => {
+    const { socket, preview, setPreview } = useAppContext();
+
+    const [typing, setTyping] = useState<boolean>();
+    const debouncedSearch = useCallback(
+        debounce(() => setTyping(false), 500),
+        []
+    );
+
+    const handleTyping = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        if (e.target.value.trim()) {
+            setTyping(true);
+            debouncedSearch();
+        }
+    };
+
+    useEffect(() => {
+        if (typeof typing === "boolean") {
+            socket.emit("typing", { typing, chatId, to: chat?._id });
+        }
+    }, [typing, chatId, chat?._id, socket]);
 
     return (
         <div
