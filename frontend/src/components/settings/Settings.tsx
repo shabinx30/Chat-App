@@ -9,11 +9,9 @@ import { logout } from "../../redux/store";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-interface settingsType {
-    setSett: React.Dispatch<React.SetStateAction<boolean>>;
-}
+type settingsType = React.Dispatch<React.SetStateAction<boolean>>;
 
-const Settings = ({ setSett }: settingsType) => {
+const Settings = ({ setSett }: { setSett: settingsType }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [isEdit, setEdit] = useState({
@@ -72,7 +70,10 @@ const Settings = ({ setSett }: settingsType) => {
                         </div>
                     </div>
                     <div className="mt-[2em]">
-                        <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+                        <form
+                            onSubmit={handleSubmit}
+                            className="flex flex-col gap-2"
+                        >
                             <div className="relative flex justify-center group w-fit cursor-pointer">
                                 <MdOutlineModeEditOutline
                                     className="absolute opacity-0 self-center group-hover:opacity-100 z-20 "
