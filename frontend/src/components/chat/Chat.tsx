@@ -1,5 +1,3 @@
-import { LuSendHorizontal } from "react-icons/lu";
-import { ImAttachment } from "react-icons/im";
 import Message from "./Message";
 import {
     useCallback,
@@ -17,8 +15,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { MdKeyboardDoubleArrowDown } from "react-icons/md";
 import debounce from "../../libs/debouncer";
 import { VariableSizeList as List } from "react-window";
-import InputPreview from "./InputPreview";
 import ChatHeader from "./ChatHeader";
+import ChatInput from "./ChatInput";
 
 export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 
@@ -135,7 +133,7 @@ const Chat = () => {
         setRotate((prev) => prev + 360);
 
         const myMsg: Msg = {
-            body: text || "Hello👋",
+            body: text || hello.current == true ? "Hello👋" : "",
             createdAt: Date.now(),
             from: state.auth.user.userId,
             hasMedia: !!media,
@@ -290,7 +288,8 @@ const Chat = () => {
                     chatId ? "flex-[calc(1/2.6*100%)]" : "hidden"
                 } relative h-[100dvh] bg-[#e6ffcb] dark:bg-black`}
             >
-                <ChatHeader chat={chat} navigate={navigate}/>
+                {/* chat info section  */}
+                <ChatHeader chat={chat} navigate={navigate} />
                 <div ref={scrollRef} className="h-[78vh] mt-2 px-2 md:px-4">
                     {!messages.length ? (
                         <div className="flex justify-center items-center h-full">
@@ -348,88 +347,14 @@ const Chat = () => {
                         )}
                     </AnimatePresence>
                 </div>
-                <div
-                    onClick={(e) => e.stopPropagation()}
-                    className="flex justify-center bg-black"
-                >
-                    <div className="absolute flex dark:border border-[#2b2b2b] bg-[#fff] dark:bg-[#1b1b1b] dark:shadow-none shadow-[0_1px_10px] shadow-black/50 rounded-2xl text-black justify-between pr-2 pl-5 gap-1 items-center bottom-4 w-[80%]">
-                        {/* file input preview */}
-                        <InputPreview
-                            preview={preview}
-                            setPreview={setPreview}
-                        />
-                        <div className="relative w-[18px] flex items-center cursor-pointer">
-                            <ImAttachment
-                                size={18}
-                                className="z-10 absolute dark:text-[#b0ff62]"
-                            />
-                            <input
-                                ref={attachRef}
-                                className="absolute z-20 w-[18px] opacity-0"
-                                type="file"
-                                onChange={(e) => {
-                                    const file =
-                                        e.target.files && e.target.files[0];
-                                    if (!file) {
-                                        setPreview("");
-                                        return;
-                                    }
-                                    if (file.type.slice(0, 5) != "image") {
-                                        e.target.value = "";
-                                        return;
-                                    }
-                                    const reader = new FileReader();
-                                    reader.onload = () => {
-                                        setPreview(reader.result as string);
-                                    };
-                                    reader.readAsDataURL(file);
-                                }}
-                                // accept="image/*, video/*"
-                                accept="image/*"
-                            />
-                        </div>
-                        <form
-                            className="w-full items-center"
-                            onSubmit={sendMessage}
-                        >
-                            <textarea
-                                ref={msgRef}
-                                className="resize-none scrollable pt-4 dark:text-white w-full outline-none h-[3.4em] placeholder:text-gray-600 dark:placeholder:text-gray-400 px-2"
-                                onChange={handleTyping}
-                                placeholder="Type a message"
-                                onKeyDown={(e) => {
-                                    if (e.key == "Enter") {
-                                        if (e.shiftKey) {
-                                            return;
-                                        }
-                                        e.preventDefault();
-                                        sendMessage();
-                                    }
-                                }}
-                            ></textarea>
-                        </form>
-                        <div
-                            onClick={() => sendMessage()}
-                            className="bg-[#b0ff62] dark:text-black cursor-pointer py-2 pl-2.5 pr-1.5 rounded-[12px]"
-                        >
-                            <motion.div
-                                animate={{ rotateY: rotate }}
-                                transition={{
-                                    type: "spring",
-                                    stiffness: 120,
-                                    damping: 25,
-                                    duration: 1,
-                                }}
-                                className="transform-3d"
-                            >
-                                <LuSendHorizontal
-                                    className="translate-z-[4em]"
-                                    size={22}
-                                />
-                            </motion.div>
-                        </div>
-                    </div>
-                </div>
+                {/* chat input section */}
+                <ChatInput
+                    rotate={rotate}
+                    attachRef={attachRef}
+                    msgRef={msgRef}
+                    sendMessage={sendMessage}
+                    handleTyping={handleTyping}
+                />
                 <motion.div
                     initial={{ scale: 0 }}
                     animate={{ scale: isLastMessageInView ? 0 : 1 }}
