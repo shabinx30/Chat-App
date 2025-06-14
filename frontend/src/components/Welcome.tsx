@@ -1,8 +1,6 @@
 import { BiMessageSquareDetail } from "react-icons/bi";
 
-
 const Welcome = () => {
-    
     return (
         <div
             onContextMenu={(e) => e.preventDefault()}

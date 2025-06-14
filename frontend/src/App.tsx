@@ -2,9 +2,10 @@ import Home from "./pages/Home";
 import { Route, Routes } from "react-router-dom";
 import Welcome from "./components/Welcome";
 import Chat from "./components/chat/Chat";
-import Login from "./pages/Login";
-import SignUp from "./pages/SignUp";
 import Protector from "./components/Protector";
+import { lazy } from "react";
+const Login = lazy(() => import("./pages/Login"))
+const SignUp = lazy(() => import("./pages/SignUp"))
 
 function App() {
     return (

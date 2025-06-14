@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react";
-import AddContact from "../components/contacts/AddContact";
+import { useEffect, useState, lazy } from "react";
 import Contacts from "../components/contacts/Contacts";
 import type React from "react";
 import { subscribeToPush } from "../utils/push";
 import { AnimatePresence } from "framer-motion";
-import Settings from "../components/settings/Settings";
 import { useAppContext } from "../context/AppContext";
+
+const AddContact = lazy(() => import("../components/contacts/AddContact"))
+const Settings = lazy(() => import("../components/settings/Settings"))
 
 const Home = ({ aside }: { aside: React.ReactNode }) => {
     const [isPop, setPop] = useState<boolean>(false);
