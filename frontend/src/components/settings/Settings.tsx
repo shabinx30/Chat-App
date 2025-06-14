@@ -71,15 +71,15 @@ const Settings = ({ setSett }: settingsType) => {
                             <RxExit size={17} />
                         </div>
                     </div>
-                    <div className="flex flex-col gap-2 mt-[3em]">
-                        <form onSubmit={handleSubmit}>
+                    <div className="mt-[2em]">
+                        <form onSubmit={handleSubmit} className="flex flex-col gap-2">
                             <div className="relative flex justify-center group w-fit cursor-pointer">
                                 <MdOutlineModeEditOutline
                                     className="absolute opacity-0 self-center group-hover:opacity-100 z-20 "
                                     size={18}
                                 />
                                 <img
-                                    className="z-10 w-[5em] rounded-full brightness-100 group-hover:brightness-50 duration-150"
+                                    className="z-10 w-[5em] rounded-full brightness-100 group-hover:brightness-75 dark:group-hover:brightness-50 duration-150"
                                     src={state.auth.user.profile}
                                     alt="user"
                                 />
