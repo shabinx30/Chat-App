@@ -278,7 +278,7 @@ const Chat = () => {
             >
                 {/* chat info section  */}
                 <ChatHeader chat={chat} navigate={navigate} />
-                <div ref={scrollRef} className="h-[78vh] mt-2 px-2 md:px-4">
+                <div ref={scrollRef} className="h-[78.5vh] mt-2 px-2 md:px-4">
                     {!messages.length ? (
                         <div className="flex justify-center items-center h-full">
                             <div

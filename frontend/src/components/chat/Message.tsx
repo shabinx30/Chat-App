@@ -80,7 +80,7 @@ const Message = ({ index, style, data }: MSG) => {
                         {messages[index].hasMedia &&
                             messages[index].mediaType == "image" && (
                                 <img
-                                    className="rounded-[12px] object-cover w-full object-center aspect-square"
+                                    className={`rounded-[12px] object-cover w-full object-center ${!messages[index].body && "mb-2"} aspect-square`}
                                     src={messages[index].media}
                                     loading="lazy"
                                 />
