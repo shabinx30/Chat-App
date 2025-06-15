@@ -108,10 +108,9 @@ const Chat = () => {
     const sendMessage = async (e: FormEvent<HTMLFormElement> | null = null) => {
         if (e) e.preventDefault();
 
-        
         const text = msgRef.current?.value.trim();
         const file = attachRef.current?.files?.[0];
-        
+
         const shouldSend = text || hello.current || file;
 
         if (!shouldSend) return;
@@ -132,7 +131,7 @@ const Chat = () => {
 
         setRotate((prev) => prev + 360);
         const myMsg: Msg = {
-            body: hello.current ? 'Hello👋' : text || "",
+            body: hello.current ? "Hello👋" : text || "",
             createdAt: Date.now(),
             from: state.auth.user.userId,
             hasMedia: !!media,
@@ -222,11 +221,19 @@ const Chat = () => {
         const message = messages[index];
         if (message) {
             const textLength = message.body.length;
+            let width = 0;
+            if (message.hasMedia && message.media) {
+                const img = new Image();
+                img.src = message.media;
+                img.onload = function () {
+                    width = img.width;
+                };
+            }
             // Estimate height based on text length (rough calculation)
             const estimatedLines = Math.ceil(textLength / 35); // ~35 chars per line
             const baseHeight = 60; // Base height for message bubble
             const lineHeight = 20; // Height per line of text
-            return baseHeight + estimatedLines * lineHeight;
+            return (baseHeight + estimatedLines * lineHeight) + width;
         }
 
         return 80; // Fallback default
