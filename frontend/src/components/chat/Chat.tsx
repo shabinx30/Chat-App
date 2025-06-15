@@ -167,19 +167,20 @@ const Chat = () => {
             messages.length > 0
         ) {
             // Add a small delay to ensure all heights are calculated
-            setTimeout(() => {
+            // setTimeout(() => {
                 scrollRef2.current?.scrollToItem(messages.length - 1, "end");
                 setIsLastMessageInView(true);
                 shouldScrollToBottom.current = false;
-            }, 50);
+            // }, 0);
         }
     }, [messages]);
 
     const [isTyping, setIsTyping] = useState<typing>();
     const scrollToBottom = () => {
         if (scrollRef2.current && messages.length > 0) {
-            setIsLastMessageInView(true);
+            // scrollRef2.current.scrollToItem(messages.length - 1, "end");
             scrollRef2.current.scrollToItem(messages.length - 1, "end");
+            setIsLastMessageInView(true);
         }
     };
 
@@ -224,10 +225,10 @@ const Chat = () => {
             let width = 0;
             if (message.hasMedia && message.media) {
                 const img = new Image();
-                img.src = message.media;
                 img.onload = function () {
                     width = img.width;
                 };
+                img.src = message.media;
             }
             // Estimate height based on text length (rough calculation)
             const estimatedLines = Math.ceil(textLength / 35); // ~35 chars per line
