@@ -294,7 +294,7 @@ const Chat = () => {
                     ) : (
                         <List
                             ref={scrollRef2}
-                            className="bg-[#e6ffcb] dark:bg-black scroll-smooth scrollable"
+                            className="bg-[#e6ffcb] dark:bg-black scrollable"
                             height={size}
                             itemCount={messages.length}
                             itemSize={getItemSize}
