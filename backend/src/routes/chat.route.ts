@@ -5,7 +5,7 @@ import { addContact, getContacts, searchContacts } from "../controllers/chat.con
 
 router.post('/addContact', addContact)
 router.get('/getcontacts', getContacts)
-router.post('/searchcontacts', searchContacts)
+router.get('/searchcontacts', searchContacts)
 
 
 export default router

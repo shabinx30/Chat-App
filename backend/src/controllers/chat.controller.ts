@@ -72,8 +72,9 @@ export const getContacts = async (req: Request, res: Response) => {
 
 export const searchContacts = async (req: Request, res: Response) => {
     try {
-        const { userId, value } = req.body;
-        // console.log(userId, value);
+        const userId = req.query.userId
+        const value = String(req.query.value)
+
         const chats = await chatModel
             .find({ "members.userId": userId })
             .sort({ lastMessageAt: 1 })
