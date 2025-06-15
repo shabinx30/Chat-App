@@ -25,7 +25,7 @@ export interface chatType {
     profile: string;
 }
 
-interface Msg {
+export interface Msg {
     body: string;
     createdAt: number;
     from: string;

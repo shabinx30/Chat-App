@@ -1,9 +1,27 @@
 import { motion } from "framer-motion";
 import { useLayoutEffect, useRef, useEffect } from "react";
+import { type Msg } from "./Chat";
 
-const Message = ({ index, style, data }: any) => {
-    const { messages, user, setSizeForIndex } =
-        data;
+interface MSG {
+    index: number;
+    style:
+        | {
+              position: string;
+              top: number;
+              left: number;
+              width: string;
+              height: number;
+          }
+        | any;
+    data: {
+        messages: Msg[];
+        user: string;
+        setSizeForIndex: (index: number, size: number) => void;
+    };
+}
+
+const Message = ({ index, style, data }: MSG) => {
+    const { messages, user, setSizeForIndex } = data;
     const ref = useRef<HTMLDivElement>(null);
 
     useLayoutEffect(() => {
