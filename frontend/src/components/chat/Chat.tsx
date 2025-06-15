@@ -80,7 +80,7 @@ const Chat = () => {
         itemSizeMap.current = {};
 
         axios
-            .post(`${apiUrl}/api/message/getmessages`, { chatId })
+            .get(`${apiUrl}/api/message/getmessages?chatId=${chatId}`)
             .then((res) => {
                 const result = res.data.chat.members.filter(
                     (user: any) => user.userId._id !== state.auth.user.userId

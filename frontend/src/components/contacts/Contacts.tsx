@@ -52,15 +52,14 @@ const Contacts = ({ change, setPop, setSett }: AddContactType) => {
     const { chatId } = useParams();
 
     const { VITE_BASE_URL } = import.meta.env;
-    const userData = {
-        userId: state.auth.user.userId,
-    };
+    
+    const userId = state.auth.user.userId
 
     useEffect(() => {
         setCtc([]);
         const getContacts = () => {
             axios
-                .post(`${VITE_BASE_URL}/api/chat/getcontacts`, userData)
+                .get(`${VITE_BASE_URL}/api/chat/getcontacts?userId=${userId}`)
                 .then((res) => {
                     for (let con of res.data.chat) {
                         setCtc((p) => [con, ...p]);
