@@ -25,7 +25,7 @@ interface sndMsgType {
 
 export const getMessages = async (req: Request, res: Response) => {
     try {
-        const { chatId } = req.body;
+        const { chatId } = req.query;
         const chat = await chatModel
             .findOne({ _id: chatId })
             .populate("members.userId");

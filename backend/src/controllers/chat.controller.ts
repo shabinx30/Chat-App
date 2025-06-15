@@ -54,10 +54,11 @@ export const addContact = async (req: Request, res: Response) => {
 
 export const getContacts = async (req: Request, res: Response) => {
     try {
-        const userId = new mongoose.Types.ObjectId(req.body.userId); // ensure it's ObjectId
+        const userId = req.query.userId
+        const Id = new mongoose.Types.ObjectId(String(userId)); // ensure it's ObjectId
 
         let chat = await chatModel
-            .find({ "members.userId": userId })
+            .find({ "members.userId": Id })
             .sort({ lastMessageAt: 1 })
             .populate("members.userId", "name email profile");
 
