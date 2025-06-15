@@ -348,7 +348,7 @@ const Chat = () => {
                     initial={{ scale: 0 }}
                     animate={{ scale: isLastMessageInView ? 0 : 1 }}
                     onClick={scrollToBottom}
-                    className="absolute cursor-pointer bg-white dark:bg-[#2b2b2b] dark:text-[#b0ff62] bottom-[5em] rounded-2xl shadow-[0_2px_10px] shadow-black/50 right-10 p-2"
+                    className="absolute cursor-pointer bg-white dark:bg-[#2b2b2b] dark:text-[#b0ff62] bottom-[6em] md:bottom-[5em] rounded-2xl shadow-[0_2px_10px] shadow-black/50 right-5 md:right-10 p-2"
                 >
                     <MdKeyboardDoubleArrowDown size={26} />
                 </motion.div>
