@@ -18,7 +18,7 @@ const messageModel = new Schema<messageType>(
         },
         body: {
             type: String,
-            required: true,
+            required: false,
         },
         from: {
             type: String,

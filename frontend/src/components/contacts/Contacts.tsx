@@ -84,9 +84,9 @@ const Contacts = ({ change, setPop, setSett }: AddContactType) => {
     const searchContact = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value.trim();
         const userId = state.auth.user.userId
-        
+
         axios
-            .post(`${VITE_BASE_URL}/api/chat/searchcontacts?value=${value}&userId=${userId}`)
+            .get(`${VITE_BASE_URL}/api/chat/searchcontacts?value=${value}&userId=${userId}`)
             .then((res) => {
                 setCtc([]);
                 for (let con of res.data.chat) {

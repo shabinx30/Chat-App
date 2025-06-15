@@ -108,9 +108,10 @@ const Chat = () => {
     const sendMessage = async (e: FormEvent<HTMLFormElement> | null = null) => {
         if (e) e.preventDefault();
 
+        
         const text = msgRef.current?.value.trim();
         const file = attachRef.current?.files?.[0];
-
+        
         const shouldSend = text || hello.current || file;
 
         if (!shouldSend) return;
@@ -130,9 +131,8 @@ const Chat = () => {
         // console.log(media)
 
         setRotate((prev) => prev + 360);
-
         const myMsg: Msg = {
-            body: text || hello.current == true ? "Hello👋" : "",
+            body: hello.current ? 'Hello👋' : text || "",
             createdAt: Date.now(),
             from: state.auth.user.userId,
             hasMedia: !!media,
