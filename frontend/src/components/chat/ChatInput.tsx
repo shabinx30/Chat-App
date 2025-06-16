@@ -41,9 +41,9 @@ const ChatInput = ({ rotate, attachRef, msgRef, sendMessage, chatId, chat }: CIT
     return (
         <div
             onClick={(e) => e.stopPropagation()}
-            className="flex justify-center bg-black"
+            className="absolute bottom-0 pb-4 flex justify-center bg-gradient-to-t from-black/50 to-transparent w-full"
         >
-            <div className="absolute flex dark:border border-[#2b2b2b] bg-[#fff] dark:bg-[#1b1b1b] dark:shadow-none shadow-[0_1px_10px] shadow-black/50 rounded-2xl text-black justify-between pr-2 pl-5 gap-1 items-center bottom-4 w-[80%]">
+            <div className="flex dark:border border-[#2b2b2b] bg-[#fff] dark:bg-[#1b1b1b] dark:shadow-none shadow-[0_1px_10px] shadow-black/50 rounded-2xl text-black justify-between pr-2 pl-5 gap-1 items-center w-[80%]">
                 {/* file input preview */}
                 <InputPreview preview={preview} setPreview={setPreview} />
                 <div className="relative w-[18px] flex items-center cursor-pointer">
