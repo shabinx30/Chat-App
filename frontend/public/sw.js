@@ -3,6 +3,7 @@ self.addEventListener("push", function (event) {
     const title = data.title || "New notification";
     const body = data.body || "notification";
     let iconUrl = data.icon || "/user.png";
+    console.log(data.icon)
 
     // 🔐 Force HTTPS
     // if (iconUrl.startsWith("http://")) {
