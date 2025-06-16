@@ -1,6 +1,6 @@
-export async function subscribeToPush(
+export const subscribeToPush = async (
     publicKey: string
-): Promise<PushSubscription | null> {
+): Promise<PushSubscription | null> => {
     if ("serviceWorker" in navigator && "PushManager" in window) {
         const registration = await navigator.serviceWorker.register("/sw.js");
 
@@ -18,7 +18,15 @@ export async function subscribeToPush(
         return subscription;
     }
     return null;
-}
+};
+
+export const unRegister = async () => {
+    navigator.serviceWorker.getRegistrations().then(function (registrations) {
+        for (let registration of registrations) {
+            registration.unregister();
+        }
+    });
+};
 
 function urlBase64ToUint8Array(base64String: string) {
     const padding = "=".repeat((4 - (base64String.length % 4)) % 4);

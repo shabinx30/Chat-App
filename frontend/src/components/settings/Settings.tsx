@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { logout } from "../../redux/store";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { unRegister } from "../../utils/push";
 
 type settingsType = React.Dispatch<React.SetStateAction<boolean>>;
 
@@ -22,6 +23,7 @@ const Settings = ({ setSett }: { setSett: settingsType }) => {
     const handleLogout = () => {
         dispatch(logout());
         localStorage.removeItem("jwt");
+        unRegister()
         navigate("/login");
     };
 

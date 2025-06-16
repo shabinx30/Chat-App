@@ -1,6 +1,6 @@
 self.addEventListener("push", function (event) {
     const data = event.data?.json() || {};
-    console.log(data);
+    // console.log(data);
 
     const promise = self.registration.showNotification(
         data.title || "New notification",
