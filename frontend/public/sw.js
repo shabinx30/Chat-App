@@ -1,28 +1,24 @@
-self.addEventListener("push", async function (event) {
+self.addEventListener("push", function (event) {
     const data = event.data?.json() || {};
     const title = data.title || "New notification";
     const body = data.body || "notification";
     const iconUrl = data.icon || "/user.png";
     const badgeUrl = "/icons/logo-small.png";
 
-    const preloadIcon = async (url) => {
-        try {
-            const res = await fetch(url, { mode: "no-cors" });
-            if (!res.ok) throw new Error("Image not fetched properly");
-            
-            return url;
-        } catch (e) {
-            console.warn("Failed to preload icon, fallback used:", e);
-            return "/user.png";
-        }
-    };
+    async function preloadAndNotify() {
+        let icon = "/user.png";
 
-    const show = async () => {
-        const icon = await preloadIcon(iconUrl);
+        try {
+            const response = await fetch(iconUrl, { mode: "cors" }); // must be cors!
+            const blob = await response.blob();
+            icon = URL.createObjectURL(blob); // convert to blob URL
+        } catch (err) {
+            console.warn("Failed to preload icon, using fallback:", err);
+        }
 
         return self.registration.showNotification(title, {
             body,
-            icon,
+            icon, // now this is a blob URL
             badge: badgeUrl,
             actions: [
                 { action: "open", title: "Open" },
@@ -32,9 +28,9 @@ self.addEventListener("push", async function (event) {
             renotify: true,
             silent: false,
         });
-    };
+    }
 
-    event.waitUntil(show());
+    event.waitUntil(preloadAndNotify());
 });
 
 self.addEventListener("notificationclick", function (event) {
