@@ -9,7 +9,7 @@ interface CHType {
 
 const ChatHeader = ({chat, navigate}: CHType) => {
     return (
-        <div className="flex justify-center mt-2">
+        <div className="absolute w-full z-10 flex justify-center mt-2">
             <nav className="flex bg-white rounded-2xl dark:border dark:shadow-none shadow-[0_1px_10px] shadow-black/40 border-[#2b2b2b] dark:bg-[#1b1b1b] w-[90%] dark:text-[#fff] text-[#000000] items-center py-4 px-2 justify-between top-0 right-0 h-[8.5vh]">
                 <div className="flex items-center gap-1 md:gap-3 md:px-2">
                     <IoIosArrowBack

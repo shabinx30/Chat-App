@@ -41,11 +41,11 @@ body {
   padding: 0;
 }
 
-.scrollable {
-  overflow: auto;
+/* .scrollable {
+  overflow-y: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
-}
+} */
 
 .scrollable::-webkit-scrollbar {
   display: none;

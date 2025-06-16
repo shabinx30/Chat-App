@@ -1,6 +1,5 @@
 import Message from "./Message";
 import {
-    useCallback,
     useEffect,
     useRef,
     useState,
@@ -12,8 +11,7 @@ import { useSelector, type TypedUseSelectorHook } from "react-redux";
 import type { RootState } from "../../redux/store";
 import { useAppContext } from "../../context/AppContext";
 import { AnimatePresence, motion } from "framer-motion";
-import { MdKeyboardDoubleArrowDown } from "react-icons/md";
-import { VariableSizeList as List } from "react-window";
+// import { MdKeyboardDoubleArrowDown } from "react-icons/md";
 import ChatHeader from "./ChatHeader";
 import ChatInput from "./ChatInput";
 
@@ -41,7 +39,6 @@ interface typing {
 
 const Chat = () => {
     const scrollRef = useRef<any>(null);
-    const scrollRef2 = useRef<any>(null);
     const shouldScrollToBottom = useRef(false);
     const state = useTypedSelector((state) => state);
     const [messages, setMessages] = useState<Msg[]>([]);
@@ -53,22 +50,17 @@ const Chat = () => {
 
     const apiUrl = import.meta.env.VITE_BASE_URL;
 
-    const [isLastMessageInView, setIsLastMessageInView] = useState(true);
-
     // Socket listener for new messages
     useEffect(() => {
         socket.on("chat message", (msg: any) => {
             if (msg.tosChat === chatId) {
-                if (isLastMessageInView) {
-                    shouldScrollToBottom.current = true;
-                }
-                setMessages((prev) => [...prev, msg]);
+                setMessages((prev) => [msg, ...prev]);
             }
         });
         return () => {
             socket.off("chat message");
         };
-    }, [chatId, socket, isLastMessageInView]);
+    }, [chatId, socket]);
 
     const [chat, setChat] = useState<chatType>();
     const set = new Set();
@@ -76,8 +68,6 @@ const Chat = () => {
     // Fetch initial messages
     useEffect(() => {
         setMessages([]);
-        // Clear the item size map when switching chats
-        itemSizeMap.current = {};
 
         axios
             .get(`${apiUrl}/api/message/getmessages?chatId=${chatId}`)
@@ -86,14 +76,12 @@ const Chat = () => {
                     (user: any) => user.userId._id !== state.auth.user.userId
                 )[0];
                 setChat(result.userId);
-                const fetchedMessages = [];
                 for (let data of res.data.messages) {
                     if (!set.has(data._id)) {
-                        fetchedMessages.push(data);
+                        setMessages((prev) => [data, ...prev])
                         set.add(data._id);
                     }
                 }
-                setMessages(fetchedMessages);
                 shouldScrollToBottom.current = true;
             })
             .catch((error) => {
@@ -159,27 +147,7 @@ const Chat = () => {
         }
     };
 
-    // Scroll to bottom when messages change and shouldScrollToBottom is true
-    useEffect(() => {
-        if (
-            shouldScrollToBottom.current &&
-            scrollRef2.current &&
-            messages.length > 0
-        ) {
-            scrollRef2.current?.scrollToItem(messages.length - 1, "end");
-            setIsLastMessageInView(true);
-            shouldScrollToBottom.current = false;
-        }
-    }, [messages]);
-
     const [isTyping, setIsTyping] = useState<typing>();
-    const scrollToBottom = () => {
-        if (scrollRef2.current && messages.length > 0) {
-            // scrollRef2.current.scrollToItem(messages.length - 1, "end");
-            scrollRef2.current.scrollToItem(messages.length - 1, "end");
-            setIsLastMessageInView(true);
-        }
-    };
 
     useEffect(() => {
         socket.on("typing", (res) => {
@@ -189,66 +157,6 @@ const Chat = () => {
             socket.off("typing");
         };
     }, [socket]);
-
-    const [size, setSize] = useState(0);
-
-    useEffect(() => {
-        const handleResize = () => {
-            const height = scrollRef.current?.clientHeight || 0;
-            setSize(height);
-            // Reset the list on resize to recalculate all visible item sizes
-            scrollRef2.current?.resetAfterIndex(0);
-        };
-
-        handleResize();
-        window.addEventListener("resize", handleResize);
-        return () => {
-            window.removeEventListener("resize", handleResize);
-        };
-    }, []);
-
-    const itemSizeMap = useRef<{ [index: number]: number }>({});
-
-    // Improved getItemSize with better default height estimation
-    const getItemSize = (index: number) => {
-        if (itemSizeMap.current[index]) {
-            return itemSizeMap.current[index];
-        }
-
-        // Better default height estimation based on message length
-        const message = messages[index];
-        if (message) {
-            const textLength = message.body.length;
-            let width = 0;
-            if (message.hasMedia && message.media) {
-                const img = new Image();
-                img.onload = function () {
-                    width = img.width;
-                };
-                img.src = message.media;
-            }
-            // Estimate height based on text length (rough calculation)
-            const estimatedLines = Math.ceil(textLength / 35); // ~35 chars per line
-            const baseHeight = 60; // Base height for message bubble
-            const lineHeight = 20; // Height per line of text
-            return baseHeight + estimatedLines * (lineHeight+width);
-        }
-
-        return 80; // Fallback default
-    };
-
-    const setSizeForIndex = useCallback((index: number, size: number) => {
-        // Add a small buffer to prevent cutting off
-        const adjustedSize = size + 2;
-
-        if (itemSizeMap.current[index] !== adjustedSize) {
-            itemSizeMap.current[index] = adjustedSize;
-            // Use requestAnimationFrame to ensure smooth updates
-            requestAnimationFrame(() => {
-                scrollRef2.current?.resetAfterIndex(index);
-            });
-        }
-    }, []);
 
     useEffect(() => {
         if (!preview) {
@@ -275,7 +183,7 @@ const Chat = () => {
             >
                 {/* chat info section  */}
                 <ChatHeader chat={chat} navigate={navigate} />
-                <div ref={scrollRef} className="h-[78.5vh] mt-2 px-2 md:px-4">
+                <div ref={scrollRef} className="h-full py-[5.25em] scroll-smooth flex flex-col-reverse overflow-y-auto scrollable px-2 md:px-4">
                     {!messages.length ? (
                         <div className="flex justify-center items-center h-full">
                             <div
@@ -289,36 +197,9 @@ const Chat = () => {
                             </div>
                         </div>
                     ) : (
-                        <List
-                            ref={scrollRef2}
-                            className="bg-[#e6ffcb] dark:bg-black scrollable"
-                            height={size}
-                            itemCount={messages.length}
-                            itemSize={getItemSize}
-                            width="100%"
-                            itemData={{
-                                messages,
-                                user: state.auth.user.userId,
-                                setSizeForIndex,
-                            }}
-                            onScroll={({ scrollOffset }) => {
-                                if (scrollRef.current) {
-                                    const totalHeight = messages
-                                        .map((_, i) => getItemSize(i))
-                                        .reduce((a, b) => a + b, 0);
-                                    const viewportHeight =
-                                        scrollRef.current.clientHeight;
-                                    const isAtBottom =
-                                        scrollOffset + viewportHeight >=
-                                        totalHeight - 100; // Small buffer for better detection
-                                    setIsLastMessageInView(isAtBottom);
-                                }
-                            }}
-                            // Add overscan to improve performance and height calculation
-                            overscanCount={2}
-                        >
-                            {Message}
-                        </List>
+                        messages.map((message, i) => (
+                            <Message key={i} message={message} user={state.auth.user.userId}/>
+                        ))
                     )}
                     <AnimatePresence>
                         {isTyping?.isTyping && chatId === isTyping.chatId && (
@@ -341,14 +222,13 @@ const Chat = () => {
                     chatId={chatId}
                     chat={chat}
                 />
-                <motion.div
+                {/* <motion.div
                     initial={{ scale: 0 }}
                     animate={{ scale: isLastMessageInView ? 0 : 1 }}
-                    onClick={scrollToBottom}
                     className="absolute cursor-pointer bg-white dark:bg-[#2b2b2b] dark:text-[#b0ff62] bottom-[6em] md:bottom-[5em] rounded-2xl shadow-[0_2px_10px] shadow-black/50 right-5 md:right-10 p-2"
                 >
                     <MdKeyboardDoubleArrowDown size={26} />
-                </motion.div>
+                </motion.div> */}
             </motion.section>
         </div>
     );
