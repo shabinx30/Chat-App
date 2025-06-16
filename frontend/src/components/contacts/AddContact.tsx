@@ -91,7 +91,7 @@ const AddContact = ({ setPop, setChange }: AddContactType) => {
     return (
         <>
             {isError.status && (
-                <div className="w-full z-40 fixed flex justify-center items-center">
+                <div className="w-full z-[70] fixed flex justify-center items-center">
                     <div ref={errorRef} className={isError.divClass}>
                         <IoIosCloseCircle
                             size={35}
@@ -106,7 +106,7 @@ const AddContact = ({ setPop, setChange }: AddContactType) => {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 onClick={() => setPop(false)}
-                className="absolute z-30 bg-[#000]/25 backdrop-blur-[8px] w-screen h-screen flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
+                className="absolute z-[60] bg-[#000]/25 backdrop-blur-[8px] w-screen h-screen flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
             >
                 <motion.div
                     initial={{ y: 50 }}

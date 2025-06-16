@@ -166,12 +166,9 @@ const Chat = () => {
             scrollRef2.current &&
             messages.length > 0
         ) {
-            // Add a small delay to ensure all heights are calculated
-            // setTimeout(() => {
-                scrollRef2.current?.scrollToItem(messages.length - 1, "end");
-                setIsLastMessageInView(true);
-                shouldScrollToBottom.current = false;
-            // }, 0);
+            scrollRef2.current?.scrollToItem(messages.length - 1, "end");
+            setIsLastMessageInView(true);
+            shouldScrollToBottom.current = false;
         }
     }, [messages]);
 
@@ -234,7 +231,7 @@ const Chat = () => {
             const estimatedLines = Math.ceil(textLength / 35); // ~35 chars per line
             const baseHeight = 60; // Base height for message bubble
             const lineHeight = 20; // Height per line of text
-            return (baseHeight + estimatedLines * lineHeight) + width;
+            return baseHeight + estimatedLines * (lineHeight+width);
         }
 
         return 80; // Fallback default
@@ -318,7 +315,7 @@ const Chat = () => {
                                 }
                             }}
                             // Add overscan to improve performance and height calculation
-                            overscanCount={5}
+                            overscanCount={2}
                         >
                             {Message}
                         </List>

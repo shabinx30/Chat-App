@@ -38,7 +38,7 @@ const Settings = ({ setSett }: { setSett: settingsType }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setSett(false)}
-            className="absolute z-30 bg-[#000]/25 backdrop-blur-[8px] w-screen h-screen flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
+            className="absolute z-[60] bg-[#000]/25 backdrop-blur-[8px] w-screen h-screen flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
         >
             <motion.div
                 initial={{ y: 50 }}
