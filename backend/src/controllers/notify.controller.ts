@@ -43,7 +43,7 @@ export const send = async ({ users, body, chatId, user }: sendType) => {
                 const notificationPayload = JSON.stringify({
                     title: user?.name,
                     body,
-                    icon: `${process.env.SERVER_URL}/${user?.profile}`,
+                    icon: user?.profile,
                     chatId,
                 });
                 // console.log(subscriptions.get(user))
