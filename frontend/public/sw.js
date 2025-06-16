@@ -5,22 +5,15 @@ self.addEventListener("push", function (event) {
     let iconUrl = data.icon || "/user.png";
 
     // 🔐 Force HTTPS
-    if (iconUrl.startsWith("http://")) {
-        iconUrl = iconUrl.replace("http://", "https://");
-    }
+    // if (iconUrl.startsWith("http://")) {
+    //     iconUrl = iconUrl.replace("http://", "https://");
+    // }
 
     const badgeUrl = "/icons/logo-small.png";
 
     async function preloadAndNotify() {
-        let icon = "/user.png";
 
-        try {
-            const response = await fetch(iconUrl, { mode: "cors" });
-            const blob = await response.blob();
-            icon = URL.createObjectURL(blob);
-        } catch (err) {
-            console.warn("Failed to preload icon, using fallback:", err);
-        }
+        console.log(icon)
 
         return self.registration.showNotification(title, {
             body,
