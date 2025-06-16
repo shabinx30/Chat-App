@@ -13,11 +13,11 @@ self.addEventListener("push", function (event) {
 
     async function preloadAndNotify() {
 
-        console.log(icon)
+        console.log(iconUrl)
 
         return self.registration.showNotification(title, {
             body,
-            icon,
+            icon: iconUrl,
             badge: badgeUrl,
             actions: [
                 { action: "open", title: "Open" },
