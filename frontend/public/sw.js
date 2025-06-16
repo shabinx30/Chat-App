@@ -1,25 +1,13 @@
 self.addEventListener("push", function (event) {
     const data = event.data?.json() || {};
-    const title = data.title || "New notification";
-    const body = data.body || "notification";
-    let iconUrl = data.icon || "/user.png";
-    console.log(data.icon)
+    // console.log(data);
 
-    // 🔐 Force HTTPS
-    // if (iconUrl.startsWith("http://")) {
-    //     iconUrl = iconUrl.replace("http://", "https://");
-    // }
-
-    const badgeUrl = "/icons/logo-small.png";
-
-    async function preloadAndNotify() {
-
-        console.log(iconUrl)
-
-        return self.registration.showNotification(title, {
-            body,
-            icon: iconUrl,
-            badge: badgeUrl,
+    const promise = self.registration.showNotification(
+        data.title || "New notification",
+        {
+            body: data.body || "notification",
+            icon: data.icon || "/user.png",
+            badge: "/icons/logo-small.png",
             actions: [
                 { action: "open", title: "Open" },
                 { action: "dismiss", title: "Dismiss" },
@@ -27,27 +15,23 @@ self.addEventListener("push", function (event) {
             tag: data.chatId,
             renotify: true,
             silent: false,
-        });
-    }
+        }
+    );
 
-    event.waitUntil(preloadAndNotify());
+    event.waitUntil(promise);
 });
 
 self.addEventListener("notificationclick", function (event) {
     const action = event.action;
-    const chatId = event.notification.tag;
+    const chatId = event.notification.tag
 
     if (action === "open") {
         event.notification.close();
-        event.waitUntil(
-            clients.openWindow(`https://chat.tungstenz.online/chat/${chatId}`)
-        );
+        event.waitUntil(clients.openWindow(`https://chat.tungstenz.online/chat/${chatId}`));
     } else if (action === "dismiss") {
         event.notification.close();
     } else {
         event.notification.close();
-        event.waitUntil(
-            clients.openWindow(`https://chat.tungstenz.online/chat/${chatId}`)
-        );
+        event.waitUntil(clients.openWindow(`https://chat.tungstenz.online/chat/${chatId}`));
     }
 });
