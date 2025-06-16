@@ -134,7 +134,7 @@ const Chat = () => {
         });
 
         shouldScrollToBottom.current = true;
-        setMessages((p) => [...p, myMsg]);
+        setMessages((p) => [myMsg, ...p]);
 
         if (msgRef.current) {
             msgRef.current.value = "";
