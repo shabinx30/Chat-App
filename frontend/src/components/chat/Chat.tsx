@@ -203,7 +203,7 @@ const Chat = () => {
                 }}
                 className={`${
                     chatId ? "flex-[calc(1/2.6*100%)]" : "hidden"
-                } relative h-[100dvh] bg-[#e6ffcb] dark:bg-black`}
+                } relative h-[100dvh] pattern`}
             >
                 {/* chat info section  */}
                 <ChatHeader chat={chat} navigate={navigate} />

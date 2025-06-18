@@ -11,6 +11,7 @@
 
   --background: #ffffff;
   --foreground: #000000;
+  --c2: #e6ffcb;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -23,6 +24,7 @@
   :root {
     --background: #000;
     --foreground: #ededed;
+    --c2: #1b1b1b;
     color-scheme: dark;
   }
 }
@@ -95,4 +97,20 @@ body {
     opacity: 0;
     transform: translateY(10%);
   }
+}
+
+.pattern {
+  --s: 70px; /* control the size*/
+  
+  --_g: 
+     var(--background) 0%  5% ,var(--c2) 6%  15%,var(--background) 16% 25%,var(--c2) 26% 35%,var(--background) 36% 45%,
+     var(--c2) 46% 55%,var(--background) 56% 65%,var(--c2) 66% 75%,var(--background) 76% 85%,var(--c2) 86% 95%,
+     #0000 96%;
+  background:
+    radial-gradient(50% 50% at 100% 0,var(--_g)),
+    radial-gradient(50% 50% at 0 100%,var(--_g)),
+    radial-gradient(50% 50%,var(--_g)),
+    radial-gradient(50% 50%,var(--_g)) calc(var(--s)/2) calc(var(--s)/2)
+    var(--background);
+  background-size: var(--s) var(--s);
 }
