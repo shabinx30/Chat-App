@@ -1,21 +1,18 @@
-import { motion } from "framer-motion";
-import { useRef } from "react";
 import { type Msg } from "./Chat";
 
 interface MSG {
     message: Msg;
-    user: string
+    user: string;
+    endDiv: React.RefObject<HTMLDivElement | null> | null
 }
 
 
-const Message = ({ message, user }: MSG) => {
-    const ref = useRef<HTMLDivElement>(null);
+const Message = ({ message, user, endDiv }: MSG) => {
 
     return (
         <>
-            <motion.div className="md:px-2 my-0.5">
+            <div ref={endDiv} className="md:px-2 my-0.5">
                 <div
-                    ref={ref}
                     className={`flex ${
                         user === message.from
                             ? "justify-end"
@@ -86,7 +83,7 @@ const Message = ({ message, user }: MSG) => {
                         </div>
                     </div>
                 </div>
-            </motion.div>
+            </div>
         </>
     );
 };
