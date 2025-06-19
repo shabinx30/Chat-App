@@ -31,7 +31,6 @@ export const getMessages = async (req: Request, res: Response) => {
             .populate("members.userId");
         const messages = await messageModel.find({ chatId });
 
-        // console.log(chat)
         res.status(200).json({ messages, chat });
     } catch (error) {
         console.log(error);
@@ -43,7 +42,6 @@ export const sendMessage = async ({ data, io, map }: sndMsgType) => {
     try {
         const { chatId, body, to, from, hasMedia, media, mediaType } = data;
 
-        // console.log(data)
         //uloading the media into cloudinary
         let url;
 

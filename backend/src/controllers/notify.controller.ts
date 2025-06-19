@@ -27,7 +27,6 @@ export const subscribe = async (req: Request, res: Response) => {
     try {
         const { userId, subscription } = req.body;
         subscriptions.set(userId, subscription);
-        // console.log("test ------------- >", subscriptions);
         res.status(201).json({ message: "Subscribed" });
     } catch (error) {
         console.error(error);
@@ -46,7 +45,6 @@ export const send = async ({ users, body, chatId, user }: sendType) => {
                     icon: user?.profile,
                     chatId,
                 });
-                // console.log(subscriptions.get(user))
 
                 webPush
                     .sendNotification(
@@ -58,9 +56,7 @@ export const send = async ({ users, body, chatId, user }: sendType) => {
         });
 
         await Promise.all(sendPromises);
-        // res.status(200).json({ message: "Notifications sent" });
     } catch (error) {
         console.error(error);
-        // res.status(500).json({ message: "iternal server Error" });
     }
 };

@@ -18,7 +18,6 @@ const map = new Map();
 const ids = new Map();
 
 io.on("connection", (socket) => {
-    console.log("User connected:", socket.id);
     let userId = socket.handshake.query.userId;
     if (userId) {
         map.set(userId, socket.id);
@@ -34,7 +33,6 @@ io.on("connection", (socket) => {
         map.delete(ids.get(socket.id));
         ids.delete(socket.id);
         io.emit("online", [...map.keys()]);
-        console.log("User disconnected:", socket.id);
     });
 });
 

@@ -62,7 +62,6 @@ export const getContacts = async (req: Request, res: Response) => {
             .sort({ lastMessageAt: 1 })
             .populate("members.userId", "name email profile");
 
-        // console.log(result)
         res.status(200).json({ chat });
     } catch (error) {
         console.log(error);
@@ -81,7 +80,6 @@ export const searchContacts = async (req: Request, res: Response) => {
             .populate("members.userId", "name email profile");
 
         const chat = chats.filter((chat: any) => {
-            // console.log(chat)
             return chat.members.some((member: any) => {
                 const user = member.userId;
                 if (user._id.toString() === userId) return false;
@@ -89,7 +87,6 @@ export const searchContacts = async (req: Request, res: Response) => {
                 return regex.test(user.name) || regex.test(user.email);
             });
         });
-        // console.log(chat[0]?.members);
         res.status(200).json({ chat });
     } catch (error) {
         console.log("Internal server error", error);
