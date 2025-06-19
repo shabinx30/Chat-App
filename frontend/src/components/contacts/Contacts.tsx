@@ -1,5 +1,5 @@
 import Contact from "./Contact";
-import { LuSettings } from "react-icons/lu";
+import { LuSettings, LuSearch } from "react-icons/lu";
 import { GoPlus } from "react-icons/go";
 import { useCallback, useEffect, useRef, useState } from "react";
 import axios from "axios";
@@ -52,8 +52,8 @@ const Contacts = ({ change, setPop, setSett }: AddContactType) => {
     const { chatId } = useParams();
 
     const { VITE_BASE_URL } = import.meta.env;
-    
-    const userId = state.auth.user.userId
+
+    const userId = state.auth.user.userId;
 
     useEffect(() => {
         setCtc([]);
@@ -83,10 +83,12 @@ const Contacts = ({ change, setPop, setSett }: AddContactType) => {
 
     const searchContact = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value.trim();
-        const userId = state.auth.user.userId
+        const userId = state.auth.user.userId;
 
         axios
-            .get(`${VITE_BASE_URL}/api/chat/searchcontacts?value=${value}&userId=${userId}`)
+            .get(
+                `${VITE_BASE_URL}/api/chat/searchcontacts?value=${value}&userId=${userId}`
+            )
             .then((res) => {
                 setCtc([]);
                 for (let con of res.data.chat) {
@@ -133,14 +135,20 @@ const Contacts = ({ change, setPop, setSett }: AddContactType) => {
                         <LuSettings size={24} />
                     </div>
                 </div>
-                <div className="flex justify-center mt-[2em] mb-2">
-                    <input
-                        ref={searchRef}
-                        onChange={debouncedSearch}
-                        className="bg-[#e6ffcb] dark:bg-[#2b2b2b] dark:text-white rounded-4xl w-[90%] outline-none px-4 py-2 dark:placeholder:text-[#e8ffd291]"
-                        type="text"
-                        placeholder="Search"
-                    />
+                <div className="mt-[2em] mb-2 px-4">
+                    <div className="flex justify-evenly gap-2 px-4 items-center bg-[#e6ffcb] dark:bg-[#2b2b2b] rounded-4xl">
+                        <LuSearch
+                            size={20}
+                            className="dark:text-[#747e6a]"
+                        />
+                        <input
+                            ref={searchRef}
+                            onChange={debouncedSearch}
+                            className="dark:text-white outline-none py-2 dark:placeholder:text-[#747e6a] w-full"
+                            type="text"
+                            placeholder="Search"
+                        />
+                    </div>
                 </div>
                 {/* <div className="flex justify-center">
                     <ul className="flex gap-4 bg-[#2b2b2b] pt-1 py-1.5 px-4 rounded-2xl text-sm font-semibold cursor-pointer dark:text-[#e8ffd291]">
