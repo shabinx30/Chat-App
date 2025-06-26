@@ -152,6 +152,9 @@ const Settings = ({ setSett }: { setSett: settingsType }) => {
                                     <MdOutlineModeEditOutline size={18} />
                                 </h2>
                             </div>
+                            <div className="flex justify-center">
+                                <p>{state.auth.user.updatedAt}</p>
+                            </div>
                             <AnimatePresence>
                                 {(isEdit.name || isEdit.email) && (
                                     <div className="flex justify-center mt-2">
