@@ -5,7 +5,7 @@ export interface userDetails extends Document {
     profile: string;
     email: string;
     password: string;
-    updateAt: Date;
+    updatedAt: Date;
 }
 
 const userSchema = new Schema<userDetails>(

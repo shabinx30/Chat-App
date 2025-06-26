@@ -78,7 +78,7 @@ export const Login = async (req: Request, res: Response): Promise<void> => {
 
         res.status(200).json({
             message: "success",
-            user: { userId: user._id, name: user.name, email, profile: user.profile, updatedAt: user.updateAt }
+            user: { userId: user._id, name: user.name, email, profile: user.profile, updatedAt: user.updatedAt }
         });
     } catch (error) {
         console.log("while Login", error);
