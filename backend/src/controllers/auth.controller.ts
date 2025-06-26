@@ -52,7 +52,7 @@ export const SignUp = async (req: Request, res: Response): Promise<void> => {
         await result.save();
         res.status(201).json({
             message: "success",
-            user: { userId: result._id, name, profile, email },
+            user: { userId: result._id, name, profile, email, updatedAt: Date.now() },
         });
     } catch (error) {
         console.log("while Login", error);
@@ -78,7 +78,7 @@ export const Login = async (req: Request, res: Response): Promise<void> => {
 
         res.status(200).json({
             message: "success",
-            user: { userId: user._id, name: user.name, email, profile: user.profile }
+            user: { userId: user._id, name: user.name, email, profile: user.profile, updatedAt: user.updateAt }
         });
     } catch (error) {
         console.log("while Login", error);
