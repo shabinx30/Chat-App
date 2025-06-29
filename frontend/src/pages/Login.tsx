@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { login } from "../redux/store";
 import { IoIosCloseCircle } from "react-icons/io";
 import { TbMessages } from "react-icons/tb";
-import { MdLockOutline } from "react-icons/md";
+import { MdDevices, MdLockOutline } from "react-icons/md";
 import { LuFileSpreadsheet } from "react-icons/lu";
 
 const Login: React.FC = () => {
@@ -171,23 +171,33 @@ const Login: React.FC = () => {
                         Sign in to continue chatting with your friends.
                     </p>
                     <ul className="hidden md:flex md:mt-8 md:flex-col gap-1 dark:gap-[5px]">
-                        <li className="px-10 py-2 rounded-t-2xl text-sm font-semibold bg-[#b0ff62] dark:bg-[#2b2b2b] flex items-center gap-2">
-                            <TbMessages className="dark:text-[#b0ff62]" size={19} />
-                            chat with anyone
+                        <li className="w-[24em] justify-center py-2 rounded-t-2xl text-sm font-semibold bg-[#b0ff62] dark:bg-[#2b2b2b] flex items-center gap-2">
+                            <TbMessages
+                                className="dark:text-[#b0ff62]"
+                                size={19}
+                            />
+                            chat with anyone.
                         </li>
-                        <li className="px-10 py-2 text-sm font-semibold bg-[#b0ff62] dark:bg-[#2b2b2b] flex items-center gap-2">
+                        <li className="w-[24em] justify-center py-2 text-sm font-semibold bg-[#b0ff62] dark:bg-[#2b2b2b] flex items-center gap-2">
                             <LuFileSpreadsheet
                                 className="dark:text-[#b0ff62]"
                                 size={16}
                             />
-                            share files
+                            share files.
                         </li>
-                        <li className="px-10 py-2 rounded-b-2xl text-sm font-semibold bg-[#b0ff62] dark:bg-[#2b2b2b] flex items-center gap-2">
+                        <li className="w-[24em] justify-center py-2 text-sm font-semibold bg-[#b0ff62] dark:bg-[#2b2b2b] flex items-center gap-2">
+                            <MdDevices
+                                className="dark:text-[#b0ff62]"
+                                size={17}
+                            />
+                            access messages from any device.
+                        </li>
+                        <li className="w-[24em] justify-center py-2 rounded-b-2xl text-sm font-semibold bg-[#b0ff62] dark:bg-[#2b2b2b] flex items-center gap-2">
                             <MdLockOutline
                                 className="dark:text-[#b0ff62]"
                                 size={18}
                             />
-                            end to end ecrypted
+                            end to end ecrypted.
                         </li>
                     </ul>
                 </div>
