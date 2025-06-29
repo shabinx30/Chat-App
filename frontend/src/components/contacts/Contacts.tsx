@@ -1,14 +1,14 @@
 import Contact from "./Contact";
 import { LuSettings, LuSearch } from "react-icons/lu";
 import { GoPlus } from "react-icons/go";
-import { useCallback, useEffect, useRef, useState } from "react";
-import axios from "axios";
+import { useEffect, useRef, useState } from "react";
 import { useSelector, type TypedUseSelectorHook } from "react-redux";
 import type { RootState } from "../../redux/store";
 import { useParams } from "react-router-dom";
 import { useAppContext } from "../../context/AppContext";
-import debounce from "../../libs/debouncer";
 import { motion } from "framer-motion";
+import useContacts from "../../hooks/useContacts";
+import useSearchCtc from "../../hooks/useSearchCtc";
 
 //function type
 interface AddContactType {
@@ -27,7 +27,7 @@ interface membersType extends Document {
 }
 
 //for ctc
-interface ctcType {
+export interface ctcType {
     _id: string;
     userId: string;
     members: membersType[];
@@ -43,63 +43,18 @@ interface typing {
 export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 const Contacts = ({ change, setPop, setSett }: AddContactType) => {
-    const [ctc, setCtc] = useState<ctcType[]>([]);
-    const [onUsers, setOnUsers] = useState<Set<string>>(new Set());
-    const [chatMsg, setChatMsg] = useState<string>("");
     const state = useTypedSelector((state) => state);
-
+    const [ctc, setCtc] = useState<ctcType[]>([]);
     const { socket } = useAppContext();
     const { chatId } = useParams();
-
-    const { VITE_BASE_URL } = import.meta.env;
-
     const userId = state.auth?.user?.userId;
-
-    useEffect(() => {
-        setCtc([]);
-        const getContacts = () => {
-            axios
-                .get(`${VITE_BASE_URL}/api/chat/getcontacts?userId=${userId}`)
-                .then((res) => {
-                    for (let con of res.data.chat) {
-                        setCtc((p) => [con, ...p]);
-                    }
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-        };
-        getContacts();
-        socket.on("online", (res) => {
-            setOnUsers(new Set(res));
-        });
-        socket.on("chat message", (message) => {
-            // console.log(message);
-            setChatMsg(message.tosChat);
-        });
-    }, [change]);
-
     const searchRef = useRef<HTMLInputElement>(null);
 
-    const searchContact = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value.trim();
+    // fecth contacts
+    const { onUsers, chatMsg } = useContacts({ setCtc, userId, change });
 
-        axios
-            .get(
-                `${VITE_BASE_URL}/api/chat/searchcontacts?value=${value}&userId=${userId}`
-            )
-            .then((res) => {
-                setCtc([]);
-                for (let con of res.data.chat) {
-                    setCtc((p) => [con, ...p]);
-                }
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    };
-
-    const debouncedSearch = useCallback(debounce(searchContact, 750), []);
+    // constact searching
+    const { debouncedSearch } = useSearchCtc({ setCtc, userId });
 
     const [isTyping, setTyping] = useState<typing>();
 
@@ -136,10 +91,7 @@ const Contacts = ({ change, setPop, setSett }: AddContactType) => {
                 </div>
                 <div className="mt-[2em] mb-2 px-4">
                     <div className="flex justify-evenly gap-2 px-4 items-center bg-[#e6ffcb] dark:bg-[#2b2b2b] rounded-4xl">
-                        <LuSearch
-                            size={20}
-                            className="dark:text-[#747e6a]"
-                        />
+                        <LuSearch size={20} className="dark:text-[#747e6a]" />
                         <input
                             ref={searchRef}
                             onChange={debouncedSearch}
@@ -149,12 +101,6 @@ const Contacts = ({ change, setPop, setSett }: AddContactType) => {
                         />
                     </div>
                 </div>
-                {/* <div className="flex justify-center">
-                    <ul className="flex gap-4 bg-[#2b2b2b] pt-1 py-1.5 px-4 rounded-2xl text-sm font-semibold cursor-pointer dark:text-[#e8ffd291]">
-                        <li>All</li>
-                        <li>Unread</li>
-                    </ul>
-                </div> */}
             </div>
             <div className="overflow-y-scroll bg-[#fff] dark:bg-[#121212] px-4 text-white h-[79vh] mt-[21vh] scroll-smooth scrollable">
                 {ctc && !ctc.length ? (

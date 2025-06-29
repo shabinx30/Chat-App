@@ -7,6 +7,7 @@ import { IoIosCloseCircle } from "react-icons/io";
 import { TbMessages } from "react-icons/tb";
 import { MdDevices, MdLockOutline } from "react-icons/md";
 import { LuFileSpreadsheet } from "react-icons/lu";
+import useStart from "../hooks/useStart";
 
 const Login: React.FC = () => {
     const navigate = useNavigate();
@@ -141,6 +142,8 @@ const Login: React.FC = () => {
             }, 3500);
         }
     }, [isError]);
+
+    useStart()
 
     return (
         <>
