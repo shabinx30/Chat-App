@@ -328,12 +328,12 @@ const SignUp: React.FC = () => {
                 </div>
             )}
             <div className="flex flex-col md:flex-row gap-8 md:gap-0">
-                <div className="flex flex-col md:flex-1 justify-center items-center gap-3 pt-4 md:pt-2">
+                <div className="flex bg-gray-50 dark:bg-black flex-col md:flex-1 justify-center items-center gap-3 pt-4 md:pt-2">
                     <div className="flex items-center gap-3">
                         <img
                             src="/icons/logo-small.png"
                             alt="logo"
-                            className="w-8 h-8"
+                            className="w-8 h-8 invert dark:invert-0"
                         />
                         <h1 className="font-bold text-3xl dark:text-[#fff] text-[#000] leading-tight tracking-tight select-none">
                             Convo
@@ -343,16 +343,22 @@ const SignUp: React.FC = () => {
                         Create your account for start using Convo
                     </p>
                     <ul className="hidden md:flex md:mt-8 md:flex-col gap-1.5">
-                        <li className="px-10 py-2 rounded-2xl text-sm font-semibold dark:bg-[#1b1b1b] flex items-center gap-2">
+                        <li className="px-10 py-2 rounded-t-2xl text-sm font-semibold bg-white dark:bg-[#1b1b1b] flex items-center gap-2">
                             <TbMessages className="text-[#b0ff62]" size={19} />
                             chat with your friends
                         </li>
-                        <li className="px-10 py-2 rounded-2xl text-sm font-semibold dark:bg-[#1b1b1b] flex items-center gap-2">
-                            <GoFileSymlinkFile className="text-[#b0ff62]" size={16} />
+                        <li className="px-10 py-2 text-sm font-semibold bg-white dark:bg-[#1b1b1b] flex items-center gap-2">
+                            <GoFileSymlinkFile
+                                className="text-[#b0ff62]"
+                                size={16}
+                            />
                             share files
                         </li>
-                        <li className="px-10 py-2 rounded-2xl text-sm font-semibold dark:bg-[#1b1b1b] flex items-center gap-2">
-                            <MdLockOutline className="text-[#b0ff62]" size={18} />
+                        <li className="px-10 py-2 rounded-b-2xl text-sm font-semibold bg-white dark:bg-[#1b1b1b] flex items-center gap-2">
+                            <MdLockOutline
+                                className="text-[#b0ff62]"
+                                size={18}
+                            />
                             end to end ecrypted
                         </li>
                     </ul>
