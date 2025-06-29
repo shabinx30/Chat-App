@@ -4,6 +4,9 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { login } from "../redux/store";
 import { IoIosCloseCircle } from "react-icons/io";
+import { TbMessages } from "react-icons/tb";
+import { GoFileSymlinkFile } from "react-icons/go";
+import { MdLockOutline } from "react-icons/md";
 
 const Login: React.FC = () => {
     const navigate = useNavigate();
@@ -153,9 +156,13 @@ const Login: React.FC = () => {
                 </div>
             )}
             <div className="flex flex-col md:flex-row gap-8 md:gap-0">
-                <div className="flex flex-col md:flex-1 justify-center items-center md:mb-[3em] gap-3 pt-4 md:pt-2">
-                    <div className="flex items-center gap-2">
-                        <img src="/icons/logo-small.png" alt="logo" className="w-8 h-8"/>
+                <div className="flex flex-col md:flex-1 justify-center items-center gap-3 pt-4 md:pt-2">
+                    <div className="flex items-center gap-3">
+                        <img
+                            src="/icons/logo-small.png"
+                            alt="logo"
+                            className="w-8 h-8"
+                        />
                         <h1 className="font-bold text-3xl dark:text-[#fff] text-[#000] leading-tight tracking-tight select-none">
                             Convo
                         </h1>
@@ -163,8 +170,19 @@ const Login: React.FC = () => {
                     <p className="font-semibold text-sm">
                         Sign in to continue using Convo
                     </p>
-                    <ul className="md:block">
-                        
+                    <ul className="hidden md:flex md:mt-8 md:flex-col gap-1.5">
+                        <li className="px-10 py-2 rounded-2xl text-sm font-semibold dark:bg-[#1b1b1b] flex items-center gap-2">
+                            <TbMessages className="text-[#b0ff62]" size={19} />
+                            chat with your friends
+                        </li>
+                        <li className="px-10 py-2 rounded-2xl text-sm font-semibold dark:bg-[#1b1b1b] flex items-center gap-2">
+                            <GoFileSymlinkFile className="text-[#b0ff62]" size={16} />
+                            share files
+                        </li>
+                        <li className="px-10 py-2 rounded-2xl text-sm font-semibold dark:bg-[#1b1b1b] flex items-center gap-2">
+                            <MdLockOutline className="text-[#b0ff62]" size={18} />
+                            end to end ecrypted
+                        </li>
                     </ul>
                 </div>
                 <section className="bg-gray-50 flex-1/4 dark:bg-black pt-14 md:pt-0">

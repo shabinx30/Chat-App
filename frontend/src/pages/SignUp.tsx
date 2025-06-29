@@ -1,14 +1,17 @@
 import axios from "axios";
 import React, { type FormEvent, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { login } from "../redux/store"; 
+import { login } from "../redux/store";
 import { Link, useNavigate } from "react-router-dom";
 import { IoIosCloseCircle } from "react-icons/io";
+import { MdLockOutline } from "react-icons/md";
+import { TbMessages } from "react-icons/tb";
+import { GoFileSymlinkFile } from "react-icons/go";
 
 const SignUp: React.FC = () => {
     const navigate = useNavigate();
 
-    const apiUrl = import.meta.env.VITE_BASE_URL
+    const apiUrl = import.meta.env.VITE_BASE_URL;
 
     type FormDataType = {
         profile: File | null;
@@ -267,10 +270,11 @@ const SignUp: React.FC = () => {
             .then((res) => {
                 if (res.data.message === "success") {
                     // console.log(res.data.user)
-                    window.localStorage.setItem("jwt", JSON.stringify(res.data.user));
-                    dispatch(
-                        login({ token: null, user: res.data.user })
+                    window.localStorage.setItem(
+                        "jwt",
+                        JSON.stringify(res.data.user)
                     );
+                    dispatch(login({ token: null, user: res.data.user }));
                     setTimeout(() => {
                         navigate("/");
                     }, 500);
@@ -283,7 +287,7 @@ const SignUp: React.FC = () => {
             })
             .catch((err) => {
                 console.error(err);
-                showError(err.response?.data?.message || 'An Error Occured.')
+                showError(err.response?.data?.message || "An Error Occured.");
             });
     };
 
@@ -323,166 +327,200 @@ const SignUp: React.FC = () => {
                     </div>
                 </div>
             )}
-            <section className="bg-gray-50 dark:bg-black">
-                <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-                    <div className="w-full bg-white rounded-3xl shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-[#1b1b1b] dark:border-[#2b2b2b]">
-                        <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-                            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                                Create your account
-                            </h1>
-                            <form
-                                noValidate
-                                className="space-y-4 md:space-y-6"
-                                onSubmit={formSubmission}
-                            >
-                                <div>
-                                    <label
-                                        htmlFor="profile"
-                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                    >
-                                        {valid.profile.message ? (
-                                            <span className="text-red-500">
-                                                {valid.profile.message}
-                                            </span>
-                                        ) : (
-                                            "Your profile photo"
-                                        )}
-                                    </label>
-                                    <input
-                                        name="profile"
-                                        type="file"
-                                        id="profile"
-                                        onChange={validate}
-                                        className={
-                                            valid.profile.status
-                                                ? regularClass
-                                                : errorClass
-                                        }
-                                        accept="image/*"
-                                    />
-                                </div>
-                                <div>
-                                    <label
-                                        htmlFor="name"
-                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                    >
-                                        {valid.name.message ? (
-                                            <span className="text-red-500">
-                                                {valid.name.message}
-                                            </span>
-                                        ) : (
-                                            "Your name"
-                                        )}
-                                    </label>
-                                    <input
-                                        onChange={validate}
-                                        type="text"
-                                        name="name"
-                                        id="name"
-                                        className={
-                                            valid.name.status
-                                                ? regularClass
-                                                : errorClass
-                                        }
-                                        placeholder="Alice"
-                                    />
-                                </div>
-                                <div>
-                                    <label
-                                        htmlFor="email"
-                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                    >
-                                        {valid.email.message ? (
-                                            <span className="text-red-500">
-                                                {valid.email.message}
-                                            </span>
-                                        ) : (
-                                            "Your email"
-                                        )}
-                                    </label>
-                                    <input
-                                        onChange={validate}
-                                        type="email"
-                                        name="email"
-                                        id="email"
-                                        className={
-                                            valid.email.status
-                                                ? regularClass
-                                                : errorClass
-                                        }
-                                        placeholder="example@company.com"
-                                    />
-                                </div>
-                                <div>
-                                    <label
-                                        htmlFor="password"
-                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                    >
-                                        {valid.password.message ? (
-                                            <span className="text-red-500">
-                                                {valid.password.message}
-                                            </span>
-                                        ) : (
-                                            "Password"
-                                        )}
-                                    </label>
-                                    <input
-                                        onChange={validate}
-                                        type="password"
-                                        name="password"
-                                        placeholder="&34@88$#!"
-                                        className={
-                                            valid.password.status
-                                                ? regularClass
-                                                : errorClass
-                                        }
-                                    />
-                                </div>
-                                <div>
-                                    <label
-                                        htmlFor="password"
-                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                    >
-                                        {valid.confirmPassword.message ? (
-                                            <span className="text-red-500">
-                                                {valid.confirmPassword.message}
-                                            </span>
-                                        ) : (
-                                            "Confirm Password"
-                                        )}
-                                    </label>
-                                    <input
-                                        onChange={validate}
-                                        type="password"
-                                        name="confirmPassword"
-                                        placeholder="&34@88$#!"
-                                        className={
-                                            valid.confirmPassword.status
-                                                ? regularClass
-                                                : errorClass
-                                        }
-                                    />
-                                </div>
-                                <button
-                                    type="submit"
-                                    className="w-full text-black bg-[#b0ff62] hover:bg-[#b0ff62] duration-200 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+            <div className="flex flex-col md:flex-row gap-8 md:gap-0">
+                <div className="flex flex-col md:flex-1 justify-center items-center gap-3 pt-4 md:pt-2">
+                    <div className="flex items-center gap-3">
+                        <img
+                            src="/icons/logo-small.png"
+                            alt="logo"
+                            className="w-8 h-8"
+                        />
+                        <h1 className="font-bold text-3xl dark:text-[#fff] text-[#000] leading-tight tracking-tight select-none">
+                            Convo
+                        </h1>
+                    </div>
+                    <p className="font-semibold text-sm">
+                        Create your account for start using Convo
+                    </p>
+                    <ul className="hidden md:flex md:mt-8 md:flex-col gap-1.5">
+                        <li className="px-10 py-2 rounded-2xl text-sm font-semibold dark:bg-[#1b1b1b] flex items-center gap-2">
+                            <TbMessages className="text-[#b0ff62]" size={19} />
+                            chat with your friends
+                        </li>
+                        <li className="px-10 py-2 rounded-2xl text-sm font-semibold dark:bg-[#1b1b1b] flex items-center gap-2">
+                            <GoFileSymlinkFile className="text-[#b0ff62]" size={16} />
+                            share files
+                        </li>
+                        <li className="px-10 py-2 rounded-2xl text-sm font-semibold dark:bg-[#1b1b1b] flex items-center gap-2">
+                            <MdLockOutline className="text-[#b0ff62]" size={18} />
+                            end to end ecrypted
+                        </li>
+                    </ul>
+                </div>
+                <section className="bg-gray-50 flex-1/4 dark:bg-black">
+                    <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+                        <div className="w-full bg-white rounded-3xl shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-[#1b1b1b] dark:border-[#2b2b2b]">
+                            <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+                                <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                                    Create your account
+                                </h1>
+                                <form
+                                    noValidate
+                                    className="space-y-4 md:space-y-6"
+                                    onSubmit={formSubmission}
                                 >
-                                    Sign Up
-                                </button>
-                                <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                                    Already have an account?{" "}
-                                    <Link
-                                        to="/login"
-                                        className="font-medium text-black hover:underline dark:text-[#b0ff62] cursor-pointer"
+                                    <div>
+                                        <label
+                                            htmlFor="profile"
+                                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                        >
+                                            {valid.profile.message ? (
+                                                <span className="text-red-500">
+                                                    {valid.profile.message}
+                                                </span>
+                                            ) : (
+                                                "Your profile photo"
+                                            )}
+                                        </label>
+                                        <input
+                                            name="profile"
+                                            type="file"
+                                            id="profile"
+                                            onChange={validate}
+                                            className={
+                                                valid.profile.status
+                                                    ? regularClass
+                                                    : errorClass
+                                            }
+                                            accept="image/*"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label
+                                            htmlFor="name"
+                                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                        >
+                                            {valid.name.message ? (
+                                                <span className="text-red-500">
+                                                    {valid.name.message}
+                                                </span>
+                                            ) : (
+                                                "Your name"
+                                            )}
+                                        </label>
+                                        <input
+                                            onChange={validate}
+                                            type="text"
+                                            name="name"
+                                            id="name"
+                                            className={
+                                                valid.name.status
+                                                    ? regularClass
+                                                    : errorClass
+                                            }
+                                            placeholder="Alice"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label
+                                            htmlFor="email"
+                                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                        >
+                                            {valid.email.message ? (
+                                                <span className="text-red-500">
+                                                    {valid.email.message}
+                                                </span>
+                                            ) : (
+                                                "Your email"
+                                            )}
+                                        </label>
+                                        <input
+                                            onChange={validate}
+                                            type="email"
+                                            name="email"
+                                            id="email"
+                                            className={
+                                                valid.email.status
+                                                    ? regularClass
+                                                    : errorClass
+                                            }
+                                            placeholder="example@company.com"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label
+                                            htmlFor="password"
+                                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                        >
+                                            {valid.password.message ? (
+                                                <span className="text-red-500">
+                                                    {valid.password.message}
+                                                </span>
+                                            ) : (
+                                                "Password"
+                                            )}
+                                        </label>
+                                        <input
+                                            onChange={validate}
+                                            type="password"
+                                            name="password"
+                                            placeholder="&34@88$#!"
+                                            className={
+                                                valid.password.status
+                                                    ? regularClass
+                                                    : errorClass
+                                            }
+                                        />
+                                    </div>
+                                    <div>
+                                        <label
+                                            htmlFor="password"
+                                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                        >
+                                            {valid.confirmPassword.message ? (
+                                                <span className="text-red-500">
+                                                    {
+                                                        valid.confirmPassword
+                                                            .message
+                                                    }
+                                                </span>
+                                            ) : (
+                                                "Confirm Password"
+                                            )}
+                                        </label>
+                                        <input
+                                            onChange={validate}
+                                            type="password"
+                                            name="confirmPassword"
+                                            placeholder="&34@88$#!"
+                                            className={
+                                                valid.confirmPassword.status
+                                                    ? regularClass
+                                                    : errorClass
+                                            }
+                                        />
+                                    </div>
+                                    <button
+                                        type="submit"
+                                        className="w-full text-black bg-[#b0ff62] hover:bg-[#b0ff62] duration-200 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                                     >
-                                        Sign In
-                                    </Link>
-                                </p>
-                            </form>
+                                        Sign Up
+                                    </button>
+                                    <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+                                        Already have an account?{" "}
+                                        <Link
+                                            to="/login"
+                                            className="font-medium text-black hover:underline dark:text-[#b0ff62] cursor-pointer"
+                                        >
+                                            Sign In
+                                        </Link>
+                                    </p>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            </div>
         </>
     );
 };
