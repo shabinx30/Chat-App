@@ -156,7 +156,7 @@ const Login: React.FC = () => {
                 </div>
             )}
             <div className="flex flex-col md:flex-row gap-8 md:gap-0">
-                <div className="flex bg-gray-50 dark:bg-black flex-col md:flex-1 justify-center items-center gap-3 pt-4 md:pt-2">
+                <div className="flex bg-gray-50 md:pl-6 dark:bg-black flex-col md:flex-1 justify-center items-center gap-3 pt-4 md:pt-2">
                     <div className="flex items-center gap-3">
                         <img
                             src="/icons/logo-small.png"
@@ -167,7 +167,7 @@ const Login: React.FC = () => {
                             Convo
                         </h1>
                     </div>
-                    <p className="font-semibold text-sm">
+                    <p className="font-semibold text-sm text-center">
                         Sign in to continue chatting with your friends.
                     </p>
                     <ul className="hidden md:flex md:mt-8 md:flex-col gap-1 dark:gap-[5px]">
