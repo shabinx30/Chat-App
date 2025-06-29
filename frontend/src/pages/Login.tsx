@@ -7,7 +7,7 @@ import { IoIosCloseCircle } from "react-icons/io";
 
 const Login: React.FC = () => {
     const navigate = useNavigate();
-    let apiUrl = import.meta.env.VITE_BASE_URL
+    const apiUrl = import.meta.env.VITE_BASE_URL
     const dispatch = useDispatch();
 
     const [formData, setFormData] = useState({

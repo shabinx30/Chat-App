@@ -85,3 +85,7 @@ export const Login = async (req: Request, res: Response): Promise<void> => {
         res.status(500).json({ message: "Error while login." });
     }
 };
+
+export const Start = async (_: Request, res: Response) => {
+    res.status(200).json({message: 'success'})
+}

@@ -6,7 +6,6 @@ config();
 import { connectDB } from "./libs/db.config";
 import { server, app } from "./libs/socket";
 import cors, { CorsOptions } from "cors";
-import bodyParser from "body-parser";
 import webPush from "web-push"
 
 const allowedOrigins = [
@@ -29,9 +28,6 @@ const corsOptions: CorsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.use(bodyParser.json());
-
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
