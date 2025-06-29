@@ -154,7 +154,10 @@ const Settings = ({ setSett }: { setSett: settingsType }) => {
                                     <MdOutlineModeEditOutline size={18} />
                                 </h2>
                             </div>
-                            <div className="flex justify-center text-sm text-gray-500">
+                            <div className="flex justify-center text-xs text-gray-500 items-center">
+                                <span className="font-semibold text-sm">
+                                    Last updated: &nbsp;
+                                </span>
                                 {state.auth?.user?.updatedAt &&
                                     new Date(
                                         state.auth?.user?.updatedAt
