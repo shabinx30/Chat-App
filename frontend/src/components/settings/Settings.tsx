@@ -23,7 +23,7 @@ const Settings = ({ setSett }: { setSett: settingsType }) => {
     const handleLogout = () => {
         dispatch(logout());
         localStorage.removeItem("jwt");
-        unRegister()
+        unRegister();
         navigate("/login");
     };
 
@@ -152,8 +152,8 @@ const Settings = ({ setSett }: { setSett: settingsType }) => {
                                     <MdOutlineModeEditOutline size={18} />
                                 </h2>
                             </div>
-                            <div className="flex justify-center">
-                                <p>{state.auth.user.updatedAt}</p>
+                            <div className="flex justify-center text-sm text-gray-500">
+                                {state.auth.user.updatedAt}
                             </div>
                             <AnimatePresence>
                                 {(isEdit.name || isEdit.email) && (
