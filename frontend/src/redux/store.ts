@@ -1,7 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 
-const INITIAL_STATE: { token: string | null; user: any } = {
+interface User {
+    userId: string;
+    name: string;
+    email: string;
+    profile: string;
+    updatedAt: string;
+}
+
+const INITIAL_STATE: { token: string | null; user: User | null } = {
     token: null,
     user: null,
 };

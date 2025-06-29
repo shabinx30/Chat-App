@@ -83,7 +83,7 @@ const Settings = ({ setSett }: { setSett: settingsType }) => {
                                 />
                                 <img
                                     className="z-10 w-[5em] rounded-full brightness-100 group-hover:brightness-75 dark:group-hover:brightness-50 duration-150"
-                                    src={state.auth.user.profile}
+                                    src={state.auth?.user?.profile}
                                     alt="user"
                                 />
                             </div>
@@ -97,12 +97,12 @@ const Settings = ({ setSett }: { setSett: settingsType }) => {
                                 {isEdit.name ? (
                                     <input
                                         className="font-bold text-lg bg-[#cecece] dark:bg-[#2b2b2b] w-full p-1"
-                                        defaultValue={state.auth.user.name}
+                                        defaultValue={state.auth?.user?.name}
                                         type="text"
                                     />
                                 ) : (
                                     <h1 className="dark:text-white font-bold text-lg">
-                                        {state.auth.user.name}
+                                        {state.auth?.user?.name}
                                     </h1>
                                 )}
                                 {!isEdit.name && (
@@ -130,12 +130,14 @@ const Settings = ({ setSett }: { setSett: settingsType }) => {
                                         <input
                                             id="eamil"
                                             className="bg-[#cecece] dark:bg-[#2b2b2b] font-semibold w-full p-1"
-                                            defaultValue={state.auth.user.email}
+                                            defaultValue={
+                                                state.auth?.user?.email
+                                            }
                                             type="text"
                                         />
                                     ) : (
                                         <h2 className="dark:text-white font-semibold">
-                                            {state.auth.user.email}
+                                            {state.auth?.user?.email}
                                         </h2>
                                     )}
                                 </div>
@@ -153,7 +155,10 @@ const Settings = ({ setSett }: { setSett: settingsType }) => {
                                 </h2>
                             </div>
                             <div className="flex justify-center text-sm text-gray-500">
-                                {state.auth.user.updatedAt}
+                                {state.auth?.user?.updatedAt &&
+                                    new Date(
+                                        state.auth?.user?.updatedAt
+                                    ).toDateString()}
                             </div>
                             <AnimatePresence>
                                 {(isEdit.name || isEdit.email) && (
