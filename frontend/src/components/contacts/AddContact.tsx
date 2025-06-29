@@ -32,7 +32,7 @@ const AddContact = ({ setPop, setChange }: AddContactType) => {
                 return;
             }
             const formData = {
-                userId: state.auth.user.userId,
+                userId: state.auth?.user?.userId,
                 member: emailRef.current?.value,
                 isGroup: false,
             };

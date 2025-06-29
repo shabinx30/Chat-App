@@ -53,7 +53,7 @@ const Contacts = ({ change, setPop, setSett }: AddContactType) => {
 
     const { VITE_BASE_URL } = import.meta.env;
 
-    const userId = state.auth.user.userId;
+    const userId = state.auth?.user?.userId;
 
     useEffect(() => {
         setCtc([]);
@@ -83,7 +83,6 @@ const Contacts = ({ change, setPop, setSett }: AddContactType) => {
 
     const searchContact = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value.trim();
-        const userId = state.auth.user.userId;
 
         axios
             .get(
@@ -173,7 +172,7 @@ const Contacts = ({ change, setPop, setSett }: AddContactType) => {
                     ctc?.map((item, index) => (
                         <Contact
                             key={index}
-                            userId={state.auth.user.userId}
+                            userId={state.auth?.user?.userId}
                             onUsers={onUsers}
                             chatMsg={chatMsg}
                             chatId={chatId}

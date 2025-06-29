@@ -21,7 +21,7 @@ export interface chatType {
 export interface Msg {
     body: string;
     createdAt: number;
-    from: string;
+    from: string | undefined;
     hasMedia: boolean;
     media: string | undefined;
     mediaType: string | undefined;
@@ -69,7 +69,7 @@ const Chat = () => {
             .get(`${apiUrl}/api/message/getmessages?chatId=${chatId}`)
             .then((res) => {
                 const result = res.data.chat.members.filter(
-                    (user: any) => user.userId._id !== state.auth.user.userId
+                    (user: any) => user.userId._id !== state.auth?.user?.userId
                 )[0];
                 setChat(result.userId);
                 for (let data of res.data.messages) {
@@ -82,7 +82,7 @@ const Chat = () => {
             .catch((error) => {
                 console.log(error);
             });
-    }, [chatId, apiUrl, state.auth.user.userId]);
+    }, [chatId, apiUrl, state.auth?.user?.userId]);
 
     const [rotate, setRotate] = useState(0);
 
@@ -116,7 +116,7 @@ const Chat = () => {
         const myMsg: Msg = {
             body: hello.current ? "Hello👋" : text || "",
             createdAt: Date.now(),
-            from: state.auth.user.userId,
+            from: state.auth?.user?.userId,
             hasMedia: !!media,
             media,
             mediaType: file ? file.type.slice(0, 5) : undefined,
@@ -229,7 +229,7 @@ const Chat = () => {
                                 <Message
                                     key={i}
                                     message={message}
-                                    user={state.auth.user.userId}
+                                    user={state.auth?.user?.userId}
                                     endDiv={0 == i ? endDiv : null}
                                 />
                             ))}

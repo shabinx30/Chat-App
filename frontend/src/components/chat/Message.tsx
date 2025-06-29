@@ -2,7 +2,7 @@ import { type Msg } from "./Chat";
 
 interface MSG {
     message: Msg;
-    user: string;
+    user: string | undefined;
     endDiv: React.RefObject<HTMLDivElement | null> | null
 }
 

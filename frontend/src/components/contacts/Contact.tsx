@@ -21,7 +21,7 @@ interface ctcType {
 }
 
 interface conType {
-    userId: string;
+    userId: string | undefined;
     data: ctcType;
     chatId: string | undefined;
     onUsers: Set<string>;
