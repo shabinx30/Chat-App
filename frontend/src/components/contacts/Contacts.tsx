@@ -1,14 +1,14 @@
 import Contact from "./Contact";
 import { LuSettings, LuSearch } from "react-icons/lu";
 import { GoPlus } from "react-icons/go";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useSelector, type TypedUseSelectorHook } from "react-redux";
 import type { RootState } from "../../redux/store";
 import { useParams } from "react-router-dom";
-import { useAppContext } from "../../context/AppContext";
 import { motion } from "framer-motion";
-import useContacts from "../../hooks/useContacts";
-import useSearchCtc from "../../hooks/useSearchCtc";
+import useContacts from "../../hooks/contacts/useContacts";
+import useSearchCtc from "../../hooks/contacts/useSearchCtc";
+import useTyping from "../../hooks/contacts/useTyping";
 
 //function type
 interface AddContactType {
@@ -35,17 +35,11 @@ export interface ctcType {
     lastMessageAt: Date;
 }
 
-interface typing {
-    isTyping: boolean;
-    chatId: string;
-}
-
 export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 const Contacts = ({ change, setPop, setSett }: AddContactType) => {
     const state = useTypedSelector((state) => state);
     const [ctc, setCtc] = useState<ctcType[]>([]);
-    const { socket } = useAppContext();
     const { chatId } = useParams();
     const userId = state.auth?.user?.userId;
     const searchRef = useRef<HTMLInputElement>(null);
@@ -56,13 +50,8 @@ const Contacts = ({ change, setPop, setSett }: AddContactType) => {
     // constact searching
     const { debouncedSearch } = useSearchCtc({ setCtc, userId });
 
-    const [isTyping, setTyping] = useState<typing>();
-
-    useEffect(() => {
-        socket.on("typing", (res) => {
-            setTyping({ isTyping: res.typing, chatId: res.chatId });
-        });
-    });
+    // typing 
+    const {isTyping} = useTyping()
 
     return (
         <motion.section

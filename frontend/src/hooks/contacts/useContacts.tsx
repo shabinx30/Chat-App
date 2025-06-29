@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useAppContext } from "../context/AppContext";
-import type { ctcType } from "../components/contacts/Contacts";
+import { useAppContext } from "../../context/AppContext";
+import type { ctcType } from "../../components/contacts/Contacts";
 
 interface CtcHookTypes {
     setCtc: React.Dispatch<React.SetStateAction<ctcType[]>>;
