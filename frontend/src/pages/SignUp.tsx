@@ -340,23 +340,24 @@ const SignUp: React.FC = () => {
                         </h1>
                     </div>
                     <p className="font-semibold text-sm">
-                        Create your account for start using Convo
+                        Create your account for start chatting with your
+                        friends.
                     </p>
-                    <ul className="hidden md:flex md:mt-8 md:flex-col gap-[5px]">
-                        <li className="px-10 py-2 rounded-t-2xl text-sm font-semibold bg-white dark:bg-[#2b2b2b] flex items-center gap-2">
-                            <TbMessages className="text-[#b0ff62]" size={19} />
+                    <ul className="hidden md:flex md:mt-8 md:flex-col gap-1">
+                        <li className="px-10 py-2 rounded-t-2xl text-sm font-semibold bg-[#b0ff62] text-black flex items-center gap-2">
+                            <TbMessages
+                                size={19}
+                            />
                             chat with anyone
                         </li>
-                        <li className="px-10 py-2 text-sm font-semibold bg-white dark:bg-[#2b2b2b] flex items-center gap-2">
+                        <li className="px-10 py-2 text-sm font-semibold bg-[#b0ff62] text-black flex items-center gap-2">
                             <LuFileSpreadsheet
-                                className="text-[#b0ff62]"
                                 size={16}
                             />
                             share files
                         </li>
-                        <li className="px-10 py-2 rounded-b-2xl text-sm font-semibold bg-white dark:bg-[#2b2b2b] flex items-center gap-2">
+                        <li className="px-10 py-2 rounded-b-2xl text-sm font-semibold bg-[#b0ff62] text-black flex items-center gap-2">
                             <MdLockOutline
-                                className="text-[#b0ff62]"
                                 size={18}
                             />
                             end to end ecrypted

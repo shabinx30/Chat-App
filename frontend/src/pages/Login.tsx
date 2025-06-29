@@ -168,23 +168,23 @@ const Login: React.FC = () => {
                         </h1>
                     </div>
                     <p className="font-semibold text-sm">
-                        Sign in to continue using Convo
+                        Sign in to continue chatting with your friends.
                     </p>
-                    <ul className="hidden md:flex md:mt-8 md:flex-col gap-[5px]">
-                        <li className="px-10 py-2 rounded-t-2xl text-sm font-semibold bg-white dark:bg-[#2b2b2b] flex items-center gap-2">
-                            <TbMessages className="text-[#b0ff62]" size={19} />
+                    <ul className="hidden md:flex md:mt-8 md:flex-col gap-1 dark:gap-[5px]">
+                        <li className="px-10 py-2 rounded-t-2xl text-sm font-semibold bg-[#b0ff62] dark:bg-[#2b2b2b] flex items-center gap-2">
+                            <TbMessages className="dark:text-[#b0ff62]" size={19} />
                             chat with anyone
                         </li>
-                        <li className="px-10 py-2 text-sm font-semibold bg-white dark:bg-[#2b2b2b] flex items-center gap-2">
+                        <li className="px-10 py-2 text-sm font-semibold bg-[#b0ff62] dark:bg-[#2b2b2b] flex items-center gap-2">
                             <LuFileSpreadsheet
-                                className="text-[#b0ff62]"
+                                className="dark:text-[#b0ff62]"
                                 size={16}
                             />
                             share files
                         </li>
-                        <li className="px-10 py-2 rounded-b-2xl text-sm font-semibold bg-white dark:bg-[#2b2b2b] flex items-center gap-2">
+                        <li className="px-10 py-2 rounded-b-2xl text-sm font-semibold bg-[#b0ff62] dark:bg-[#2b2b2b] flex items-center gap-2">
                             <MdLockOutline
-                                className="text-[#b0ff62]"
+                                className="dark:text-[#b0ff62]"
                                 size={18}
                             />
                             end to end ecrypted
