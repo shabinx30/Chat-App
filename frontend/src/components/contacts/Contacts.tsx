@@ -25,10 +25,10 @@ const Contacts = ({ change, setPop, setSett }: ContactType) => {
     const { onUsers, chatMsg } = useContacts({ setCtc, userId, change });
 
     // constact searching
-    const { debouncedSearch } = useSearchCtc({ setCtc, userId });
+    const debouncedSearch = useSearchCtc({ setCtc, userId });
 
     // typing event
-    const { isTyping } = useTyping();
+    const isTyping = useTyping();
 
     return (
         <motion.section

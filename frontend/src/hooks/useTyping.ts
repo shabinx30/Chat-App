@@ -20,7 +20,7 @@ const useTyping = () => {
         };
     });
 
-    return { isTyping };
+    return isTyping;
 };
 
 export default useTyping;

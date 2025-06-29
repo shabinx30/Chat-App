@@ -1,5 +1,5 @@
 import Message from "./Message";
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector, type TypedUseSelectorHook } from "react-redux";
 import type { RootState } from "../../redux/store";
@@ -11,6 +11,7 @@ import ChatInput from "./ChatInput";
 import useTyping from "../../hooks/useTyping";
 import type { Msg } from "../../types/chat";
 import useGetMsg from "../../hooks/chat/useGetMsg";
+import useSendMsg from "../../hooks/chat/useSendMsg";
 
 export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 
@@ -20,77 +21,23 @@ const Chat = () => {
     const state = useTypedSelector((state) => state);
     const [messages, setMessages] = useState<Msg[]>([]);
     const [isInView, setIsInView] = useState<boolean>(false);
-    const { socket, preview, setPreview } = useAppContext();
+    const { preview } = useAppContext();
     const navigate = useNavigate();
     const msgRef = useRef<HTMLTextAreaElement>(null);
     const { chatId } = useParams();
     const attachRef = useRef<HTMLInputElement>(null);
-
-    // Socket listener for new messages & getting messges
-    const { chat } = useGetMsg({
-        setMessages,
-        userId: state.auth.user?.userId,
-        chatId
-    });
-
-    const [rotate, setRotate] = useState(0);
-
+    
     const hello = useRef<boolean>(null);
 
-    const sendMessage = async (e: FormEvent<HTMLFormElement> | null = null) => {
-        if (e) e.preventDefault();
+    const userId = state.auth.user?.userId;
 
-        const text = msgRef.current?.value.trim();
-        const file = attachRef.current?.files?.[0];
-
-        const shouldSend = text || hello.current || file;
-
-        if (!shouldSend) return;
-
-        let media: string | undefined;
-
-        if (file) {
-            media = await new Promise<string>((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onload = () => {
-                    resolve(reader.result as string);
-                };
-                reader.onerror = reject;
-                reader.readAsDataURL(file);
-            });
-        }
-        // console.log(media)
-
-        setRotate((prev) => prev + 360);
-        const myMsg: Msg = {
-            body: hello.current ? "Hello👋" : text || "",
-            createdAt: Date.now(),
-            from: state.auth?.user?.userId,
-            hasMedia: !!media,
-            media,
-            mediaType: file ? file.type.slice(0, 5) : undefined,
-        };
-
-        socket.emit("chat message", {
-            ...myMsg,
-            chatId,
-            to: chat?._id,
-        });
-
-        setMessages((p) => [myMsg, ...p]);
-
-        if (msgRef.current) {
-            msgRef.current.value = "";
-        }
-        if (hello.current) {
-            hello.current = false;
-        }
-        if (attachRef.current) {
-            setPreview("");
-        }
-    };
-
-    const { isTyping } = useTyping();
+    // hooks ********************************************
+    // Socket listener for new messages & getting messges
+    const { chat } = useGetMsg({ setMessages, userId, chatId });
+    // get typing info
+    const isTyping = useTyping();
+    // send message hook
+    const { sendMessage, rotate } = useSendMsg({ setMessages, msgRef, attachRef, hello, chat })
 
     useEffect(() => {
         if (!preview) {
@@ -169,7 +116,7 @@ const Chat = () => {
                                 <Message
                                     key={i}
                                     message={message}
-                                    user={state.auth?.user?.userId}
+                                    user={userId}
                                     endDiv={0 == i ? endDiv : null}
                                 />
                             ))}

@@ -8,7 +8,7 @@ interface SearchCtcHookType {
     userId: string | undefined;
 }
 
-const useSearchCtc = ({setCtc, userId}: SearchCtcHookType) => {
+const useSearchCtc = ({ setCtc, userId }: SearchCtcHookType) => {
     const { VITE_BASE_URL } = import.meta.env;
 
     const searchContact = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,11 +27,11 @@ const useSearchCtc = ({setCtc, userId}: SearchCtcHookType) => {
             .catch((error) => {
                 console.error(error);
             });
-    };  
-    
+    };
+
     const debouncedSearch = useCallback(debounce(searchContact, 750), []);
 
-    return {debouncedSearch}
+    return debouncedSearch;
 };
 
 export default useSearchCtc;
