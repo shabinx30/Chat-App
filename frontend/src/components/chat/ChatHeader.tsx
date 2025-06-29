@@ -1,6 +1,6 @@
 import { IoIosArrowBack, IoMdMore } from "react-icons/io";
 import { type NavigateFunction } from "react-router-dom";
-import { type chatType } from "./Chat";
+import { type chatType } from "../../types/chat";
 
 interface CHType {
     chat: chatType | undefined;

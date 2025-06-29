@@ -5,7 +5,7 @@ import { useAppContext } from "../../context/AppContext";
 import { LuSendHorizontal } from "react-icons/lu";
 import { useCallback, useEffect, useState, type FormEvent } from "react";
 import debounce from "../../libs/debouncer";
-import { type chatType } from "./Chat";
+import { type chatType } from "../../types/chat";
 
 interface CIType {
     rotate: number;
