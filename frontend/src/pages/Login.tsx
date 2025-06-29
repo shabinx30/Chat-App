@@ -5,8 +5,8 @@ import { useDispatch } from "react-redux";
 import { login } from "../redux/store";
 import { IoIosCloseCircle } from "react-icons/io";
 import { TbMessages } from "react-icons/tb";
-import { GoFileSymlinkFile } from "react-icons/go";
 import { MdLockOutline } from "react-icons/md";
+import { LuFileSpreadsheet } from "react-icons/lu";
 
 const Login: React.FC = () => {
     const navigate = useNavigate();
@@ -173,10 +173,10 @@ const Login: React.FC = () => {
                     <ul className="hidden md:flex md:mt-8 md:flex-col gap-1.5">
                         <li className="px-10 py-2 rounded-t-2xl text-sm font-semibold bg-white dark:bg-[#1b1b1b] flex items-center gap-2">
                             <TbMessages className="text-[#b0ff62]" size={19} />
-                            chat with your friends
+                            chat with anyone
                         </li>
                         <li className="px-10 py-2 text-sm font-semibold bg-white dark:bg-[#1b1b1b] flex items-center gap-2">
-                            <GoFileSymlinkFile
+                            <LuFileSpreadsheet
                                 className="text-[#b0ff62]"
                                 size={16}
                             />
