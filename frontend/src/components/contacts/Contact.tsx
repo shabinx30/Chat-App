@@ -1,21 +1,8 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import type { ctcType, membersType } from "../../types/contacts";
+import type { conType, membersType } from "../../types/contacts";
 
-interface conType {
-    userId: string | undefined;
-    data: ctcType;
-    chatId: string | undefined;
-    onUsers: Set<string>;
-    chatMsg: string;
-    isTyping: typing | undefined;
-}
-
-interface typing {
-    isTyping: boolean;
-    chatId: string;
-}
 
 const Contact = ({
     userId,

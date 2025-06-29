@@ -2,8 +2,7 @@ import Contact from "./Contact";
 import { LuSettings, LuSearch } from "react-icons/lu";
 import { GoPlus } from "react-icons/go";
 import { useRef, useState } from "react";
-import { useSelector, type TypedUseSelectorHook } from "react-redux";
-import type { RootState } from "../../redux/store";
+import { useTypedSelector } from "../../redux/store";
 import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import useContacts from "../../hooks/contacts/useGetContacts";
@@ -11,8 +10,6 @@ import useSearchCtc from "../../hooks/contacts/useSearchCtc";
 import useTyping from "../../hooks/useTyping";
 import type { ctcType, ContactType } from "../../types/contacts";
 
-
-export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 const Contacts = ({ change, setPop, setSett }: ContactType) => {
     const state = useTypedSelector((state) => state);

@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useEffect, useRef, useState, type FormEvent } from "react";
-import { useSelector, type TypedUseSelectorHook } from "react-redux";
-import type { RootState } from "../../redux/store";
+import { useTypedSelector } from "../../redux/store";
 import { motion } from "framer-motion";
 import { IoIosCloseCircle } from "react-icons/io";
 
@@ -10,7 +9,6 @@ interface AddContactType {
     setPop: React.Dispatch<React.SetStateAction<boolean>>;
     setChange: React.Dispatch<React.SetStateAction<string>>;
 }
-export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 const AddContact = ({ setPop, setChange }: AddContactType) => {
     const emailRef = useRef<HTMLInputElement>(null);

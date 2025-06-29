@@ -1,8 +1,7 @@
 import Message from "./Message";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useSelector, type TypedUseSelectorHook } from "react-redux";
-import type { RootState } from "../../redux/store";
+import { useTypedSelector } from "../../redux/store";
 import { useAppContext } from "../../context/AppContext";
 import { AnimatePresence, motion } from "framer-motion";
 import { MdKeyboardDoubleArrowDown } from "react-icons/md";
@@ -13,7 +12,7 @@ import type { Msg } from "../../types/chat";
 import useGetMsg from "../../hooks/chat/useGetMsg";
 import useSendMsg from "../../hooks/chat/useSendMsg";
 
-export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
+
 
 const Chat = () => {
     const scrollRef = useRef<HTMLDivElement>(null);

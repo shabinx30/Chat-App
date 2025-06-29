@@ -22,3 +22,17 @@ export interface ctcType {
     isGroup: boolean;
     lastMessageAt: Date;
 }
+
+export interface conType {
+    userId: string | undefined;
+    data: ctcType;
+    chatId: string | undefined;
+    onUsers: Set<string>;
+    chatMsg: string;
+    isTyping: typing | undefined;
+}
+
+export interface typing {
+    isTyping: boolean;
+    chatId: string;
+}
