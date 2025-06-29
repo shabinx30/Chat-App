@@ -168,9 +168,9 @@ const Settings = ({ setSett }: { setSett: settingsType }) => {
                                     <div className="flex justify-center mt-2">
                                         <motion.button
                                             type="submit"
-                                            initial={{ height: 0, y: 10 }}
-                                            animate={{ height: "auto", y: 0 }}
-                                            exit={{ height: 0, y: 10 }}
+                                            initial={{ height: 0, y: 10, opacity: 0 }}
+                                            animate={{ height: "auto", y: 0, opacity: 1 }}
+                                            exit={{ height: 0, y: 10, opacity: 0 }}
                                             transition={{ duration: 0.1 }}
                                             className="bg-[#b0ff62] text-black w-fit px-4 pt-1 pb-1.5 rounded-2xl"
                                         >
