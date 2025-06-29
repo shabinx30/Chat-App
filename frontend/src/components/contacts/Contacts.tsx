@@ -8,36 +8,13 @@ import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import useContacts from "../../hooks/contacts/useContacts";
 import useSearchCtc from "../../hooks/contacts/useSearchCtc";
-import useTyping from "../../hooks/contacts/useTyping";
+import useTyping from "../../hooks/useTyping";
+import type { ctcType, ContactType } from "../../types/contacts";
 
-//function type
-interface AddContactType {
-    change: string;
-    setPop: React.Dispatch<React.SetStateAction<boolean>>;
-    setSett: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-//type for member
-interface membersType extends Document {
-    userId: {
-        _id: string;
-        name: string;
-        profile: string;
-    };
-}
-
-//for ctc
-export interface ctcType {
-    _id: string;
-    userId: string;
-    members: membersType[];
-    isGroup: boolean;
-    lastMessageAt: Date;
-}
 
 export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 
-const Contacts = ({ change, setPop, setSett }: AddContactType) => {
+const Contacts = ({ change, setPop, setSett }: ContactType) => {
     const state = useTypedSelector((state) => state);
     const [ctc, setCtc] = useState<ctcType[]>([]);
     const { chatId } = useParams();
@@ -50,8 +27,8 @@ const Contacts = ({ change, setPop, setSett }: AddContactType) => {
     // constact searching
     const { debouncedSearch } = useSearchCtc({ setCtc, userId });
 
-    // typing 
-    const {isTyping} = useTyping()
+    // typing event
+    const { isTyping } = useTyping();
 
     return (
         <motion.section

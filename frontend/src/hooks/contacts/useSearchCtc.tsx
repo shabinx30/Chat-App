@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useCallback } from "react";
 import debounce from "../../libs/debouncer";
-import type { ctcType } from "../../components/contacts/Contacts";
+import type { ctcType } from "../../types/contacts";
 
 interface SearchCtcHookType {
     setCtc: React.Dispatch<React.SetStateAction<ctcType[]>>;

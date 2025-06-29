@@ -1,4 +1,4 @@
-import { type Msg } from "./Chat";
+import { type Msg } from "../../types/chat";
 
 interface MSG {
     message: Msg;

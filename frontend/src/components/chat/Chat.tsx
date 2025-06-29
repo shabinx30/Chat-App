@@ -9,28 +9,11 @@ import { AnimatePresence, motion } from "framer-motion";
 import { MdKeyboardDoubleArrowDown } from "react-icons/md";
 import ChatHeader from "./ChatHeader";
 import ChatInput from "./ChatInput";
+import useTyping from "../../hooks/useTyping";
+import type { Msg, chatType } from "../../types/chat";
 
 export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 
-export interface chatType {
-    _id: string;
-    name: string;
-    profile: string;
-}
-
-export interface Msg {
-    body: string;
-    createdAt: number;
-    from: string | undefined;
-    hasMedia: boolean;
-    media: string | undefined;
-    mediaType: string | undefined;
-}
-
-interface typing {
-    isTyping: boolean;
-    chatId: string;
-}
 
 const Chat = () => {
     const scrollRef = useRef<HTMLDivElement>(null);
@@ -141,16 +124,7 @@ const Chat = () => {
         }
     };
 
-    const [isTyping, setIsTyping] = useState<typing>();
-
-    useEffect(() => {
-        socket.on("typing", (res) => {
-            setIsTyping({ isTyping: res.typing, chatId: res.chatId });
-        });
-        return () => {
-            socket.off("typing");
-        };
-    }, [socket]);
+    const { isTyping } = useTyping()
 
     useEffect(() => {
         if (!preview) {
@@ -185,10 +159,6 @@ const Chat = () => {
             scrollRef.current?.removeEventListener("scroll", checkScrollPosition);
         }
     }, []);
-
-    // useEffect(() => {
-    //     console.log(isInView);
-    // }, [isInView]);
 
     return (
         <div className="absolute md:relative md:flex-[calc(1/2.6*100%)] w-full max-h-[100vh] z-50">

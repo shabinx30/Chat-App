@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useAppContext } from "../../context/AppContext";
+import { useAppContext } from "../context/AppContext";
 
 interface typing {
     isTyping: boolean;
@@ -14,6 +14,10 @@ const useTyping = () => {
         socket.on("typing", (res) => {
             setTyping({ isTyping: res.typing, chatId: res.chatId });
         });
+
+        return () => {
+            socket.off("typing");
+        };
     });
 
     return { isTyping };
