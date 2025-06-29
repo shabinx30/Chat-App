@@ -1,7 +1,6 @@
 import Message from "./Message";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
 import { useSelector, type TypedUseSelectorHook } from "react-redux";
 import type { RootState } from "../../redux/store";
 import { useAppContext } from "../../context/AppContext";
@@ -10,10 +9,10 @@ import { MdKeyboardDoubleArrowDown } from "react-icons/md";
 import ChatHeader from "./ChatHeader";
 import ChatInput from "./ChatInput";
 import useTyping from "../../hooks/useTyping";
-import type { Msg, chatType } from "../../types/chat";
+import type { Msg } from "../../types/chat";
+import useGetMsg from "../../hooks/chat/useGetMsg";
 
 export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
-
 
 const Chat = () => {
     const scrollRef = useRef<HTMLDivElement>(null);
@@ -27,45 +26,12 @@ const Chat = () => {
     const { chatId } = useParams();
     const attachRef = useRef<HTMLInputElement>(null);
 
-    const apiUrl = import.meta.env.VITE_BASE_URL;
-
-    // Socket listener for new messages
-    useEffect(() => {
-        socket.on("chat message", (msg: any) => {
-            if (msg.tosChat === chatId) {
-                setMessages((prev) => [msg, ...prev]);
-            }
-        });
-        return () => {
-            socket.off("chat message");
-        };
-    }, [chatId, socket]);
-
-    const [chat, setChat] = useState<chatType>();
-    const set = new Set();
-
-    // Fetch initial messages
-    useEffect(() => {
-        setMessages([]);
-
-        axios
-            .get(`${apiUrl}/api/message/getmessages?chatId=${chatId}`)
-            .then((res) => {
-                const result = res.data.chat.members.filter(
-                    (user: any) => user.userId._id !== state.auth?.user?.userId
-                )[0];
-                setChat(result.userId);
-                for (let data of res.data.messages) {
-                    if (!set.has(data._id)) {
-                        setMessages((prev) => [data, ...prev]);
-                        set.add(data._id);
-                    }
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }, [chatId, apiUrl, state.auth?.user?.userId]);
+    // Socket listener for new messages & getting messges
+    const { chat } = useGetMsg({
+        setMessages,
+        userId: state.auth.user?.userId,
+        chatId
+    });
 
     const [rotate, setRotate] = useState(0);
 
@@ -124,7 +90,7 @@ const Chat = () => {
         }
     };
 
-    const { isTyping } = useTyping()
+    const { isTyping } = useTyping();
 
     useEffect(() => {
         if (!preview) {
@@ -136,28 +102,32 @@ const Chat = () => {
 
     useEffect(() => {
         const isAtBottom = () => {
-            if(scrollRef.current) {
-                const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
+            if (scrollRef.current) {
+                const { scrollTop, scrollHeight, clientHeight } =
+                    scrollRef.current;
                 return scrollTop + clientHeight >= scrollHeight - 1;
             }
         };
 
         const checkScrollPosition = () => {
             if (isAtBottom()) {
-                setIsInView(false)
+                setIsInView(false);
             } else {
-                setIsInView(true)
+                setIsInView(true);
             }
         };
 
-        checkScrollPosition()
+        checkScrollPosition();
 
         // Add scroll event listener
         scrollRef.current?.addEventListener("scroll", checkScrollPosition);
-        
+
         return () => {
-            scrollRef.current?.removeEventListener("scroll", checkScrollPosition);
-        }
+            scrollRef.current?.removeEventListener(
+                "scroll",
+                checkScrollPosition
+            );
+        };
     }, []);
 
     return (

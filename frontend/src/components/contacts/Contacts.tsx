@@ -6,7 +6,7 @@ import { useSelector, type TypedUseSelectorHook } from "react-redux";
 import type { RootState } from "../../redux/store";
 import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import useContacts from "../../hooks/contacts/useContacts";
+import useContacts from "../../hooks/contacts/useGetContacts";
 import useSearchCtc from "../../hooks/contacts/useSearchCtc";
 import useTyping from "../../hooks/useTyping";
 import type { ctcType, ContactType } from "../../types/contacts";
