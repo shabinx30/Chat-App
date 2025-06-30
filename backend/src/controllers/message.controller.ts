@@ -25,8 +25,13 @@ interface sndMsgType {
 
 export const getMessages = async (req: Request, res: Response) => {
     try {
-        const { chatId } = req.query;
-        const chat = await chatModel
+        const { chatId, userId } = req.query;
+        let chat = await chatModel.findOne({ _id: chatId, "members.userId": userId })
+        if(!chat) {
+            res.status(401).json({ message: "Unauthorized entry" })
+            return 
+        }
+        chat = await chatModel
             .findOne({ _id: chatId })
             .populate("members.userId");
         const messages = await messageModel.find({ chatId });

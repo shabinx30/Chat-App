@@ -32,7 +32,7 @@ const useGetMsg = ({ setMessages, userId, chatId }: GetMsgHookTypes) => {
         setMessages([]);
 
         axios
-            .get(`${apiUrl}/api/message/getmessages?chatId=${chatId}`)
+            .get(`${apiUrl}/api/message/getmessages?chatId=${chatId}&userId=${userId}`)
             .then((res) => {
                 const result = res.data.chat.members.filter(
                     (user: any) => user.userId._id !== userId
