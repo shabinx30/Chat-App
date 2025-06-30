@@ -26,19 +26,36 @@ interface sndMsgType {
 export const getMessages = async (req: Request, res: Response) => {
     try {
         const { chatId, userId } = req.query;
-        let chat = await chatModel.findOne({ _id: chatId, "members.userId": userId })
-        if(!chat) {
-            res.status(401).json({ message: "Unauthorized entry" })
-            return 
+        let chat = await chatModel.findOne({
+            _id: chatId,
+            "members.userId": userId,
+        });
+        if (!chat) {
+            res.status(401).json({ message: "Unauthorized entry" });
+            return;
         }
-        chat = await chatModel
-            .findOne({ _id: chatId })
-            .populate("members.userId");
-        const messages = await messageModel.find({ chatId });
+        const [chatResult, messagesResult] = await Promise.allSettled([
+            chatModel.findOne({ _id: chatId }).populate("members.userId"),
+            messageModel.find({ chatId }),
+        ]);
+
+        let messages;
+
+        if (chatResult.status === "fulfilled") {
+            chat = chatResult.value;
+        } else {
+            console.error("Error fetching chat:", chatResult.reason);
+        }
+
+        if (messagesResult.status === "fulfilled") {
+            messages = messagesResult.value;
+        } else {
+            console.error("Error fetching messages:", messagesResult.reason);
+        }
 
         res.status(200).json({ messages, chat });
     } catch (error) {
-        console.log(error);
+        console.error(error);
         res.status(500).json({ message: "Internal server Error" });
     }
 };
@@ -91,7 +108,7 @@ export const sendMessage = async ({ data, io, map }: sndMsgType) => {
 
         await send({ users, body, chatId, user });
     } catch (error) {
-        console.log("Error while sending message", error);
+        console.error("Error while sending message", error);
     }
 };
 
@@ -100,6 +117,6 @@ export const sendTypingStatus = async ({ data, io, map }: sndMsgType) => {
         const { to, chatId, typing } = data;
         io.to(map.get(to)).emit("typing", { chatId, typing });
     } catch (error) {
-        console.log("Error while sending typing indecator", error);
+        console.error("Error while sending typing indecator", error);
     }
 };
