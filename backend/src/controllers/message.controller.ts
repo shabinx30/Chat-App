@@ -26,37 +26,43 @@ interface sndMsgType {
 export const getMessages = async (req: Request, res: Response) => {
     try {
         const { chatId, userId } = req.query;
-        let chat = await chatModel.findOne({
+
+        // Basic validation
+        if (!chatId || !userId) {
+            res.status(400).json({
+                message: "chatId and userId are required.",
+            });
+            return;
+        }
+
+        // Check if the user is part of the chat
+        const chatExists = await chatModel.findOne({
             _id: chatId,
             "members.userId": userId,
         });
-        if (!chat) {
-            res.status(401).json({ message: "Unauthorized entry" });
+
+        if (!chatExists) {
+            res.status(401).json({
+                message: "Unauthorized: You are not a member of this chat.",
+            });
             return;
         }
-        const [chatResult, messagesResult] = await Promise.allSettled([
-            chatModel.findOne({ _id: chatId }).populate("members.userId"),
+
+        // Fetch chat with populated members and messages in parallel
+        const [chat, messages] = await Promise.all([
+            chatModel.findById(chatId).populate("members.userId"),
             messageModel.find({ chatId }),
         ]);
 
-        let messages;
-
-        if (chatResult.status === "fulfilled") {
-            chat = chatResult.value;
-        } else {
-            console.error("Error fetching chat:", chatResult.reason);
+        if (!chat) {
+            res.status(404).json({ message: "Chat not found." });
+            return;
         }
 
-        if (messagesResult.status === "fulfilled") {
-            messages = messagesResult.value;
-        } else {
-            console.error("Error fetching messages:", messagesResult.reason);
-        }
-
-        res.status(200).json({ messages, chat });
+        res.status(200).json({ chat, messages });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Internal server Error" });
+        console.error("Error in getMessages:", error);
+        return res.status(500).json({ message: "Internal Server Error" });
     }
 };
 
