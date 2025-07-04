@@ -73,7 +73,7 @@ const Contacts = ({ change, setPop, setSett }: ContactType) => {
                     loading ? (
                         <div className="flex h-[20em] justify-center items-center font-semibold">
                             
-                            <p className="text-base text-[#e1ffc283]">
+                            <p className="text-base text-black/50 dark:text-[#e1ffc283]">
                                 Loading your contacts...
                             </p>
                         </div>
@@ -83,7 +83,7 @@ const Contacts = ({ change, setPop, setSett }: ContactType) => {
                                 <div>
                                     <span className=""></span>No Contacts
                                 </div>
-                                <p className="text-base text-[#e1ffc283]">
+                                <p className="text-base text-black/50 dark:text-[#e1ffc283]">
                                     Tap the plus to add new contacts
                                 </p>
                             </div>
