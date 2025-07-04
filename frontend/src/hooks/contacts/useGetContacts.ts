@@ -14,6 +14,7 @@ const useContacts = ({ setCtc, userId, change }: CtcHookTypes) => {
     const { socket } = useAppContext();
     const { VITE_BASE_URL } = import.meta.env;
     const [chatMsg, setChatMsg] = useState<string>("");
+    const [loading, SetLoading] = useState(true)
 
     useEffect(() => {
         setCtc([]);
@@ -24,8 +25,10 @@ const useContacts = ({ setCtc, userId, change }: CtcHookTypes) => {
                     for (let con of res.data.chat) {
                         setCtc((p) => [con, ...p]);
                     }
+                    SetLoading(false)
                 })
                 .catch((error) => {
+                    SetLoading(false)
                     console.log(error);
                 });
         };
@@ -38,7 +41,7 @@ const useContacts = ({ setCtc, userId, change }: CtcHookTypes) => {
         });
     }, [change]);
 
-    return {onUsers, chatMsg};
+    return {onUsers, chatMsg, loading};
 };
 
 export default useContacts;

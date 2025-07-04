@@ -10,7 +10,6 @@ import useSearchCtc from "../../hooks/contacts/useSearchCtc";
 import useTyping from "../../hooks/useTyping";
 import type { ctcType, ContactType } from "../../types/contacts";
 
-
 const Contacts = ({ change, setPop, setSett }: ContactType) => {
     const state = useTypedSelector((state) => state);
     const [ctc, setCtc] = useState<ctcType[]>([]);
@@ -19,7 +18,11 @@ const Contacts = ({ change, setPop, setSett }: ContactType) => {
     const searchRef = useRef<HTMLInputElement>(null);
 
     // fecth contacts
-    const { onUsers, chatMsg } = useContacts({ setCtc, userId, change });
+    const { onUsers, chatMsg, loading } = useContacts({
+        setCtc,
+        userId,
+        change,
+    });
 
     // constact searching
     const debouncedSearch = useSearchCtc({ setCtc, userId });
@@ -67,16 +70,25 @@ const Contacts = ({ change, setPop, setSett }: ContactType) => {
             </div>
             <div className="overflow-y-scroll bg-[#fff] dark:bg-[#121212] px-4 text-white h-[79vh] mt-[21vh] scroll-smooth scrollable">
                 {ctc && !ctc.length ? (
-                    <div className="flex h-[20em] justify-center items-center">
-                        <div className="text-center flex flex-col gap-2 font-semibold">
-                            <div>
-                                <span className=""></span>No Contacts
-                            </div>
+                    loading ? (
+                        <div className="flex h-[20em] justify-center items-center font-semibold">
+                            
                             <p className="text-base text-[#e1ffc283]">
-                                Tap the plus to add new contacts
+                                Loading your contacts...
                             </p>
                         </div>
-                    </div>
+                    ) : (
+                        <div className="flex h-[20em] justify-center items-center">
+                            <div className="text-center flex flex-col gap-2 font-semibold">
+                                <div>
+                                    <span className=""></span>No Contacts
+                                </div>
+                                <p className="text-base text-[#e1ffc283]">
+                                    Tap the plus to add new contacts
+                                </p>
+                            </div>
+                        </div>
+                    )
                 ) : (
                     ctc?.map((item, index) => (
                         <Contact
