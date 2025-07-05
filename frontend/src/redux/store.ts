@@ -38,7 +38,7 @@ const user = createSlice({
     reducers: {
         login: (
             state,
-            action: PayloadAction<{ token: string; user: User }>
+            action: PayloadAction<{ token: string | null; user: User }>
         ) => {
             (state.token = action.payload.token),
                 (state.user = action.payload.user);
