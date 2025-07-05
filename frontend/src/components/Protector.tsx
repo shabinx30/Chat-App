@@ -1,14 +1,14 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useTypedSelector } from "../redux/store";
 
-function Protector({ type }: { type: "in" | "out" }) {
+function Protector({ area }: { area: "in" | "out" }) {
     const state = useTypedSelector((state) => state)
     const isAuthenticated = state.auth?.user
 
-    if (type === "in" && !isAuthenticated) {
+    if (area === "in" && !isAuthenticated) {
         return <Navigate to="/login" />;
     }
-    if (type === "out" && isAuthenticated) {
+    if (area === "out" && isAuthenticated) {
         return <Navigate to="/" />;
     }
 

@@ -12,13 +12,13 @@ function App() {
     return (
         <Routes>
             {/* Protected "in" routes */}
-            <Route element={<Protector type="in" />}>
+            <Route element={<Protector area="in" />}>
                 <Route path="/" element={<Home aside={<Welcome />} />} />
                 <Route path="/chat/:chatId" element={<Home aside={<Chat />} />} />
             </Route>
 
             {/* Protected "out" routes */}
-            <Route element={<Protector type="out" />}>
+            <Route element={<Protector area="out" />}>
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<SignUp />} />
             </Route>

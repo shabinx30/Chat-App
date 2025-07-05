@@ -1,14 +1,14 @@
 import { useEffect, useState, lazy } from "react";
 import Contacts from "../components/contacts/Contacts";
-import type React from "react";
+import React from "react";
 import { subscribeToPush } from "../utils/push";
 import { AnimatePresence } from "framer-motion";
 import { useAppContext } from "../context/AppContext";
 
-const AddContact = lazy(() => import("../components/contacts/AddContact"))
-const Settings = lazy(() => import("../components/settings/Settings"))
+const AddContact = lazy(() => import("../components/contacts/AddContact"));
+const Settings = lazy(() => import("../components/settings/Settings"));
 
-const Home = ({ aside }: { aside: React.ReactNode }) => {
+const Home = React.memo(({ aside }: { aside: React.ReactNode }) => {
     const [isPop, setPop] = useState<boolean>(false);
     const [isSett, setSett] = useState<boolean>(false);
     const [change, setChange] = useState("");
@@ -50,6 +50,6 @@ const Home = ({ aside }: { aside: React.ReactNode }) => {
             {aside}
         </div>
     );
-};
+});
 
 export default Home;
