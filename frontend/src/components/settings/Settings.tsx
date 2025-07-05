@@ -9,10 +9,12 @@ import { logout } from "../../redux/store";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { unRegister } from "../../utils/push";
+import { useAppContext } from "../../context/AppContext";
 
 type settingsType = React.Dispatch<React.SetStateAction<boolean>>;
 
 const Settings = ({ setSett }: { setSett: settingsType }) => {
+    const { socket } = useAppContext();
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [isEdit, setEdit] = useState({
@@ -21,10 +23,25 @@ const Settings = ({ setSett }: { setSett: settingsType }) => {
     });
 
     const handleLogout = () => {
-        dispatch(logout());
-        localStorage.removeItem("jwt");
-        unRegister();
-        navigate("/login");
+        try {
+            // Clear Redux/auth state
+            dispatch(logout());
+
+            // Remove token
+            localStorage.removeItem("jwt");
+
+            // Unregister services (e.g., presence, notifications)
+            unRegister?.();
+
+            // Disconnect from WebSocket
+            socket?.disconnect();
+
+            // Redirect to login
+            navigate("/login");
+        } catch (error) {
+            console.error("Logout failed:", error);
+            navigate("/login");
+        }
     };
 
     const handleSubmit = (e: FormEvent) => {
@@ -168,9 +185,21 @@ const Settings = ({ setSett }: { setSett: settingsType }) => {
                                     <div className="flex justify-center mt-2">
                                         <motion.button
                                             type="submit"
-                                            initial={{ height: 0, y: 10, opacity: 0 }}
-                                            animate={{ height: "auto", y: 0, opacity: 1 }}
-                                            exit={{ height: 0, y: 10, opacity: 0 }}
+                                            initial={{
+                                                height: 0,
+                                                y: 10,
+                                                opacity: 0,
+                                            }}
+                                            animate={{
+                                                height: "auto",
+                                                y: 0,
+                                                opacity: 1,
+                                            }}
+                                            exit={{
+                                                height: 0,
+                                                y: 10,
+                                                opacity: 0,
+                                            }}
                                             transition={{ duration: 0.1 }}
                                             className="bg-[#b0ff62] text-black w-fit px-4 pt-1 pb-1.5 rounded-2xl"
                                         >

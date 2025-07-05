@@ -1,19 +1,27 @@
-import Home from "./pages/Home";
+import { lazy } from "react";
 import { Route, Routes } from "react-router-dom";
-import Welcome from "./components/Welcome";
+import Home from "./pages/Home";
 import Chat from "./components/chat/Chat";
 import Protector from "./components/Protector";
-import { lazy } from "react";
+import Welcome from "./components/Welcome";
+
 const Login = lazy(() => import("./pages/Login"))
 const SignUp = lazy(() => import("./pages/SignUp"))
 
 function App() {
     return (
         <Routes>
-            <Route path="/" element={<Protector type='in'><Home aside={<Welcome />} /></Protector>} />
-            <Route path="/chat/:chatId" element={<Protector type="in"><Home aside={<Chat />} /></Protector>} />
-            <Route path="/login" element={<Protector type="out"><Login /></Protector>} />
-            <Route path="/signup" element={<Protector type="out"><SignUp /></Protector>} />
+            {/* Protected "in" routes */}
+            <Route element={<Protector type="in" />}>
+                <Route path="/" element={<Home aside={<Welcome />} />} />
+                <Route path="/chat/:chatId" element={<Home aside={<Chat />} />} />
+            </Route>
+
+            {/* Protected "out" routes */}
+            <Route element={<Protector type="out" />}>
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<SignUp />} />
+            </Route>
         </Routes>
     );
 }
