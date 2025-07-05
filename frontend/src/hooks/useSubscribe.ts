@@ -31,10 +31,6 @@ const useSubscribe = () => {
                         }),
                     });
                 }
-            } else {
-                console.log(
-                    "User is already subscribed to push notifications."
-                );
             }
         };
 
