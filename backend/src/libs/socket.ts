@@ -7,11 +7,18 @@ const app = express();
 const server = http.createServer(app);
 
 const io = new Server(server, {
-    cors: {
-        origin: ["http://localhost:3003", "https://chat.tungstenz.online"],
-        methods: ["GET", "POST"],
+  cors: {
+    origin: (origin, callback) => {
+      const allowed = ["http://localhost:3003", "https://chat.tungstenz.online"];
+      if (!origin || allowed.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
     },
-    maxHttpBufferSize: 1e7,
+    methods: ["GET", "POST"],
+    credentials: true,
+  },
 });
 
 const map = new Map();

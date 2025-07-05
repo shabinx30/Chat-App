@@ -23,6 +23,7 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
         query: {
             userId: userData?.userId,
         },
+        transports: ['websocket'],
     });
 
     const [preview, setPreview] = useState("");
