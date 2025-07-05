@@ -1,7 +1,6 @@
 import { createContext, type ReactNode, useContext, useState } from "react";
-import { useDispatch } from "react-redux";
 import { io, Socket } from "socket.io-client";
-import { login } from "../redux/store";
+import { useTypedSelector } from "../redux/store";
 
 interface AppContextType {
     socket: Socket;
@@ -12,11 +11,10 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 const AppProvider = ({ children }: { children: ReactNode }) => {
-    const dispatch = useDispatch();
     let userData;
-    if (localStorage.getItem("jwt")) {
-        userData = JSON.parse(localStorage.getItem("jwt") || "");
-        dispatch(login({ token: null, user: userData }));
+    const state = useTypedSelector((state) => state);
+    if (state) {
+        userData = state.auth.user;
     }
     const socket = io(import.meta.env.VITE_BASE_URL, {
         query: {
@@ -24,10 +22,12 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
         },
     });
 
-    const [preview, setPreview] = useState('')
+    const [preview, setPreview] = useState("");
 
     return (
-        <AppContext.Provider value={{ socket, preview, setPreview }}>{children}</AppContext.Provider>
+        <AppContext.Provider value={{ socket, preview, setPreview }}>
+            {children}
+        </AppContext.Provider>
     );
 };
 

@@ -1,5 +1,8 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { createSlice } from "@reduxjs/toolkit";
+import {
+    configureStore,
+    createSlice,
+    type PayloadAction,
+} from "@reduxjs/toolkit";
 import { useSelector, type TypedUseSelectorHook } from "react-redux";
 
 interface User {
@@ -10,16 +13,33 @@ interface User {
     updatedAt: string;
 }
 
+let userData: User | null = null;
+const jwtString = localStorage.getItem("jwt");
+
+if (jwtString) {
+    try {
+        const parsed = JSON.parse(jwtString);
+        if (parsed && typeof parsed === "object" && "userId" in parsed) {
+            userData = parsed as User;
+        }
+    } catch (error) {
+        console.error("Failed to parse jwt from localStorage", error);
+    }
+}
+
 const INITIAL_STATE: { token: string | null; user: User | null } = {
     token: null,
-    user: null,
+    user: userData,
 };
 
 const user = createSlice({
     name: "auth",
     initialState: INITIAL_STATE,
     reducers: {
-        login: (state, action) => {
+        login: (
+            state,
+            action: PayloadAction<{ token: string; user: User }>
+        ) => {
             (state.token = action.payload.token),
                 (state.user = action.payload.user);
         },
@@ -29,13 +49,11 @@ const user = createSlice({
     },
 });
 
-
 const store = configureStore({
     reducer: {
-        auth: user.reducer
+        auth: user.reducer,
     },
 });
-
 
 export const { login, logout } = user.actions;
 export default store;
