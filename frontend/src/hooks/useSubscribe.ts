@@ -21,6 +21,7 @@ const useSubscribe = () => {
             }
         };
 
+        // check if it's already registered
         navigator.serviceWorker
             .getRegistrations()
             .then(function (registrations) {
