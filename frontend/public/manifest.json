@@ -6,9 +6,15 @@
     "background_color": "#000",
     "icons": [
         {
-            "src": "/icons/logo-small.png",
+            "src": "/icons/logo-small-title.png",
             "sizes": "192x192",
             "type": "image/png"
+        },
+        {
+            "src": "/icons/logo-small.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
         },
         {
             "src": "/icons/logo-large.png",
