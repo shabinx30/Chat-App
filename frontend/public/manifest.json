@@ -37,5 +37,10 @@
                 }
             ]
         }
+    ],
+    "url_handlers": [
+        {
+            "origin": "https://chat.tungstenz.online"
+        }
     ]
 }

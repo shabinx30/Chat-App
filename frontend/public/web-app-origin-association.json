@@ -1,0 +1,11 @@
+{
+    "web_apps": [
+        {
+            "manifest": "https://chat.tungstenz.online/manifest.json",
+            "details": {
+                "paths": ["*"],
+                "exclude_paths": []
+            }
+        }
+    ]
+}
