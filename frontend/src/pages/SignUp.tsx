@@ -4,10 +4,8 @@ import { useDispatch } from "react-redux";
 import { login } from "../redux/store";
 import { Link, useNavigate } from "react-router-dom";
 import { IoIosCloseCircle } from "react-icons/io";
-import { MdLockOutline, MdDevices } from "react-icons/md";
-import { TbMessages } from "react-icons/tb";
-import { LuFileSpreadsheet } from "react-icons/lu";
 import useStart from "../hooks/useStart";
+import Features from "../components/auth/Features";
 
 const SignUp: React.FC = () => {
     const navigate = useNavigate();
@@ -331,52 +329,7 @@ const SignUp: React.FC = () => {
                 </div>
             )}
             <div className="flex flex-col md:flex-row gap-8 md:gap-0">
-                <div className="flex bg-gray-50 md:pl-6 dark:bg-black flex-col md:flex-1 justify-center items-center gap-3 pt-4 md:pt-2">
-                    <div className="flex items-center gap-3">
-                        <img
-                            src="/icons/logo-small.png"
-                            alt="logo"
-                            className="w-8 h-8 invert dark:invert-0"
-                        />
-                        <h1 className="font-bold text-3xl dark:text-[#fff] text-[#000] leading-tight tracking-tight select-none">
-                            Convo
-                        </h1>
-                    </div>
-                    <p className="font-semibold text-sm text-center">
-                        Create your account for start chatting with your
-                        friends.
-                    </p>
-                    <ul className="hidden md:flex md:mt-8 md:flex-col gap-1 dark:gap-[5px]">
-                        <li className="w-[24em] justify-center py-2 rounded-t-2xl text-sm font-semibold bg-[#b0ff62] dark:bg-[#2b2b2b] flex items-center gap-2">
-                            <TbMessages
-                                className="dark:text-[#b0ff62]"
-                                size={19}
-                            />
-                            chat with anyone.
-                        </li>
-                        <li className="w-[24em] justify-center py-2 text-sm font-semibold bg-[#b0ff62] dark:bg-[#2b2b2b] flex items-center gap-2">
-                            <LuFileSpreadsheet
-                                className="dark:text-[#b0ff62]"
-                                size={16}
-                            />
-                            share files.
-                        </li>
-                        <li className="w-[24em] justify-center py-2 text-sm font-semibold bg-[#b0ff62] dark:bg-[#2b2b2b] flex items-center gap-2">
-                            <MdDevices
-                                className="dark:text-[#b0ff62]"
-                                size={17}
-                            />
-                            access messages from any device.
-                        </li>
-                        <li className="w-[24em] justify-center py-2 rounded-b-2xl text-sm font-semibold bg-[#b0ff62] dark:bg-[#2b2b2b] flex items-center gap-2">
-                            <MdLockOutline
-                                className="dark:text-[#b0ff62]"
-                                size={18}
-                            />
-                            end to end ecrypted.
-                        </li>
-                    </ul>
-                </div>
+                <Features area="signup"/>
                 <section className="bg-gray-50 flex-1/4 dark:bg-black">
                     <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
                         <div className="w-full bg-white rounded-3xl shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-[#1b1b1b] dark:border-[#2b2b2b]">
