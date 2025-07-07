@@ -22,13 +22,17 @@ const useSubscribe = () => {
         };
 
         // check if it's already registered
-        navigator.serviceWorker
-            .getRegistrations()
-            .then(function (registrations) {
-                if (!registrations.length) {
-                    handleSubscribe();
-                }
-            });
+        // navigator.serviceWorker
+        //     .getRegistrations()
+        //     .then(function (registrations) {
+        //         if (!registrations.length) {
+        //             handleSubscribe();
+        //         }
+        //     });
+
+        // commented for render
+
+        handleSubscribe()
     }, []);
 };
 
