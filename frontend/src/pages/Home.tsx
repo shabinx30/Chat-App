@@ -1,9 +1,10 @@
-import { useState, lazy } from "react";
+import { useState, lazy, useEffect } from "react";
 import Contacts from "../components/contacts/Contacts";
 import React from "react";
 import { AnimatePresence } from "framer-motion";
 import { useAppContext } from "../context/AppContext";
 import useSubscribe from "../hooks/useSubscribe";
+import { useSearchParams } from "react-router-dom";
 
 const AddContact = lazy(() => import("../components/contacts/AddContact"));
 const Settings = lazy(() => import("../components/settings/Settings"));
@@ -14,7 +15,16 @@ const Home = React.memo(({ aside }: { aside: React.ReactNode }) => {
     const [change, setChange] = useState("");
     const { setPreview } = useAppContext();
 
-    useSubscribe()
+    const [searchParams] = useSearchParams();
+
+    useEffect(() => {
+        const settings = searchParams.get("settings");
+        if (settings) {
+            setSett(true);
+        }
+    }, []);
+
+    useSubscribe();
 
     return (
         <div

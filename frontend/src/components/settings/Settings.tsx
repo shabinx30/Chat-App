@@ -6,7 +6,7 @@ import { RxExit } from "react-icons/rx";
 import { MdOutlineModeEditOutline } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { logout } from "../../redux/store";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import { unRegister } from "../../utils/push";
 import { useAppContext } from "../../context/AppContext";
@@ -17,6 +17,7 @@ const Settings = ({ setSett }: { setSett: settingsType }) => {
     const { socket } = useAppContext();
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const { chatId } = useParams();
     const [isEdit, setEdit] = useState({
         name: false,
         email: false,
@@ -56,7 +57,13 @@ const Settings = ({ setSett }: { setSett: settingsType }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={() => setSett(false)}
+            onClick={() => {
+                setSett(false);
+                if (!chatId) {
+                    return navigate("/");
+                }
+                navigate(`/chat/${chatId}`);
+            }}
             className="absolute z-[60] bg-[#000]/25 backdrop-blur-[8px] w-screen h-screen flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
         >
             <motion.div

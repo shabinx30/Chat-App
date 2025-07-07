@@ -3,7 +3,7 @@ import { LuSettings, LuSearch } from "react-icons/lu";
 import { GoPlus } from "react-icons/go";
 import { useRef, useState } from "react";
 import { useTypedSelector } from "../../redux/store";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import useContacts from "../../hooks/contacts/useGetContacts";
 import useSearchCtc from "../../hooks/contacts/useSearchCtc";
@@ -16,6 +16,7 @@ const Contacts = ({ change, setPop, setSett }: ContactType) => {
     const { chatId } = useParams();
     const userId = state.auth?.user?.userId;
     const searchRef = useRef<HTMLInputElement>(null);
+    const navigate = useNavigate()
 
     // fecth contacts
     const { onUsers, chatMsg, loading } = useContacts({
@@ -49,7 +50,10 @@ const Contacts = ({ change, setPop, setSett }: ContactType) => {
                         Convo
                     </h1>
                     <div
-                        onClick={() => setSett(true)}
+                        onClick={() => {
+                            setSett(true)
+                            navigate("?settings=true", { replace: false });
+                        }}
                         className="bg-[#b0ff62] dark:text-black cursor-pointer p-1.5 rounded-[15px]"
                     >
                         <LuSettings size={24} />
