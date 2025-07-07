@@ -15,5 +15,20 @@
             "sizes": "512x512",
             "type": "image/png"
         }
+    ],
+    "shortcuts": [
+        {
+            "name": "Settings",
+            "short_name": "Settings",
+            "description": "Go directly to your Settings",
+            "url": "/?settings=true",
+            "icons": [
+                {
+                    "src": "icons/settings-icon.png",
+                    "sizes": "96x96",
+                    "type": "image/png"
+                }
+            ]
+        }
     ]
 }
