@@ -6,16 +6,15 @@
     "background_color": "#000",
     "icons": [
         {
-            "src": "/icons/logo-small-title.png",
-            "sizes": "192x192",
-            "type": "image/png",
-            "purpose": "any"
-        },
-        {
             "src": "/icons/logo-small.png",
             "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/icons/logo-monochrome.png",
+            "sizes": "192x192",
             "type": "image/png",
-            "purpose": "maskable"
+            "purpose": "monochrome"
         },
         {
             "src": "/icons/logo-large.png",
