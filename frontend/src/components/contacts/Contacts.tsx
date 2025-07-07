@@ -11,10 +11,10 @@ import useTyping from "../../hooks/useTyping";
 import type { ctcType, ContactType } from "../../types/contacts";
 
 const Contacts = ({ change, setPop, setSett }: ContactType) => {
-    const state = useTypedSelector((state) => state);
+    const user = useTypedSelector((state) => state?.auth?.user);
     const [ctc, setCtc] = useState<ctcType[]>([]);
     const { chatId } = useParams();
-    const userId = state.auth?.user?.userId;
+    const userId = user?.userId;
     const searchRef = useRef<HTMLInputElement>(null);
     const navigate = useNavigate()
 
@@ -97,7 +97,7 @@ const Contacts = ({ change, setPop, setSett }: ContactType) => {
                     ctc?.map((item, index) => (
                         <Contact
                             key={index}
-                            userId={state.auth?.user?.userId}
+                            userId={userId}
                             onUsers={onUsers}
                             chatMsg={chatMsg}
                             chatId={chatId}

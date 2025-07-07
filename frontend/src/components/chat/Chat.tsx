@@ -17,7 +17,7 @@ import useSendMsg from "../../hooks/chat/useSendMsg";
 const Chat = () => {
     const scrollRef = useRef<HTMLDivElement>(null);
     const endDiv = useRef<HTMLDivElement>(null);
-    const state = useTypedSelector((state) => state);
+    const user = useTypedSelector((state) => state?.auth?.user);
     const [messages, setMessages] = useState<Msg[]>([]);
     const [isInView, setIsInView] = useState<boolean>(false);
     const { preview } = useAppContext();
@@ -28,7 +28,7 @@ const Chat = () => {
     
     const hello = useRef<boolean>(null);
 
-    const userId = state.auth.user?.userId;
+    const userId = user?.userId;
 
     // hooks ********************************************
     // Socket listener for new messages & getting messges

@@ -16,7 +16,7 @@ interface SendMsgHookTypes {
 const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 const useSendMsg = ({setMessages, msgRef, attachRef, hello, chat}: SendMsgHookTypes) => {
-    const state = useTypedSelector((state) => state)
+    const user = useTypedSelector((state) => state?.auth?.user)
     const { socket, setPreview } = useAppContext();
     const [rotate, setRotate] = useState(0);
     const { chatId } = useParams();
@@ -49,7 +49,7 @@ const useSendMsg = ({setMessages, msgRef, attachRef, hello, chat}: SendMsgHookTy
             const myMsg: Msg = {
                 body: hello.current ? "Hello👋" : text || "",
                 createdAt: Date.now(),
-                from: state.auth.user?.userId,
+                from: user?.userId,
                 hasMedia: !!media,
                 media,
                 mediaType: file ? file.type.slice(0, 5) : undefined,

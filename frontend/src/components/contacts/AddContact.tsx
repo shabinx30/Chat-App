@@ -12,7 +12,7 @@ interface AddContactType {
 
 const AddContact = ({ setPop, setChange }: AddContactType) => {
     const emailRef = useRef<HTMLInputElement>(null);
-    const state = useTypedSelector((state) => state);
+    const user = useTypedSelector((state) => state?.auth?.user);
 
     // error animation
     const [isError, setError] = useState({
@@ -30,7 +30,7 @@ const AddContact = ({ setPop, setChange }: AddContactType) => {
                 return;
             }
             const formData = {
-                userId: state.auth?.user?.userId,
+                userId: user?.userId,
                 member: emailRef.current?.value,
                 isGroup: false,
             };
