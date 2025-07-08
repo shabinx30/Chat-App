@@ -44,8 +44,8 @@ const useGetMsg = ({ setMessages, userId, chatId }: GetMsgHookTypes) => {
                         setMessages((prev) => [data, ...prev]);
                         set.add(data._id);
                     }
-                    setLoading(false)
                 }
+                setLoading(false)
             })
             .catch((error) => {
                 setLoading(false)
