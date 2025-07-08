@@ -106,10 +106,10 @@ const Chat = () => {
                             <div className="flex flex-col py-2">
                                 {new Array(4).fill(0).map(() => (
                                     <>
-                                        <div className="bg-[#3d3d3d] self-end w-[20%] mb-2 h-[2em] rounded-2xl animate-pulse" />
-                                        <div className="bg-[#3d3d3d] self-end w-[40%] mb-[1em] h-[2em] rounded-2xl animate-pulse" />
-                                        <div className="bg-[#3d3d3d] self-start w-[20%] h-[2em] mb-2 rounded-2xl animate-pulse" />
-                                        <div className="bg-[#3d3d3d] self-start w-[40%] h-[2em] rounded-2xl animate-pulse" />
+                                        <div className="bg-[#b0ff62] dark:bg-[#3b3b3b] self-end w-[20%] mb-2 h-[2em] rounded-2xl animate-pulse" />
+                                        <div className="bg-[#b0ff62] dark:bg-[#3b3b3b] self-end w-[40%] mb-[1em] h-[2em] rounded-2xl animate-pulse" />
+                                        <div className="bg-[#b0ff62] dark:bg-[#3b3b3b] self-start w-[20%] h-[2em] mb-2 rounded-2xl animate-pulse" />
+                                        <div className="bg-[#b0ff62] dark:bg-[#3b3b3b] self-start w-[40%] h-[2em] rounded-2xl animate-pulse" />
                                     </>
                                 ))}
                             </div>
