@@ -77,11 +77,11 @@ const Contacts = ({ change, setPop, setSett }: ContactType) => {
                     loading ? (
                         <div className="flex flex-col gap-4 overflow-hidden">
                             {new Array(10).fill(0).map(() => (
-                                <div className="flex gap-6 px-[1em]">
-                                    <div className="bg-[#3b3b3b] shrink-0 w-[3.5em] h-[3.5em] rounded-full animate-pulse" />
+                                <div className="flex gap-6 px-[0.5em]">
+                                    <div className="bg-[#cfcfcf] dark:bg-[#3b3b3b] shrink-0 w-[3.5em] h-[3.5em] rounded-full animate-pulse" />
                                     <div className="w-full flex flex-col gap-2 justify-center">
-                                        <div className="bg-[#3b3b3b] w-[90%] h-3 animate-pulse rounded-2xl" />
-                                        <div className="bg-[#3b3b3b] w-[70%] h-3 animate-pulse rounded-2xl" />
+                                        <div className="bg-[#cfcfcf] dark:bg-[#3b3b3b] w-[90%] h-3 animate-pulse rounded-2xl" />
+                                        <div className="bg-[#cfcfcf] dark:bg-[#3b3b3b] w-[70%] h-3 animate-pulse rounded-2xl" />
                                     </div>
                                 </div>
                             ))}
