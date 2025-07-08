@@ -12,8 +12,6 @@ import type { Msg } from "../../types/chat";
 import useGetMsg from "../../hooks/chat/useGetMsg";
 import useSendMsg from "../../hooks/chat/useSendMsg";
 
-
-
 const Chat = () => {
     const scrollRef = useRef<HTMLDivElement>(null);
     const endDiv = useRef<HTMLDivElement>(null);
@@ -25,18 +23,24 @@ const Chat = () => {
     const msgRef = useRef<HTMLTextAreaElement>(null);
     const { chatId } = useParams();
     const attachRef = useRef<HTMLInputElement>(null);
-    
+
     const hello = useRef<boolean>(null);
 
     const userId = user?.userId;
 
     // hooks ********************************************
     // Socket listener for new messages & getting messges
-    const { chat } = useGetMsg({ setMessages, userId, chatId });
+    const { chat, loading } = useGetMsg({ setMessages, userId, chatId });
     // get typing info
     const isTyping = useTyping();
     // send message hook
-    const { sendMessage, rotate } = useSendMsg({ setMessages, msgRef, attachRef, hello, chat })
+    const { sendMessage, rotate } = useSendMsg({
+        setMessages,
+        msgRef,
+        attachRef,
+        hello,
+        chat,
+    });
 
     useEffect(() => {
         if (!preview) {
@@ -95,20 +99,33 @@ const Chat = () => {
                 <ChatHeader chat={chat} navigate={navigate} />
                 <div
                     ref={scrollRef}
-                    className="h-full py-[5.25em] scroll-smooth flex flex-col-reverse overflow-y-auto scrollable px-2 md:px-4"
+                    className="h-full py-[5.25em] flex flex-col-reverse overflow-y-auto scrollable px-2 md:px-4"
                 >
                     {!messages.length ? (
-                        <div className="flex justify-center items-center h-full">
-                            <div
-                                onClick={() => {
-                                    hello.current = true;
-                                    sendMessage();
-                                }}
-                                className="cursor-pointer border border-[#b0ff62] border-dashed rounded-3xl pt-1 pb-1.5 pl-3 pr-2"
-                            >
-                                Say Hello👋
+                        loading ? (
+                            <div className="flex flex-col py-2">
+                                {new Array(4).fill(0).map(() => (
+                                    <>
+                                        <div className="bg-[#3d3d3d] self-end w-[20%] mb-2 h-[2em] rounded-2xl animate-pulse" />
+                                        <div className="bg-[#3d3d3d] self-end w-[40%] mb-[1em] h-[2em] rounded-2xl animate-pulse" />
+                                        <div className="bg-[#3d3d3d] self-start w-[20%] h-[2em] mb-2 rounded-2xl animate-pulse" />
+                                        <div className="bg-[#3d3d3d] self-start w-[40%] h-[2em] rounded-2xl animate-pulse" />
+                                    </>
+                                ))}
                             </div>
-                        </div>
+                        ) : (
+                            <div className="flex justify-center items-center h-full">
+                                <div
+                                    onClick={() => {
+                                        hello.current = true;
+                                        sendMessage();
+                                    }}
+                                    className="cursor-pointer border border-[#b0ff62] border-dashed rounded-3xl pt-1 pb-1.5 pl-3 pr-2"
+                                >
+                                    Say Hello👋
+                                </div>
+                            </div>
+                        )
                     ) : (
                         <>
                             {messages.map((message, i) => (

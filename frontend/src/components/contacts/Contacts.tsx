@@ -72,7 +72,7 @@ const Contacts = ({ change, setPop, setSett }: ContactType) => {
                     </div>
                 </div>
             </div>
-            <div className="overflow-y-scroll bg-[#fff] dark:bg-[#121212] px-4 text-white h-[79vh] mt-[21vh] scroll-smooth scrollable">
+            <div className={`${loading ? "overflow-y-hidden" : "overflow-y-scroll" } bg-[#fff] dark:bg-[#121212] px-4 text-white h-[79vh] mt-[21vh] scrollable`}>
                 {ctc && !ctc.length ? (
                     loading ? (
                         <div className="flex flex-col gap-4 overflow-hidden">

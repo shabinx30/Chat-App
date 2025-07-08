@@ -12,6 +12,9 @@ interface GetMsgHookTypes {
 const useGetMsg = ({ setMessages, userId, chatId }: GetMsgHookTypes) => {
     const { socket } = useAppContext();
     const apiUrl = import.meta.env.VITE_BASE_URL;
+    const [chat, setChat] = useState<chatType>();
+    const set = new Set();
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         socket.on("chat message", (msg: any) => {
@@ -24,8 +27,6 @@ const useGetMsg = ({ setMessages, userId, chatId }: GetMsgHookTypes) => {
         };
     }, [chatId, socket]);
 
-    const [chat, setChat] = useState<chatType>();
-    const set = new Set();
 
     // Fetch initial messages
     useEffect(() => {
@@ -43,14 +44,16 @@ const useGetMsg = ({ setMessages, userId, chatId }: GetMsgHookTypes) => {
                         setMessages((prev) => [data, ...prev]);
                         set.add(data._id);
                     }
+                    setLoading(false)
                 }
             })
             .catch((error) => {
+                setLoading(false)
                 console.log(error);
             });
     }, [chatId, apiUrl, userId]);
 
-    return { chat };
+    return { chat, loading };
 };
 
 export default useGetMsg;
