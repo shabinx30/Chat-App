@@ -16,7 +16,7 @@ const Contacts = ({ change, setPop, setSett }: ContactType) => {
     const { chatId } = useParams();
     const userId = user?.userId;
     const searchRef = useRef<HTMLInputElement>(null);
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     // fecth contacts
     const { onUsers, chatMsg, loading } = useContacts({
@@ -51,7 +51,7 @@ const Contacts = ({ change, setPop, setSett }: ContactType) => {
                     </h1>
                     <div
                         onClick={() => {
-                            setSett(true)
+                            setSett(true);
                             navigate("?settings=true", { replace: false });
                         }}
                         className="bg-[#b0ff62] dark:text-black cursor-pointer p-1.5 rounded-[15px]"
@@ -75,11 +75,16 @@ const Contacts = ({ change, setPop, setSett }: ContactType) => {
             <div className="overflow-y-scroll bg-[#fff] dark:bg-[#121212] px-4 text-white h-[79vh] mt-[21vh] scroll-smooth scrollable">
                 {ctc && !ctc.length ? (
                     loading ? (
-                        <div className="flex h-[20em] justify-center items-center font-semibold">
-                            
-                            <p className="text-base text-black/50 dark:text-[#e1ffc283]">
-                                Loading your contacts...
-                            </p>
+                        <div className="flex flex-col gap-4 overflow-hidden">
+                            {new Array(10).fill(0).map(() => (
+                                <div className="flex gap-6 px-[1em]">
+                                    <div className="bg-[#3b3b3b] shrink-0 w-[3.5em] h-[3.5em] rounded-full animate-pulse" />
+                                    <div className="w-full flex flex-col gap-2 justify-center">
+                                        <div className="bg-[#3b3b3b] w-[90%] h-3 animate-pulse rounded-2xl" />
+                                        <div className="bg-[#3b3b3b] w-[70%] h-3 animate-pulse rounded-2xl" />
+                                    </div>
+                                </div>
+                            ))}
                         </div>
                     ) : (
                         <div className="flex h-[20em] justify-center items-center">
