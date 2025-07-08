@@ -99,7 +99,7 @@ const Chat = () => {
                 <ChatHeader chat={chat} navigate={navigate} />
                 <div
                     ref={scrollRef}
-                    className="h-full py-[5.25em] flex flex-col-reverse overflow-y-auto scrollable px-2 md:px-4"
+                    className={`${loading ? "overflow-y-hidden" : "overflow-y-auto"} h-full py-[5.25em] flex flex-col-reverse scrollable px-2 md:px-4`}
                 >
                     {!messages.length ? (
                         loading ? (
