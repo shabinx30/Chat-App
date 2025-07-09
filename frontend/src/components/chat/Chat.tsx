@@ -120,7 +120,7 @@ const Chat = () => {
                                         hello.current = true;
                                         sendMessage();
                                     }}
-                                    className="cursor-pointer border border-[#b0ff62] border-dashed rounded-3xl pt-1 pb-1.5 pl-3 pr-2"
+                                    className="cursor-pointer border border-black dark:border-[#b0ff62] border-dashed rounded-3xl pt-1 pb-1.5 pl-3 pr-2"
                                 >
                                     Say Hello👋
                                 </div>
