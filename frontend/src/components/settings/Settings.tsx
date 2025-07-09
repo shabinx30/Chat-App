@@ -106,8 +106,8 @@ const Settings = ({ setSett }: { setSett: settingsType }) => {
                                     size={18}
                                 />
                                 <img
-                                    className="z-10 w-[5em] rounded-full brightness-100 group-hover:brightness-75 dark:group-hover:brightness-50 duration-150"
-                                    src={user?.profile}
+                                    className="z-10 w-[5em] object-cover rounded-full brightness-100 group-hover:brightness-75 dark:group-hover:brightness-50 duration-150"
+                                    src={user?.profile || "/icons/user.png"}
                                     alt="user"
                                 />
                             </div>
