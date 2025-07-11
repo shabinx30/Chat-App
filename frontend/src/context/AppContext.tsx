@@ -17,7 +17,7 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
     const socket = io(import.meta.env.VITE_BASE_URL, {
         reconnectionAttempts: 5, // limit retries
         reconnectionDelay: 2000, // wait 2s before retry
-        reconnectionDelayMax: 10000, // max wait 10s
+        reconnectionDelayMax: 15000, // max wait 10s
         query: {
             userId: user?.userId,
         },
