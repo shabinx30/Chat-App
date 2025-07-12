@@ -21,7 +21,7 @@ export const subscribeToPush = async (
 };
 
 export const unRegister = async () => {
-    navigator.serviceWorker.getRegistrations().then(function (registrations) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
         for (let registration of registrations) {
             registration.unregister();
         }
