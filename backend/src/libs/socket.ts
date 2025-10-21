@@ -1,24 +1,31 @@
 import { Server } from "socket.io";
 import http from "http";
 import express from "express";
-import { sendMessage, sendTypingStatus } from "../controllers/message.controller";
+import {
+    sendMessage,
+    sendTypingStatus,
+} from "../controllers/message.controller";
 
 const app = express();
 const server = http.createServer(app);
 
 const io = new Server(server, {
-  cors: {
-    origin: (origin, callback) => {
-      const allowed = ["http://localhost:3003", "https://chat.tungstenz.online"];
-      if (!origin || allowed.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
+    cors: {
+        origin: (origin, callback) => {
+            const allowed = [
+                "http://localhost:3003",
+                "https://chat.tungstenz.online",
+                "https://chat-app-taupe-zeta.vercel.app",
+            ];
+            if (!origin || allowed.includes(origin)) {
+                callback(null, true);
+            } else {
+                callback(new Error("Not allowed by CORS"));
+            }
+        },
+        methods: ["GET", "POST"],
+        credentials: true,
     },
-    methods: ["GET", "POST"],
-    credentials: true,
-  },
 });
 
 const map = new Map();
@@ -32,7 +39,7 @@ io.on("connection", (socket) => {
         io.emit("online", [...map.keys()]);
     }
 
-    socket.on("typing", (data) => sendTypingStatus({data, io, map}))
+    socket.on("typing", (data) => sendTypingStatus({ data, io, map }));
 
     socket.on("chat message", (data) => sendMessage({ data, io, map }));
 

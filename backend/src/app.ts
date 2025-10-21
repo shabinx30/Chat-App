@@ -6,11 +6,12 @@ config();
 import { connectDB } from "./libs/db.config";
 import { server, app } from "./libs/socket";
 import cors, { CorsOptions } from "cors";
-import webPush from "web-push"
+import webPush from "web-push";
 
 const allowedOrigins = [
     "http://localhost:3003",
     "https://chat.tungstenz.online",
+    "https://chat-app-taupe-zeta.vercel.app",
 ];
 
 const corsOptions: CorsOptions = {
@@ -35,11 +36,11 @@ app.use(express.urlencoded({ extended: true }));
 import userRouter from "./routes/auth.route";
 import chatRouter from "./routes/chat.route";
 import messageRouter from "./routes/message.route";
-import notifyRouter from "./routes/notify.route"
+import notifyRouter from "./routes/notify.route";
 app.use("/api/auth", userRouter);
 app.use("/api/chat", chatRouter);
 app.use("/api/message", messageRouter);
-app.use("/notify", notifyRouter)
+app.use("/notify", notifyRouter);
 
 const { PUBLIC_KEY, PRIVATE_KEY } = process.env;
 
@@ -50,7 +51,6 @@ if (PUBLIC_KEY && PRIVATE_KEY) {
         PRIVATE_KEY
     );
 }
-
 
 const PORT = process.env.PORT || 5000;
 
